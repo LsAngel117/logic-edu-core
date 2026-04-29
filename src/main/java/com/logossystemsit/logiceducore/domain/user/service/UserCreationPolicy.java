@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class UserCreationPolicy {
 
-    public void validate(Document document, LocalDate birthDate) {
+    public void validate(Document document, LocalDate birthDate, LocalDate today) {
         Objects.requireNonNull(document, "Document is required");
         Objects.requireNonNull(birthDate, "Birth date is required");
 

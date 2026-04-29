@@ -1,6 +1,4 @@
-package com.logossystemsit.logiceducore.domain.membership.model;
-
-import com.logossystemsit.logiceducore.domain.membership.model.valueobject.Scope;
+package com.logossystemsit.logiceducore.domain.membership.model.valueobject;
 
 import java.util.EnumSet;
 import java.util.Set;

@@ -37,6 +37,15 @@ public final class Scope {
         return new Scope(Type.COURSE, normalizeId(courseId, "courseId"));
     }
 
+    public static Scope from(Type type, String referenceId) {
+        return switch (type) {
+            case PLATFORM -> platform();
+            case ACADEMY -> academy(referenceId);
+            case SCHOOL -> school(referenceId);
+            case COURSE -> course(referenceId);
+        };
+    }
+
     private static String normalizeId(String value, String fieldName) {
         if (value == null || value.isBlank()) {
             throw new IllegalArgumentException(fieldName + " is required");

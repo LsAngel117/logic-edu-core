@@ -1,7 +1,6 @@
 package com.logossystemsit.logiceducore.domain.membership.model;
 
-import com.logossystemsit.logiceducore.domain.membership.model.valueobject.MembershipId;
-import com.logossystemsit.logiceducore.domain.membership.model.valueobject.Scope;
+import com.logossystemsit.logiceducore.domain.membership.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 
 import java.util.Objects;

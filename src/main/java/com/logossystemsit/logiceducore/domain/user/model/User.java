@@ -4,6 +4,7 @@ import com.logossystemsit.logiceducore.domain.user.model.valueobject.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 public class User {
@@ -20,7 +21,7 @@ public class User {
     private final Instant createdAt;
     private final Instant updatedAt;
 
-    public User(UserId id,
+    private User(UserId id,
                 Username username,
                 Email email,
                 PasswordHash passwordHash,
@@ -38,13 +39,11 @@ public class User {
         this.passwordHash = Objects.requireNonNull(passwordHash, "PasswordHash is required");
         this.name = Objects.requireNonNull(name, "Name is required");
         this.sex = Objects.requireNonNull(sex, "Sex is required");
+        this.birthDate = Objects.requireNonNull(birthDate, "Birth date is required");
         this.document = Objects.requireNonNull(document, "Document is required");
         this.status = Objects.requireNonNull(status, "Status is required");
-        this.createdAt = Objects.requireNonNull(createdAt);
-        this.updatedAt = Objects.requireNonNull(updatedAt);
-
-        validateBirthDate(birthDate);
-        this.birthDate = birthDate;
+        this.createdAt = Objects.requireNonNull(createdAt, "createdAt is required");
+        this.updatedAt = Objects.requireNonNull(updatedAt, "updatedAt is required");
     }
 
     /* ---------- FACTORY METHODS ---------- */
@@ -59,6 +58,8 @@ public class User {
             Document document,
             Instant now
     ) {
+        // Validación de regla de negocio: la fecha no puede ser futura
+        validateBirthDate(birthDate, now);
         return new User(
                 id, username, email, passwordHash, name, sex, birthDate, document,
                 Status.ACTIVE, // controlado
@@ -80,6 +81,15 @@ public class User {
             Instant createdAt,
             Instant updatedAt
     ) {
+
+        Objects.requireNonNull(createdAt);
+        Objects.requireNonNull(updatedAt);
+
+        if (createdAt.isAfter(updatedAt)) {
+            throw new IllegalArgumentException("Invalid timestamps");
+        }
+        validateBirthDate(birthDate, updatedAt);
+
         return new User(
                 id, username, email, passwordHash, name, sex, birthDate, document,
                 status,
@@ -90,6 +100,7 @@ public class User {
 
     /* ---------- COMPORTAMIENTOS ---------- */
     public User block(Instant now) {
+        validateTimeProgression(now);
         if (this.status == Status.BLOCKED) {
             throw new IllegalStateException("User already blocked");
         }
@@ -103,6 +114,7 @@ public class User {
     }
 
     public User activate(Instant now) {
+        validateTimeProgression(now);
         if (this.status == Status.ACTIVE) {
             throw new IllegalStateException("User already active");
         }
@@ -116,6 +128,7 @@ public class User {
     }
 
     public User deactivate(Instant now) {
+        validateTimeProgression(now);
         if (this.status == Status.INACTIVE) {
             throw new IllegalStateException("User already inactive");
         }
@@ -129,11 +142,9 @@ public class User {
     }
 
     public User changePassword(PasswordHash newPassword, Instant now) {
-        Objects.requireNonNull(newPassword);
-
-        if (this.status == Status.BLOCKED) {
-            throw new IllegalStateException("Blocked user cannot change password");
-        }
+        validateTimeProgression(now);
+        Objects.requireNonNull(newPassword, "New password is required");
+        ensurePasswordChangeAllowed(newPassword);
 
         return new User(
                 id, username, email, newPassword, name, sex, birthDate, document,
@@ -143,14 +154,32 @@ public class User {
         );
     }
 
+    public boolean isActive() {
+        return this.status == Status.ACTIVE;
+    }
+
     /* ---------- VALIDACIONES ---------- */
-    private void validateBirthDate(LocalDate birthDate) {
-        if (birthDate == null) {
-            throw new IllegalArgumentException("Birth date is required");
+    private static void validateBirthDate(LocalDate birthDate, Instant now) {
+        LocalDate today = LocalDate.ofInstant(now, ZoneOffset.UTC);
+
+        if (birthDate.isAfter(today)) {
+            throw new IllegalArgumentException("Birth date cannot be in the future");
+        }
+    }
+
+    private void validateTimeProgression(Instant now) {
+        if (now.isBefore(this.updatedAt)) {
+            throw new IllegalArgumentException("Invalid time progression");
+        }
+    }
+
+    private void ensurePasswordChangeAllowed(PasswordHash newPassword) {
+        if (this.status == Status.BLOCKED) {
+            throw new IllegalStateException("Blocked user cannot change password");
         }
 
-        if (birthDate.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Birth date cannot be in the future");
+        if (this.passwordHash.equals(newPassword)) {
+            throw new IllegalArgumentException("New password cannot be the same as the current one");
         }
     }
 

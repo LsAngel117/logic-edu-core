@@ -1,67 +1,24 @@
 package com.logossystemsit.logiceducore.domain.user.model.valueobject;
 
+import java.util.Objects;
+
 public class Document {
 
     private final DocumentType type;
     private final DocumentNumber number;
 
     public Document(DocumentType type, DocumentNumber number) {
-        if (type == null) {
-            throw new IllegalArgumentException("Document type is required");
-        }
-        if (number == null) {
-            throw new IllegalArgumentException("Document number is required");
-        }
+        this.type = Objects.requireNonNull(type, "Document type is required");
+        this.number = Objects.requireNonNull(number, "Document number is required");
 
-        validateByType(type, number);
-
-        this.type = type;
-        this.number = number;
+        validateFormat();
     }
 
-    private void validateByType(DocumentType type, DocumentNumber number) {
-
-        String value = number.getValue();
-
-        switch (type) {
-            case CC, TI -> {
-                if (!value.matches("^\\d{6,10}$")) {
-                    throw new IllegalArgumentException("Invalid CC/TI format");
-                }
-            }
-            case CE -> {
-                if (!value.matches("^[A-Za-z0-9]{6,12}$")) {
-                    throw new IllegalArgumentException("Invalid CE format");
-                }
-            }
-            case RC -> {
-                if (!value.matches("^\\d{8,12}$")) {
-                    throw new IllegalArgumentException("Invalid RC format");
-                }
-            }
-            default -> {
-                // fallback
-            }
-        }
+    private void validateFormat() {
+        type.validate(number.getValue());
     }
 
-    public void validateAgainstAge(int age) {
-        if (type == DocumentType.TI && age >= 18) {
-            throw new IllegalArgumentException("TI is only for minors");
-        }
-
-        if (type == DocumentType.CC && age < 18) {
-            throw new IllegalArgumentException("CC requires legal age");
-        }
-    }
-
-    public enum DocumentType {
-        CC, // Cédula de ciudadanía
-        CE, // Cédula de extranjería
-        TI, // Tarjeta de identidad
-        RC, // Registro Civil
-        PASSPORT // opcional
-    }
+    /* ---------- GETTERS ---------- */
 
     public DocumentType getType() {
         return type;
@@ -69,5 +26,65 @@ public class Document {
 
     public DocumentNumber getNumber() {
         return number;
+    }
+
+    /* ---------- HELPERS PARA PERSISTENCIA ---------- */
+
+    public String numberValue() {
+        return number.getValue();
+    }
+
+    public String typeValue() {
+        return type.name();
+    }
+
+    /* ---------- ENUM ---------- */
+
+    public enum DocumentType {
+
+        CC {
+            @Override
+            public void validate(String value) {
+                if (!value.matches("^\\d{6,10}$")) {
+                    throw new IllegalArgumentException("Invalid CC format");
+                }
+            }
+        },
+
+        TI {
+            @Override
+            public void validate(String value) {
+                if (!value.matches("^\\d{6,10}$")) {
+                    throw new IllegalArgumentException("Invalid TI format");
+                }
+            }
+        },
+
+        CE {
+            @Override
+            public void validate(String value) {
+                if (!value.matches("^[A-Za-z0-9]{6,12}$")) {
+                    throw new IllegalArgumentException("Invalid CE format");
+                }
+            }
+        },
+
+        RC {
+            @Override
+            public void validate(String value) {
+                if (!value.matches("^\\d{8,12}$")) {
+                    throw new IllegalArgumentException("Invalid RC format");
+                }
+            }
+        },
+
+        PASSPORT {
+            @Override
+            public void validate(String value) {
+                // opcional
+            }
+        };
+
+        public abstract void validate(String value);
     }
 }
