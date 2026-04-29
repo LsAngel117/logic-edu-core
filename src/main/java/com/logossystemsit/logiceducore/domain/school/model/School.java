@@ -11,7 +11,6 @@ public class School {
     private final SchoolName name;
     private final SchoolCode code;
     private final Status status;
-
     private final Instant createdAt;
     private final Instant updatedAt;
 
