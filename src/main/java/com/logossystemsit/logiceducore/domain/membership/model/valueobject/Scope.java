@@ -9,6 +9,7 @@ public final class Scope {
         PLATFORM,
         ACADEMY,
         SCHOOL,
+        BRANCH,
         COURSE
     }
 
@@ -33,6 +34,10 @@ public final class Scope {
         return new Scope(Type.SCHOOL, normalizeId(schoolId, "schoolId"));
     }
 
+    public static Scope branch(String branchId) {
+        return new Scope(Type.BRANCH, normalizeId(branchId, "branchId"));
+    }
+
     public static Scope course(String courseId) {
         return new Scope(Type.COURSE, normalizeId(courseId, "courseId"));
     }
@@ -42,6 +47,7 @@ public final class Scope {
             case PLATFORM -> platform();
             case ACADEMY -> academy(referenceId);
             case SCHOOL -> school(referenceId);
+            case BRANCH ->  branch(referenceId);
             case COURSE -> course(referenceId);
         };
     }
@@ -76,6 +82,10 @@ public final class Scope {
 
     public boolean isSchool() {
         return type == Type.SCHOOL;
+    }
+
+    public boolean isBranch() {
+        return type == Type.BRANCH;
     }
 
     public boolean isCourse() {

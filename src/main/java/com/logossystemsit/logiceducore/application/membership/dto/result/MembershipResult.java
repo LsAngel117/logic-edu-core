@@ -1,4 +1,4 @@
-package com.logossystemsit.logiceducore.application.membership.dto;
+package com.logossystemsit.logiceducore.application.membership.dto.result;
 
 import com.logossystemsit.logiceducore.domain.membership.model.Membership;
 

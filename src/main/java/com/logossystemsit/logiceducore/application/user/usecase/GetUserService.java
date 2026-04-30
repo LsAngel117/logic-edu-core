@@ -1,6 +1,6 @@
 package com.logossystemsit.logiceducore.application.user.usecase;
 
-import com.logossystemsit.logiceducore.application.user.dto.UserResult;
+import com.logossystemsit.logiceducore.application.user.dto.result.UserResult;
 import com.logossystemsit.logiceducore.application.user.port.in.GetUserUseCase;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;

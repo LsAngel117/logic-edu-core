@@ -1,6 +1,6 @@
 package com.logossystemsit.logiceducore.application.user.usecase;
 
-import com.logossystemsit.logiceducore.application.user.dto.ChangeUserStatusCommand;
+import com.logossystemsit.logiceducore.application.user.dto.command.ChangeUserStatusCommand;
 import com.logossystemsit.logiceducore.application.user.port.in.ChangeUserStatusUseCase;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.domain.user.model.User;

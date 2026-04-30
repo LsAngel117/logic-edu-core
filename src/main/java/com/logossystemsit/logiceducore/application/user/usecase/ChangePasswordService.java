@@ -1,6 +1,6 @@
 package com.logossystemsit.logiceducore.application.user.usecase;
 
-import com.logossystemsit.logiceducore.application.user.dto.ChangePasswordCommand;
+import com.logossystemsit.logiceducore.application.user.dto.command.ChangePasswordCommand;
 import com.logossystemsit.logiceducore.application.user.port.in.ChangePasswordUseCase;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 

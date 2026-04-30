@@ -16,22 +16,22 @@ public class UsernameDisambiguator {
         String firstFamily = normalize(name.getFirstFamilyName());
         String secondFamily = normalizeOptional(name.getSecondFamilyName());
 
-        for (int i = 3; i <= firstGiven.length(); i++) {
-            String variant = firstGiven.substring(0, i);
+        int min = Math.min(3, firstGiven.length());
+        for (int i = min; i <= firstGiven.length(); i++) {
+            StringBuilder variant = new StringBuilder();
 
-            if (secondGiven != null && !secondGiven.isBlank()) {
-                variant += secondGiven.substring(0, Math.min(1, secondGiven.length()));
+            variant.append(firstGiven, 0, i);
+
+            if (secondGiven != null) {
+                variant.append(secondGiven, 0, 1);
             }
+            variant.append(firstFamily);
 
-            variant += firstFamily;
-
-            if (secondFamily != null && !secondFamily.isBlank()) {
-                variant += secondFamily.substring(0, 1);
+            if (secondFamily != null) {
+                variant.append(secondFamily, 0, 1);
             }
-
-            variants.add(variant);
+            variants.add(variant.toString());
         }
-
         return variants.stream().distinct().toList();
     }
 

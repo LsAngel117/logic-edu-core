@@ -1,4 +1,4 @@
-package com.logossystemsit.logiceducore.application.user.dto;
+package com.logossystemsit.logiceducore.application.user.dto.result;
 
 import com.logossystemsit.logiceducore.domain.user.model.User;
 

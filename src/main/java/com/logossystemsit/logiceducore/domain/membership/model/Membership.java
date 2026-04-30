@@ -13,7 +13,13 @@ public final class Membership {
     private final Scope scope;
     private final boolean active;
 
-    private Membership(MembershipId id, UserId userId, Role role, Scope scope, boolean active) {
+    private Membership(
+            MembershipId id,
+            UserId userId,
+            Role role,
+            Scope scope,
+            boolean active
+    ) {
         this.id = Objects.requireNonNull(id, "MembershipId is required");
         this.userId = Objects.requireNonNull(userId, "UserId is required");
         this.role = Objects.requireNonNull(role, "Role is required");
@@ -23,6 +29,7 @@ public final class Membership {
         validateConsistency();
     }
 
+    /* ---------- FACTORY METHODS ---------- */
     public static Membership create(UserId userId, Role role, Scope scope) {
         return new Membership(MembershipId.generate(), userId, role, scope, true);
     }
@@ -31,24 +38,7 @@ public final class Membership {
         return new Membership(id, userId, role, scope, active);
     }
 
-    private void validateConsistency() {
-        if (!role.supports(scope.type())) {
-            throw new IllegalArgumentException(
-                    role.name() + " cannot be assigned to scope " + scope.type()
-            );
-        }
-
-        if (role.isPlatformAdmin() && !scope.isPlatform()) {
-            throw new IllegalArgumentException("PLATFORM_ADMIN must have PLATFORM scope");
-        }
-
-        if ((role.isSchoolAdmin() && !scope.isSchool())
-                || (role.isTeacher() && !scope.isCourse())
-                || (role.isStudent() && !scope.isCourse())) {
-            throw new IllegalArgumentException("Role and scope do not match");
-        }
-    }
-
+    /* ---------- COMPORTAMIENTOS ---------- */
     public Membership activate() {
         if (active) {
             return this;
@@ -73,22 +63,16 @@ public final class Membership {
         return new Membership(id, userId, role, newScope, active);
     }
 
-    public MembershipId getId() {
-        return id;
+    /* ---------- VALIDACIONES ---------- */
+    private void validateConsistency() {
+        if (!role.supports(scope.type())) {
+            throw new IllegalArgumentException(
+                    role.name() + " cannot be assigned to scope " + scope.type()
+            );
+        }
     }
 
-    public UserId getUserId() {
-        return userId;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public Scope getScope() {
-        return scope;
-    }
-
+    /* ---------- AUXILIARES ---------- */
     public boolean isActive() {
         return active;
     }
@@ -101,11 +85,29 @@ public final class Membership {
         return active && role.isSchoolAdmin();
     }
 
+    public boolean isBranchAdmin() {
+        return active && role.isBranchAdmin();
+    }
+
     public boolean isTeacher() {
         return active && role.isTeacher();
     }
 
     public boolean isStudent() {
         return active && role.isStudent();
+    }
+
+    /* ---------- GETTERS ---------- */
+    public MembershipId getId() {
+        return id;
+    }
+    public UserId getUserId() {
+        return userId;
+    }
+    public Role getRole() {
+        return role;
+    }
+    public Scope getScope() {
+        return scope;
     }
 }

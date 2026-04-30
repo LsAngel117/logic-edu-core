@@ -1,7 +1,7 @@
 package com.logossystemsit.logiceducore.application.user.usecase;
 
-import com.logossystemsit.logiceducore.application.user.dto.CreateUserCommand;
-import com.logossystemsit.logiceducore.application.user.dto.CreateUserResult;
+import com.logossystemsit.logiceducore.application.user.dto.command.CreateUserCommand;
+import com.logossystemsit.logiceducore.application.user.dto.result.CreateUserResult;
 import com.logossystemsit.logiceducore.application.user.port.in.CreateUserUseCase;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;

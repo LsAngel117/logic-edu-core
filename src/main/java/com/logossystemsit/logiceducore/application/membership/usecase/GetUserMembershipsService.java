@@ -1,6 +1,6 @@
 package com.logossystemsit.logiceducore.application.membership.usecase;
 
-import com.logossystemsit.logiceducore.application.membership.dto.MembershipResult;
+import com.logossystemsit.logiceducore.application.membership.dto.result.MembershipResult;
 import com.logossystemsit.logiceducore.application.membership.port.in.GetUserMembershipsUseCase;
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;

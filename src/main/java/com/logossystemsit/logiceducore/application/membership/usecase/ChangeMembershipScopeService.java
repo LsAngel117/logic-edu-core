@@ -1,6 +1,6 @@
 package com.logossystemsit.logiceducore.application.membership.usecase;
 
-import com.logossystemsit.logiceducore.application.membership.dto.ChangeMembershipScopeCommand;
+import com.logossystemsit.logiceducore.application.membership.dto.command.ChangeMembershipScopeCommand;
 import com.logossystemsit.logiceducore.application.membership.port.in.ChangeMembershipScopeUseCase;
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 

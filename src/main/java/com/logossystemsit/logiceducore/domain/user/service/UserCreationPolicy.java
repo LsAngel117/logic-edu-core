@@ -12,7 +12,7 @@ public class UserCreationPolicy {
         Objects.requireNonNull(document, "Document is required");
         Objects.requireNonNull(birthDate, "Birth date is required");
 
-        int age = Period.between(birthDate, LocalDate.now()).getYears();
+        int age = Period.between(birthDate, today).getYears();
 
         switch (document.getType()) {
             case TI -> {

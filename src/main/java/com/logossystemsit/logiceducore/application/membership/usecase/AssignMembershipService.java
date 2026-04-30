@@ -1,6 +1,6 @@
 package com.logossystemsit.logiceducore.application.membership.usecase;
 
-import com.logossystemsit.logiceducore.application.membership.dto.AssignMembershipCommand;
+import com.logossystemsit.logiceducore.application.membership.dto.command.AssignMembershipCommand;
 import com.logossystemsit.logiceducore.application.membership.port.in.AssignMembershipUseCase;
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.domain.membership.model.Membership;
