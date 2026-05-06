@@ -5,15 +5,10 @@ El dominio representa el núcleo del sistema y está completamente desacoplado d
 ## Entidades principales
 
 - User
-- Student
-- Teacher
-- Course
-- Group
-- Schedule
-- Enrollment
-- AttendanceSession
-- AttendanceRecord
-- ProgressRecord
+- School
+- Membership
+- Branch
+- Academic → see academic-domain.md
 
 ## Principio clave
 

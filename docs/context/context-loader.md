@@ -7,12 +7,18 @@ Use this context for all responses related to this project.
 ## SYSTEM CONTEXT
 
 @system-summary.md
+@context-loader.md
+@project-context.md
+@system-summary.md
+@vision.md
+
 
 ---
 
 ## DOMAIN CONTEXT
 
 @domain-overview.md
+@academic-domain.md
 @business-rules.md
 
 ---
@@ -21,15 +27,20 @@ Use this context for all responses related to this project.
 
 @hexagonal-architecture.md
 @dependency-rules.md
+@module-structure.md
+@naming-conventions.md
+
 
 ---
 
 ## TECHNICAL CONTEXT
 
-@persistence-strategy.md
 @api-overview.md
-@security-overview.md
+@authorization-policies.md
 @multi-tenancy.md
+@persistence-strategy.md
+@security-overview.md
+
 
 ---
 

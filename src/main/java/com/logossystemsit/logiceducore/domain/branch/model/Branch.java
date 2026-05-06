@@ -194,7 +194,7 @@ public final class Branch {
 
     /* ---------- VALIDACIONES ---------- */
     private void validate() {
-        //Física con dirección, virtual con dirección
+        //Sede física con dirección, virtual sin dirección
         if (type == BranchType.VIRTUAL && address != null && address.isPresent()) {
             throw new IllegalStateException("Virtual branch cannot have a physical address");
         }

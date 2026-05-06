@@ -5,7 +5,7 @@
 - usuarios
 
 ## Fase 2
-- creación de academía
+- creación de escuela
 - estructura académica
 
 ## Fase 3

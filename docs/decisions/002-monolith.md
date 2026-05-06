@@ -13,9 +13,9 @@ Se evaluó la posibilidad de iniciar con microservicios, pero esto implica:
 - sobrecarga en desarrollo inicial.
 
 ## Decisión
-Se adopta una arquitectura de **monolito modular**.
+Se adopta una arquitectura de **monolito modular por subdominios + capas**.
 
-El sistema se construirá como una única aplicación desplegable, organizada internamente en módulos bien definidos (identity, academic, attendance, etc.), respetando separación de responsabilidades.
+El sistema se construirá como una única aplicación desplegable, organizada internamente en módulos con subdominios bien definidos (user, school, branch, academic, etc.), respetando separación de responsabilidades.
 
 ## Alternativas consideradas
 
