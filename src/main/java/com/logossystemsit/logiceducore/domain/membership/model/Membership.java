@@ -77,9 +77,7 @@ public final class Membership {
         return active;
     }
 
-    public boolean isPlatformAdmin() {
-        return active && role.isPlatformAdmin();
-    }
+    public boolean isPlatformAdmin() { return active && role.isPlatformAdmin(); }
 
     public boolean isSchoolAdmin() {
         return active && role.isSchoolAdmin();
