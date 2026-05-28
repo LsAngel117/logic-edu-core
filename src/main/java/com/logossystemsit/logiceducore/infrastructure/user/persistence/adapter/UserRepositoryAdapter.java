@@ -46,6 +46,12 @@ public class UserRepositoryAdapter implements UserRepository {
     }
 
     @Override
+    public Optional<User> findByUsername(Username username) {
+        return jpa.findByUsername(username.getValue())
+                .map(this::mapToDomain);
+    }
+
+    @Override
     public List<User> findAll() {
         return jpa.findAll()
                 .stream()

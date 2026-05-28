@@ -21,4 +21,6 @@ public interface UserRepository {
     boolean existsByEmail(Email email);
 
     boolean existsByUsername(Username username);
+
+    Optional<User> findByUsername(Username username);
 }
