@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.membership.port.in.AssignMemb
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.domain.membership.model.Membership;
 
+import org.springframework.transaction.annotation.Transactional;
+
 public class AssignMembershipService implements AssignMembershipUseCase {
 
     private final MembershipRepository repository;
@@ -14,6 +16,7 @@ public class AssignMembershipService implements AssignMembershipUseCase {
     }
 
     @Override
+    @Transactional
     public void execute(AssignMembershipCommand command) {
 
         var membership = Membership.create(

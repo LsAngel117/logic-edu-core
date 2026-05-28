@@ -5,7 +5,9 @@ import com.logossystemsit.logiceducore.application.user.dto.result.LoginResult;
 import com.logossystemsit.logiceducore.application.user.port.in.AuthenticateUserUseCase;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.infrastructure.security.service.JwtService;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class AuthenticateUserService implements AuthenticateUserUseCase {
     }
 
     @Override
+    @Transactional
     public LoginResult execute(LoginCommand command) {
         var user = userRepository.findById(command.userId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));

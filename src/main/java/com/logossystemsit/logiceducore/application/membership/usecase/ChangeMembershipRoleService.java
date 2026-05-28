@@ -4,6 +4,8 @@ import com.logossystemsit.logiceducore.application.membership.dto.command.Change
 import com.logossystemsit.logiceducore.application.membership.port.in.ChangeMembershipRoleUseCase;
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 
+import org.springframework.transaction.annotation.Transactional;
+
 public class ChangeMembershipRoleService implements ChangeMembershipRoleUseCase {
 
     private final MembershipRepository repository;
@@ -13,6 +15,7 @@ public class ChangeMembershipRoleService implements ChangeMembershipRoleUseCase 
     }
 
     @Override
+    @Transactional
     public void execute(ChangeMembershipRoleCommand command) {
         var membership = repository.findById(command.membershipId())
                 .orElseThrow(() -> new IllegalArgumentException("Membership not found"));

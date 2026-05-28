@@ -9,6 +9,8 @@ import com.logossystemsit.logiceducore.application.membership.port.out.Membershi
 import com.logossystemsit.logiceducore.domain.user.model.User;
 import com.logossystemsit.logiceducore.domain.membership.model.Membership;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.Clock;
 import java.time.Instant;
 
@@ -27,6 +29,7 @@ public class CreateUserService implements CreateUserUseCase {
     }
 
     @Override
+    @Transactional
     public CreateUserResult execute(CreateUserCommand command) {
 
         Instant now = clock.instant();

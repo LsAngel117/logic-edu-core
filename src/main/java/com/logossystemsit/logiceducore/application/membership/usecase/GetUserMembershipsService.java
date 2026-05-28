@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.membership.port.in.GetUserMem
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 public class GetUserMembershipsService implements GetUserMembershipsUseCase {
@@ -16,6 +18,7 @@ public class GetUserMembershipsService implements GetUserMembershipsUseCase {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MembershipResult> execute(UserId userId) {
         return repository.findByUserId(userId)
                 .stream()

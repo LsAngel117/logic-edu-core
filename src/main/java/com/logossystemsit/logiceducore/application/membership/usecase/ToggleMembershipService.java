@@ -4,6 +4,9 @@ import com.logossystemsit.logiceducore.application.membership.port.in.ToggleMemb
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.domain.membership.model.valueobject.MembershipId;
 
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional
 public class ToggleMembershipService implements ToggleMembershipUseCase {
 
     private final MembershipRepository repository;

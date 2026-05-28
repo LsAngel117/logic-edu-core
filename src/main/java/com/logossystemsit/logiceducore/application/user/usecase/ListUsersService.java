@@ -4,6 +4,8 @@ import com.logossystemsit.logiceducore.application.user.dto.result.UserResult;
 import com.logossystemsit.logiceducore.application.user.port.in.ListUsersUseCase;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 public class ListUsersService implements ListUsersUseCase {
@@ -15,6 +17,7 @@ public class ListUsersService implements ListUsersUseCase {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<UserResult> execute() {
         return userRepository.findAll()
                 .stream()
