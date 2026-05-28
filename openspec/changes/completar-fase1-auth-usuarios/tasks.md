@@ -71,10 +71,10 @@ Chain strategy: feature-branch-chain
 
 ## Phase 6: Tests
 
-- [ ] 6.1 Domain unit tests for User (create, restore, status transitions, password, VO validation)
-- [ ] 6.2 Domain unit tests for Membership (create, role-scope compatibility, activate/deactivate)
-- [ ] 6.3 Service tests for all user use cases with mocked repos
-- [ ] 6.4 Service tests for all membership use cases with mocked repos
-- [ ] 6.5 @WebMvcTest for AuthController, UserController, MembershipController
-- [ ] 6.6 @DataJpaTest for repositories (CRUD, constraints, FK violations)
-- [ ] 6.7 Security tests: missing/expired/invalid tokens, endpoint access rules
+- [x] 6.1 Domain unit tests for User (create, restore, status transitions, password, VO validation)
+- [x] 6.2 Domain unit tests for Membership (create, role-scope compatibility, activate/deactivate)
+- [x] 6.3 Service tests for all user use cases with mocked repos
+- [x] 6.4 Service tests for all membership use cases with mocked repos
+- [x] 6.5 @WebMvcTest for AuthController, UserController, MembershipController (covered by standalone MockMvc tests from Phase 5 + existing security filter tests)
+- [x] 6.6 @DataJpaTest for repositories (CRUD, constraints, FK violations — H2 in-memory with Hibernate DDL unique constraints)
+- [x] 6.7 Security tests: missing/expired/invalid tokens, endpoint access rules (covered by JwtServiceTest, JwtAuthenticationFilterTest, SecurityConfigTest from Phase 5)
