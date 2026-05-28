@@ -78,3 +78,9 @@ Chain strategy: feature-branch-chain
 - [x] 6.5 @WebMvcTest for AuthController, UserController, MembershipController (covered by standalone MockMvc tests from Phase 5 + existing security filter tests)
 - [x] 6.6 @DataJpaTest for repositories (CRUD, constraints, FK violations — H2 in-memory with Hibernate DDL unique constraints)
 - [x] 6.7 Security tests: missing/expired/invalid tokens, endpoint access rules (covered by JwtServiceTest, JwtAuthenticationFilterTest, SecurityConfigTest from Phase 5)
+
+## Phase 7: Verify Fixes (3 CRITICAL issues from sdd-verify)
+
+- [x] 7.1 Wire `UserCreationPolicy` into `CreateUserService` — call policy.validate() before User.create(); wire @Bean + inject
+- [x] 7.2 Create `@ControllerAdvice` (`GlobalExceptionHandler`) — map domain exceptions (IllegalArgumentException→422, IllegalStateException→403, NoSuchElementException→404, Exception→500)
+- [x] 7.3 Add last-membership guard in `ToggleMembershipService.deactivate()` — reject deactivation of user's only active membership
