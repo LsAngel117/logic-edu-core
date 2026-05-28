@@ -65,9 +65,9 @@ Chain strategy: feature-branch-chain
 
 ## Phase 5: REST Controllers
 
-- [ ] 5.1 Create `AuthController` — POST /auth/register, POST /auth/login
-- [ ] 5.2 Create `UserController` — POST, GET /{id}, GET, PATCH status, PATCH password
-- [ ] 5.3 Create `MembershipController` — POST, GET /users/{id}/memberships, DELETE, PUT activate, PATCH role/scope
+- [x] 5.1 Create `AuthController` — POST /auth/register, POST /auth/login
+- [x] 5.2 Create `UserController` — POST, GET /{id}, GET, PATCH status, PATCH password
+- [x] 5.3 Create `MembershipController` — POST, GET /users/{id}/memberships, DELETE, PUT activate, PATCH role/scope
 
 ## Phase 6: Tests
 
