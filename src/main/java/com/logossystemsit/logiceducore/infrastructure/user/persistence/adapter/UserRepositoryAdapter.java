@@ -28,6 +28,22 @@ public class UserRepositoryAdapter implements UserRepository {
                 .map(this::mapToDomain);
     }
 
+    @Override
+    public Optional<User> findByEmail(Email email) {
+        return jpa.findByEmail(email.getValue())
+                .map(this::mapToDomain);
+    }
+
+    @Override
+    public boolean existsByEmail(Email email) {
+        return jpa.existsByEmail(email.getValue());
+    }
+
+    @Override
+    public boolean existsByUsername(Username username) {
+        return jpa.existsByUsername(username.getValue());
+    }
+
     private UserEntity mapToEntity(User user) {
         UserEntity e = new UserEntity();
 
