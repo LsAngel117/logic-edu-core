@@ -8,5 +8,9 @@ spring:
   jpa:
     properties:
       hibernate:
-        ddl-auto: update
+        ddl-auto: none
         format_sql: true
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-ms: ${JWT_EXPIRATION_MS:3600000}

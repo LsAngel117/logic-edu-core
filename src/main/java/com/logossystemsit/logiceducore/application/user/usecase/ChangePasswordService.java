@@ -4,6 +4,8 @@ import com.logossystemsit.logiceducore.application.user.dto.command.ChangePasswo
 import com.logossystemsit.logiceducore.application.user.port.in.ChangePasswordUseCase;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.Clock;
 
 public class ChangePasswordService implements ChangePasswordUseCase {
@@ -17,6 +19,7 @@ public class ChangePasswordService implements ChangePasswordUseCase {
     }
 
     @Override
+    @Transactional
     public void execute(ChangePasswordCommand command) {
 
         var user = userRepository.findById(command.userId())

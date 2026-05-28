@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.user.port.in.ChangeUserStatus
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.domain.user.model.User;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.Clock;
 
 public class ChangeUserStatusService implements ChangeUserStatusUseCase {
@@ -18,6 +20,7 @@ public class ChangeUserStatusService implements ChangeUserStatusUseCase {
     }
 
     @Override
+    @Transactional
     public void execute(ChangeUserStatusCommand command) {
 
         var user = userRepository.findById(command.userId())

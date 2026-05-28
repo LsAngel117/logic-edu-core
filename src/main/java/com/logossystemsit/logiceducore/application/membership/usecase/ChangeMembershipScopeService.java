@@ -4,6 +4,8 @@ import com.logossystemsit.logiceducore.application.membership.dto.command.Change
 import com.logossystemsit.logiceducore.application.membership.port.in.ChangeMembershipScopeUseCase;
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 
+import org.springframework.transaction.annotation.Transactional;
+
 public class ChangeMembershipScopeService implements ChangeMembershipScopeUseCase {
 
     private final MembershipRepository repository;
@@ -13,6 +15,7 @@ public class ChangeMembershipScopeService implements ChangeMembershipScopeUseCas
     }
 
     @Override
+    @Transactional
     public void execute(ChangeMembershipScopeCommand command) {
 
         var membership = repository.findById(command.membershipId())

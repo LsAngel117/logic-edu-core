@@ -6,6 +6,7 @@ import com.logossystemsit.logiceducore.domain.user.model.valueobject.*;
 import com.logossystemsit.logiceducore.infrastructure.user.persistence.entity.UserEntity;
 import com.logossystemsit.logiceducore.infrastructure.user.persistence.repository.UserJpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserRepositoryAdapter implements UserRepository {
@@ -26,6 +27,36 @@ public class UserRepositoryAdapter implements UserRepository {
     public Optional<User> findById(UserId id) {
         return jpa.findById(id.value())
                 .map(this::mapToDomain);
+    }
+
+    @Override
+    public Optional<User> findByEmail(Email email) {
+        return jpa.findByEmail(email.getValue())
+                .map(this::mapToDomain);
+    }
+
+    @Override
+    public boolean existsByEmail(Email email) {
+        return jpa.existsByEmail(email.getValue());
+    }
+
+    @Override
+    public boolean existsByUsername(Username username) {
+        return jpa.existsByUsername(username.getValue());
+    }
+
+    @Override
+    public Optional<User> findByUsername(Username username) {
+        return jpa.findByUsername(username.getValue())
+                .map(this::mapToDomain);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return jpa.findAll()
+                .stream()
+                .map(this::mapToDomain)
+                .toList();
     }
 
     private UserEntity mapToEntity(User user) {
