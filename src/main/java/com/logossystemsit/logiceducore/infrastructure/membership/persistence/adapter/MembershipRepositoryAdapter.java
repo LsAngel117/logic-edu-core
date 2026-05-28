@@ -27,7 +27,8 @@ public class MembershipRepositoryAdapter implements MembershipRepository {
 
     @Override
     public Optional<Membership> findById(MembershipId id) {
-        return Optional.empty();
+        return jpa.findById(id.value())
+                .map(this::mapToDomain);
     }
 
     @Override
