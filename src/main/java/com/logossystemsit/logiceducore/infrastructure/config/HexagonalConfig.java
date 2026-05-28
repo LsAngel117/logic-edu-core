@@ -4,6 +4,7 @@ import com.logossystemsit.logiceducore.application.membership.port.out.Membershi
 import com.logossystemsit.logiceducore.application.membership.usecase.*;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.application.user.usecase.*;
+import com.logossystemsit.logiceducore.domain.user.service.UserCreationPolicy;
 import com.logossystemsit.logiceducore.infrastructure.membership.persistence.adapter.MembershipRepositoryAdapter;
 import com.logossystemsit.logiceducore.infrastructure.membership.persistence.repository.MembershipJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.security.config.JwtProperties;
@@ -25,6 +26,11 @@ public class HexagonalConfig {
     @Bean
     public Clock clock() {
         return Clock.systemUTC();
+    }
+
+    @Bean
+    public UserCreationPolicy userCreationPolicy() {
+        return new UserCreationPolicy();
     }
 
     @Bean
@@ -50,8 +56,9 @@ public class HexagonalConfig {
     public CreateUserService createUserService(
             UserRepository userRepository,
             MembershipRepository membershipRepository,
-            Clock clock) {
-        return new CreateUserService(userRepository, membershipRepository, clock);
+            Clock clock,
+            UserCreationPolicy userCreationPolicy) {
+        return new CreateUserService(userRepository, membershipRepository, clock, userCreationPolicy);
     }
 
     @Bean

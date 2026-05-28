@@ -82,7 +82,7 @@ class HexagonalConfigTest {
         MembershipRepository membershipRepo = config.membershipRepositoryAdapter(membershipJpaRepository);
         Clock clock = config.clock();
 
-        var service = config.createUserService(userRepo, membershipRepo, clock);
+        var service = config.createUserService(userRepo, membershipRepo, clock, config.userCreationPolicy());
 
         assertThat(service).isInstanceOf(CreateUserService.class);
     }

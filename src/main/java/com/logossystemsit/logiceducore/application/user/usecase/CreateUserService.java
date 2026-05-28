@@ -8,24 +8,29 @@ import com.logossystemsit.logiceducore.application.membership.port.out.Membershi
 
 import com.logossystemsit.logiceducore.domain.user.model.User;
 import com.logossystemsit.logiceducore.domain.membership.model.Membership;
+import com.logossystemsit.logiceducore.domain.user.service.UserCreationPolicy;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.time.LocalDate;
 
 public class CreateUserService implements CreateUserUseCase {
 
     private final UserRepository userRepository;
     private final MembershipRepository membershipRepository;
     private final Clock clock;
+    private final UserCreationPolicy policy;
 
     public CreateUserService(UserRepository userRepository,
                              MembershipRepository membershipRepository,
-                             Clock clock) {
+                             Clock clock,
+                             UserCreationPolicy policy) {
         this.userRepository = userRepository;
         this.membershipRepository = membershipRepository;
         this.clock = clock;
+        this.policy = policy;
     }
 
     @Override
@@ -33,6 +38,10 @@ public class CreateUserService implements CreateUserUseCase {
     public CreateUserResult execute(CreateUserCommand command) {
 
         Instant now = clock.instant();
+        LocalDate today = LocalDate.now(clock);
+
+        // 0. Validar política de creación (CC vs TI age rules)
+        policy.validate(command.document(), command.birthDate(), today);
 
         // 1. Crear User
         User user = User.create(

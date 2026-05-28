@@ -10,6 +10,7 @@ import com.logossystemsit.logiceducore.domain.membership.model.valueobject.Role;
 import com.logossystemsit.logiceducore.domain.membership.model.valueobject.Scope;
 import com.logossystemsit.logiceducore.domain.user.model.User;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.*;
+import com.logossystemsit.logiceducore.domain.user.service.UserCreationPolicy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -34,6 +36,8 @@ class CreateUserServiceTest {
 
     @Mock
     private Clock clock;
+
+    private final UserCreationPolicy policy = new UserCreationPolicy();
 
     private CreateUserUseCase useCase;
 
@@ -51,7 +55,8 @@ class CreateUserServiceTest {
     @BeforeEach
     void setUp() {
         when(clock.instant()).thenReturn(FIXED_NOW);
-        useCase = new CreateUserService(userRepository, membershipRepository, clock);
+        when(clock.getZone()).thenReturn(ZoneOffset.UTC);
+        useCase = new CreateUserService(userRepository, membershipRepository, clock, policy);
     }
 
     @Test
@@ -89,5 +94,31 @@ class CreateUserServiceTest {
         User saved = captor.getValue();
         assertThat(saved.getCreatedAt()).isEqualTo(FIXED_NOW);
         assertThat(saved.getUpdatedAt()).isEqualTo(FIXED_NOW);
+    }
+
+    @Test
+    void execute_shouldRejectCCForMinor() {
+        LocalDate minorBirthDate = LocalDate.of(2015, 1, 15); // age 10 on 2025-06-15
+        CreateUserCommand command = new CreateUserCommand(USER_ID, USERNAME, EMAIL, PASSWORD,
+                NAME, User.Sex.MALE, minorBirthDate,
+                new Document(Document.DocumentType.CC, new DocumentNumber("1234567890")),
+                ROLE, SCOPE);
+
+        assertThatThrownBy(() -> useCase.execute(command))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("CC requires legal age");
+    }
+
+    @Test
+    void execute_shouldRejectTIForAdult() {
+        LocalDate adultBirthDate = LocalDate.of(1990, 1, 15); // age 35 on 2025-06-15
+        CreateUserCommand command = new CreateUserCommand(USER_ID, USERNAME, EMAIL, PASSWORD,
+                NAME, User.Sex.MALE, adultBirthDate,
+                new Document(Document.DocumentType.TI, new DocumentNumber("1234567890")),
+                ROLE, SCOPE);
+
+        assertThatThrownBy(() -> useCase.execute(command))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("TI is only for minors");
     }
 }
