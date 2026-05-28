@@ -40,10 +40,10 @@ Chain strategy: feature-branch-chain
 
 ## Phase 2: JWT Security Infrastructure
 
-- [ ] 2.1 Create `JwtProperties` @ConfigurationProperties(prefix="jwt")
-- [ ] 2.2 Create `JwtService` with generate(), validate(), extractUserId(), extractMemberships()
-- [ ] 2.3 Create `JwtAuthenticationFilter` (OncePerRequestFilter) — Bearer token → SecurityContext
-- [ ] 2.4 Create `SecurityConfig` — /auth/** public, /api/v1/** authenticated, stateless
+- [x] 2.1 Create `JwtProperties` @ConfigurationProperties(prefix="jwt")
+- [x] 2.2 Create `JwtService` with generate(), validate(), extractUserId(), extractMemberships()
+- [x] 2.3 Create `JwtAuthenticationFilter` (OncePerRequestFilter) — Bearer token → SecurityContext
+- [x] 2.4 Create `SecurityConfig` — /auth/** public, /api/v1/** authenticated, stateless
 
 ## Phase 3: New Application Use Cases + @Transactional
 
