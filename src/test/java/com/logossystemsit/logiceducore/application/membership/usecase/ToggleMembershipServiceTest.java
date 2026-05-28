@@ -12,6 +12,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -47,8 +48,12 @@ class ToggleMembershipServiceTest {
     @Test
     void deactivate_shouldSaveDeactivatedMembership() {
         MembershipId id = MembershipId.generate();
-        Membership active = activeMembership(id);
+        MembershipId otherId = MembershipId.generate();
+        UserId userId = new UserId("123e4567-e89b-12d3-a456-426614174000");
+        Membership active = Membership.restore(id, userId, Role.STUDENT, Scope.course("course-1"), true);
+        Membership other = Membership.restore(otherId, userId, Role.STUDENT, Scope.course("course-2"), true);
         when(repository.findById(id)).thenReturn(Optional.of(active));
+        when(repository.findByUserId(userId)).thenReturn(List.of(active, other));
 
         useCase.deactivate(id);
 
@@ -86,5 +91,35 @@ class ToggleMembershipServiceTest {
 
         assertThatThrownBy(() -> useCase.activate(id))
                 .isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
+    void deactivate_shouldRejectLastActiveMembership() {
+        MembershipId id = MembershipId.generate();
+        UserId userId = new UserId("223e4567-e89b-12d3-a456-426614174001");
+        Membership onlyActive = Membership.restore(id, userId, Role.STUDENT, Scope.course("course-1"), true);
+        when(repository.findById(id)).thenReturn(Optional.of(onlyActive));
+        when(repository.findByUserId(userId)).thenReturn(List.of(onlyActive));
+
+        assertThatThrownBy(() -> useCase.deactivate(id))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Cannot deactivate the last active membership");
+    }
+
+    @Test
+    void deactivate_shouldAllowWhenMultipleActiveMemberships() {
+        MembershipId targetId = MembershipId.generate();
+        MembershipId otherId = MembershipId.generate();
+        UserId userId = new UserId("323e4567-e89b-12d3-a456-426614174002");
+        Membership target = Membership.restore(targetId, userId, Role.STUDENT, Scope.course("course-1"), true);
+        Membership other = Membership.restore(otherId, userId, Role.STUDENT, Scope.course("course-2"), true);
+        when(repository.findById(targetId)).thenReturn(Optional.of(target));
+        when(repository.findByUserId(userId)).thenReturn(List.of(target, other));
+
+        useCase.deactivate(targetId);
+
+        ArgumentCaptor<Membership> captor = ArgumentCaptor.forClass(Membership.class);
+        verify(repository).save(captor.capture());
+        assertThat(captor.getValue().isActive()).isFalse();
     }
 }
