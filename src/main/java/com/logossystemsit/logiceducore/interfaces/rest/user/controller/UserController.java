@@ -111,7 +111,6 @@ public class UserController {
 
     private CreateUserCommand mapToCreateUserCommand(CreateUserRequest r) {
         UserId userId = UserId.generate();
-        Username username = new Username(r.username());
         Email email = new Email(r.email());
         PasswordHash passwordHash = new PasswordHash(passwordEncoder.encode(r.rawPassword()));
         Name name = new Name(r.firstGivenName(), r.secondGivenName(), r.firstFamilyName(), r.secondFamilyName());
@@ -124,7 +123,7 @@ public class UserController {
         Role role = Role.valueOf(r.role().toUpperCase());
         Scope scope = Scope.from(Scope.Type.valueOf(r.scopeType().toUpperCase()), r.scopeRefId());
 
-        return new CreateUserCommand(userId, username, email, passwordHash, name, sex, birthDate, document, role, scope);
+        return new CreateUserCommand(userId, email, passwordHash, name, sex, birthDate, document, role, scope);
     }
 
     private UserResponse toUserResponse(UserResult result) {

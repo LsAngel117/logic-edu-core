@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -35,6 +36,15 @@ public class GlobalExceptionHandler {
                 .body(Map.of(
                         "message", ex.getMessage() != null ? ex.getMessage() : "Resource not found",
                         "status", 404
+                ));
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Map<String, Object>> handleResponseStatus(ResponseStatusException ex) {
+        return ResponseEntity.status(ex.getStatusCode())
+                .body(Map.of(
+                        "message", ex.getReason() != null ? ex.getReason() : "Request error",
+                        "status", ex.getStatusCode().value()
                 ));
     }
 

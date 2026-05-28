@@ -1,6 +1,7 @@
 HELP.md
 .gradle
 .env
+.agents
 run-local.sh
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -21,6 +22,7 @@ bin/
 
 ### IntelliJ IDEA ###
 .idea
+.junie
 *.iws
 *.iml
 *.ipr

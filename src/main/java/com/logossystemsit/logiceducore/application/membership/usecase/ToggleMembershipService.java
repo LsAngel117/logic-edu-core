@@ -33,7 +33,7 @@ public class ToggleMembershipService implements ToggleMembershipUseCase {
                 .count();
 
         if (activeCount <= 1) {
-            throw new IllegalStateException("Cannot deactivate the last active membership");
+            throw new IllegalArgumentException("Cannot deactivate last active membership");
         }
 
         repository.save(m.deactivate());

@@ -1,7 +1,6 @@
 package com.logossystemsit.logiceducore.interfaces.rest.user.dto.request;
 
 public record CreateUserRequest(
-        String username,
         String email,
         String rawPassword,
         String firstGivenName,
