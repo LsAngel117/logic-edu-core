@@ -57,11 +57,11 @@ Chain strategy: feature-branch-chain
 
 ## Phase 4: HexagonalConfig + REST DTOs
 
-- [ ] 4.1 Create `HexagonalConfig.java` wiring Clock, repos, all services, security beans
-- [ ] 4.2 Create request DTOs: RegisterRequest, LoginRequest, CreateUserRequest
-- [ ] 4.3 Create request DTOs: ChangeUserStatusRequest, ChangePasswordRequest
-- [ ] 4.4 Create request DTOs: AssignMembershipRequest, ChangeMembershipRoleRequest, ChangeMembershipScopeRequest
-- [ ] 4.5 Create response DTOs: AuthResponse, UserResponse, MembershipResponse
+- [x] 4.1 Create `HexagonalConfig.java` wiring Clock, repos, all services, security beans
+- [x] 4.2 Create request DTOs: RegisterRequest, LoginRequest, CreateUserRequest
+- [x] 4.3 Create request DTOs: ChangeUserStatusRequest, ChangePasswordRequest
+- [x] 4.4 Create request DTOs: AssignMembershipRequest, ChangeMembershipRoleRequest, ChangeMembershipScopeRequest
+- [x] 4.5 Create response DTOs: AuthResponse, UserResponse, MembershipResponse
 
 ## Phase 5: REST Controllers
 
