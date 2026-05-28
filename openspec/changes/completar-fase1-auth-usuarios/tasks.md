@@ -47,13 +47,13 @@ Chain strategy: feature-branch-chain
 
 ## Phase 3: New Application Use Cases + @Transactional
 
-- [ ] 3.1 Create `AuthenticateUserUseCase` port + `AuthenticateUserService` (password verify + JWT)
-- [ ] 3.2 Create `LoginCommand` record and `LoginResult` record
-- [ ] 3.3 Create `ListUsersUseCase` port + `ListUsersService` (findAll → UserResult)
-- [ ] 3.4 Create `ChangeMembershipRoleUseCase` port + `ChangeMembershipRoleService`
-- [ ] 3.5 Add @Transactional to CreateUserService, ChangeUserStatusService, ChangePasswordService
-- [ ] 3.6 Add @Transactional to AssignMembershipService, ToggleMembershipService, ChangeMembershipScopeService
-- [ ] 3.7 Add @Transactional(readOnly=true) to GetUserService, GetUserMembershipsService
+- [x] 3.1 Create `AuthenticateUserUseCase` port + `AuthenticateUserService` (password verify + JWT)
+- [x] 3.2 Create `LoginCommand` record and `LoginResult` record
+- [x] 3.3 Create `ListUsersUseCase` port + `ListUsersService` (findAll → UserResult)
+- [x] 3.4 Create `ChangeMembershipRoleUseCase` port + `ChangeMembershipRoleService`
+- [x] 3.5 Add @Transactional to CreateUserService, ChangeUserStatusService, ChangePasswordService
+- [x] 3.6 Add @Transactional to AssignMembershipService, ToggleMembershipService, ChangeMembershipScopeService
+- [x] 3.7 Add @Transactional(readOnly=true) to GetUserService, GetUserMembershipsService
 
 ## Phase 4: HexagonalConfig + REST DTOs
 
