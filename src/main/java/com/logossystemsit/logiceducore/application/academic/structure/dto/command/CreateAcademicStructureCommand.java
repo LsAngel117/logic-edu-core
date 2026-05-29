@@ -1,0 +1,16 @@
+package com.logossystemsit.logiceducore.application.academic.structure.dto.command;
+
+import com.logossystemsit.logiceducore.domain.academic.structure.model.AcademicStructureId;
+import com.logossystemsit.logiceducore.domain.academic.structure.model.StructureType;
+import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
+
+public record CreateAcademicStructureCommand(
+        AcademicStructureId structureId,
+        SchoolId schoolId,
+        StructureType structureType,
+        int levelsCount,
+        int periodsPerLevel,
+        int evaluationPeriodsPerPeriod,
+        int subjectsPerPeriod,
+        int hoursPerSubject
+) {}
