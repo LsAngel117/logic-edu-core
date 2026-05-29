@@ -102,8 +102,8 @@ class ToggleMembershipServiceTest {
         when(repository.findByUserId(userId)).thenReturn(List.of(onlyActive));
 
         assertThatThrownBy(() -> useCase.deactivate(id))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("Cannot deactivate the last active membership");
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Cannot deactivate last active membership");
     }
 
     @Test

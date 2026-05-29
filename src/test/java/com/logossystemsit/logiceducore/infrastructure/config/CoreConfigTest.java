@@ -24,7 +24,7 @@ import java.time.ZoneOffset;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-class HexagonalConfigTest {
+class CoreConfigTest {
 
     @Mock
     private UserJpaRepository userJpaRepository;
@@ -37,11 +37,11 @@ class HexagonalConfigTest {
 
     private JwtProperties jwtProperties;
 
-    private HexagonalConfig config;
+    private CoreConfig config;
 
     @BeforeEach
     void setUp() {
-        config = new HexagonalConfig();
+        config = new CoreConfig();
         jwtProperties = new JwtProperties(
                 "test-secret-key-that-is-long-enough-for-hmac-sha256-algorithm!!",
                 7200000L

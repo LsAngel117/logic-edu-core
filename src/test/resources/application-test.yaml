@@ -4,6 +4,12 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
+
+  security:
+    user:
+      name: test
+      password: test
+
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -11,6 +17,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
     show-sql: false
+    open-in-view: false
+
   flyway:
     enabled: false
 

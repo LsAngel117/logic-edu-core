@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -77,5 +79,17 @@ class GlobalExceptionHandlerTest {
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().get("message")).isEqualTo("Internal server error");
         assertThat(response.getBody().get("status")).isEqualTo(500);
+    }
+
+    @Test
+    void handleResponseStatus_shouldReturnOriginalStatusCode() {
+        var ex = new ResponseStatusException(HttpStatus.CONFLICT, "Email already in use");
+
+        ResponseEntity<Map<String, Object>> response = handler.handleResponseStatus(ex);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().get("message")).isEqualTo("Email already in use");
+        assertThat(response.getBody().get("status")).isEqualTo(409);
     }
 }

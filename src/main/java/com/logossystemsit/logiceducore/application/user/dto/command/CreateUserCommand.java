@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 public record CreateUserCommand(
         UserId userId,
-        Username username,
         Email email,
         PasswordHash passwordHash,
         Name name,
