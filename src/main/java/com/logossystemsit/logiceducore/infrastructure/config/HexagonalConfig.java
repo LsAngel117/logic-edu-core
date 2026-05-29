@@ -1,11 +1,20 @@
 package com.logossystemsit.logiceducore.infrastructure.config;
 
+import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.EvaluationPeriodRepository;
+import com.logossystemsit.logiceducore.application.academic.level.port.out.AcademicLevelRepository;
+import com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository;
 import com.logossystemsit.logiceducore.application.academic.structure.port.out.AcademicStructureRepository;
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.application.membership.usecase.*;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.application.user.usecase.*;
 import com.logossystemsit.logiceducore.domain.user.service.UserCreationPolicy;
+import com.logossystemsit.logiceducore.infrastructure.academic.evaluation.persistence.adapter.EvaluationPeriodRepositoryAdapter;
+import com.logossystemsit.logiceducore.infrastructure.academic.evaluation.persistence.repository.EvaluationPeriodJpaRepository;
+import com.logossystemsit.logiceducore.infrastructure.academic.level.persistence.adapter.AcademicLevelRepositoryAdapter;
+import com.logossystemsit.logiceducore.infrastructure.academic.level.persistence.repository.AcademicLevelJpaRepository;
+import com.logossystemsit.logiceducore.infrastructure.academic.period.persistence.adapter.AcademicPeriodRepositoryAdapter;
+import com.logossystemsit.logiceducore.infrastructure.academic.period.persistence.repository.AcademicPeriodJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.academic.structure.persistence.adapter.AcademicStructureRepositoryAdapter;
 import com.logossystemsit.logiceducore.infrastructure.academic.structure.persistence.repository.AcademicStructureJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.membership.persistence.adapter.MembershipRepositoryAdapter;
@@ -56,6 +65,21 @@ public class HexagonalConfig {
     @Bean
     public AcademicStructureRepository academicStructureRepositoryAdapter(AcademicStructureJpaRepository jpa) {
         return new AcademicStructureRepositoryAdapter(jpa);
+    }
+
+    @Bean
+    public AcademicLevelRepository academicLevelRepositoryAdapter(AcademicLevelJpaRepository jpa) {
+        return new AcademicLevelRepositoryAdapter(jpa);
+    }
+
+    @Bean
+    public AcademicPeriodRepository academicPeriodRepositoryAdapter(AcademicPeriodJpaRepository jpa) {
+        return new AcademicPeriodRepositoryAdapter(jpa);
+    }
+
+    @Bean
+    public EvaluationPeriodRepository evaluationPeriodRepositoryAdapter(EvaluationPeriodJpaRepository jpa) {
+        return new EvaluationPeriodRepositoryAdapter(jpa);
     }
 
     // ---- User Use Cases ----

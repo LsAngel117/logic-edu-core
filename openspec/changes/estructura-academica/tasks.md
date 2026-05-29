@@ -47,32 +47,32 @@ All 4 concepts are independent aggregate roots sharing only the Flyway foundatio
 
 ## Phase 2: AcademicLevel
 
-- [ ] 2.1 Domain: `academic/level/model/AcademicLevelId` VO, `AcademicLevel` aggregate (create/restore/changeData/deactivate), unit tests
-- [ ] 2.2 App port/in: `CreateLevelUseCase`, `GetLevelUseCase`, `ListLevelsUseCase`, `UpdateLevelUseCase`, `DeactivateLevelUseCase`
-- [ ] 2.3 App port/out: `AcademicLevelRepository` — findById/findAllBySchoolId/ existsActivePeriodsByLevelId/save
-- [ ] 2.4 App DTOs + services: commands, results, all 5 services — Mockito tests covering duplicate number, deactivation with active periods
-- [ ] 2.5 Infra: entity, jpa repo, adapter — `@DataJpaTest`
-- [ ] 2.6 REST DTOs + `LevelController` under `/api/v1/schools/{schoolId}/levels` — `@WebMvcTest`
+- [x] 2.1 Domain: `academic/level/model/AcademicLevelId` VO, `AcademicLevel` aggregate (create/restore/changeData/deactivate), unit tests
+- [x] 2.2 App port/in: `CreateLevelUseCase`, `GetLevelUseCase`, `ListLevelsUseCase`, `UpdateLevelUseCase`, `DeactivateLevelUseCase`
+- [x] 2.3 App port/out: `AcademicLevelRepository` — findById/findAllBySchoolId/ existsActivePeriodsByLevelId/save
+- [x] 2.4 App DTOs + services: commands, results, all 5 services — Mockito tests covering duplicate number, deactivation with active periods
+- [x] 2.5 Infra: entity, jpa repo, adapter — `@DataJpaTest`
+- [x] 2.6 REST DTOs + `LevelController` under `/api/v1/schools/{schoolId}/levels` — `@WebMvcTest`
 
 ## Phase 3: AcademicPeriod (overlap validation)
 
-- [ ] 3.1 Domain: `academic/period/model/AcademicPeriodId` VO, `PeriodType` enum, `AcademicPeriod` aggregate (create/restore/changeData/deactivate with date range), unit tests
-- [ ] 3.2 App port/in: `CreatePeriodUseCase`, `GetPeriodUseCase`, `ListPeriodsUseCase`, `UpdatePeriodUseCase`, `DeactivatePeriodUseCase`
-- [ ] 3.3 App port/out: `AcademicPeriodRepository` — findActiveByLevelId/findById/ findAllByLevelId/save
-- [ ] 3.4 App DTOs + `CreatePeriodService` (query active by levelId, overlap check: newStart < existing.end AND newEnd > existing.start) + `UpdatePeriodService` (re-validate on date change) + `DeactivatePeriodService` (check active eval periods) — Mockito tests of all overlap paths
-- [ ] 3.5 Infra: entity, jpa repo (findActiveByLevelId query), adapter — `@DataJpaTest`
-- [ ] 3.6 REST DTOs + `PeriodController` under `/api/v1/levels/{levelId}/periods` — `@WebMvcTest` with overlap 409 scenarios
+- [x] 3.1 Domain: `academic/period/model/AcademicPeriodId` VO, `PeriodType` enum, `AcademicPeriod` aggregate (create/restore/changeData/deactivate with date range), unit tests
+- [x] 3.2 App port/in: `CreatePeriodUseCase`, `GetPeriodUseCase`, `ListPeriodsUseCase`, `UpdatePeriodUseCase`, `DeactivatePeriodUseCase`
+- [x] 3.3 App port/out: `AcademicPeriodRepository` — findActiveByLevelId/findById/ findAllByLevelId/save
+- [x] 3.4 App DTOs + `CreatePeriodService` (query active by levelId, overlap check: newStart < existing.end AND newEnd > existing.start) + `UpdatePeriodService` (re-validate on date change) + `DeactivatePeriodService` (check active eval periods) — Mockito tests of all overlap paths
+- [x] 3.5 Infra: entity, jpa repo (findActiveByLevelId query), adapter — `@DataJpaTest`
+- [x] 3.6 REST DTOs + `PeriodController` under `/api/v1/levels/{levelId}/periods` — `@WebMvcTest` with overlap 409 scenarios
 
 ## Phase 4: EvaluationPeriod (weight validation)
 
-- [ ] 4.1 Domain: `academic/evaluation/model/EvaluationPeriodId` VO, `EvaluationPeriod` aggregate (create/restore/changeData/deactivate with weight), unit tests
-- [ ] 4.2 App port/in: `CreateEvaluationPeriodUseCase`, `GetEvaluationPeriodUseCase`, `ListEvaluationPeriodsUseCase`, `UpdateEvaluationPeriodUseCase`, `DeactivateEvaluationPeriodUseCase`
-- [ ] 4.3 App port/out: `EvaluationPeriodRepository` — findActiveByPeriodId/findById/ findAllByPeriodId/save, cumulative weight query
-- [ ] 4.4 App DTOs + `CreateEvaluationPeriodService` (parent structure evalPeriodsPerPeriod > 0 guard + weight sum ≤ 100) + remaining services — Mockito tests
-- [ ] 4.5 Infra: entity, jpa repo, adapter — `@DataJpaTest`
-- [ ] 4.6 REST DTOs + `EvaluationPeriodController` under `/api/v1/periods/{periodId}/evaluation-periods` — `@WebMvcTest`
+- [x] 4.1 Domain: `academic/evaluation/model/EvaluationPeriodId` VO, `EvaluationPeriod` aggregate (create/restore/changeName/changeWeight/changeDates/deactivate with weight), unit tests
+- [x] 4.2 App port/in: `CreateEvaluationPeriodUseCase`, `GetEvaluationPeriodUseCase`, `ListEvaluationPeriodsByPeriodUseCase`, `UpdateEvaluationPeriodUseCase`, `DeactivateEvaluationPeriodUseCase`
+- [x] 4.3 App port/out: `EvaluationPeriodRepository` — findById/findByPeriodId/sumWeightsByPeriodId/save
+- [x] 4.4 App DTOs + `CreateEvaluationPeriodService` (weight sum ≤ 100 validation) + remaining services — Mockito tests
+- [x] 4.5 Infra: entity, jpa repo, adapter — `@DataJpaTest`
+- [x] 4.6 REST DTOs + `EvaluationPeriodController` under `/api/v1/periods/{periodId}/evaluations` — `@MockitoExtension` test
 
 ## Phase 5: Wiring
 
-- [ ] 5.1 Create `AcademicBeansConfig` — wire all 19 use-case services + Clock
-- [ ] 5.2 Run `./gradlew build`, fix compilation issues, verify all tests pass
+- [x] 5.1 Create `AcademicBeansConfig` — wire all evaluation use-case services + Clock
+- [x] 5.2 Run `./gradlew build`, fix compilation issues, verify all tests pass
