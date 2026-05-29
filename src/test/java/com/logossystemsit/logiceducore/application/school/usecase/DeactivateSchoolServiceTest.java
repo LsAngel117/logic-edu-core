@@ -1,5 +1,6 @@
 package com.logossystemsit.logiceducore.application.school.usecase;
 
+import com.logossystemsit.logiceducore.application.branch.port.out.BranchRepository;
 import com.logossystemsit.logiceducore.application.school.dto.result.SchoolResult;
 import com.logossystemsit.logiceducore.application.school.port.in.DeactivateSchoolUseCase;
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
@@ -27,6 +28,9 @@ class DeactivateSchoolServiceTest {
     private SchoolRepository schoolRepository;
 
     @Mock
+    private BranchRepository branchRepository;
+
+    @Mock
     private Clock clock;
 
     private DeactivateSchoolUseCase useCase;
@@ -37,13 +41,14 @@ class DeactivateSchoolServiceTest {
 
     @BeforeEach
     void setUp() {
-        useCase = new DeactivateSchoolService(schoolRepository, clock);
+        useCase = new DeactivateSchoolService(schoolRepository, branchRepository, clock);
     }
 
     @Test
     void execute_shouldDeactivateActiveSchool() {
         School school = buildSchool(SCHOOL_ID, "Colegio Andino", "CA-001", School.Status.ACTIVE);
         when(schoolRepository.findById(SCHOOL_ID)).thenReturn(Optional.of(school));
+        when(branchRepository.existsActiveBySchoolId(SCHOOL_ID)).thenReturn(false);
         when(clock.instant()).thenReturn(DEACTIVATE_NOW);
 
         SchoolResult result = useCase.execute(SCHOOL_ID);
@@ -57,6 +62,7 @@ class DeactivateSchoolServiceTest {
     void execute_shouldBeIdempotentForAlreadyInactiveSchool() {
         School school = buildSchool(SCHOOL_ID, "Colegio Cerrado", "CC-001", School.Status.INACTIVE);
         when(schoolRepository.findById(SCHOOL_ID)).thenReturn(Optional.of(school));
+        when(branchRepository.existsActiveBySchoolId(SCHOOL_ID)).thenReturn(false);
         when(clock.instant()).thenReturn(DEACTIVATE_NOW);
 
         SchoolResult result = useCase.execute(SCHOOL_ID);
@@ -74,6 +80,19 @@ class DeactivateSchoolServiceTest {
         assertThatThrownBy(() -> useCase.execute(SCHOOL_ID))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("School not found");
+    }
+
+    @Test
+    void execute_shouldThrowWhenSchoolHasActiveBranches() {
+        School school = buildSchool(SCHOOL_ID, "Colegio Activo", "CA-001", School.Status.ACTIVE);
+        when(schoolRepository.findById(SCHOOL_ID)).thenReturn(Optional.of(school));
+        when(branchRepository.existsActiveBySchoolId(SCHOOL_ID)).thenReturn(true);
+
+        assertThatThrownBy(() -> useCase.execute(SCHOOL_ID))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("Cannot deactivate school with active branches");
+
+        verify(schoolRepository, never()).save(any());
     }
 
     private School buildSchool(SchoolId id, String name, String code, School.Status status) {

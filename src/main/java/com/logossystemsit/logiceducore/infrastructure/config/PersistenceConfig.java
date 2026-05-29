@@ -4,6 +4,7 @@ import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.
 import com.logossystemsit.logiceducore.application.academic.level.port.out.AcademicLevelRepository;
 import com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository;
 import com.logossystemsit.logiceducore.application.academic.structure.port.out.AcademicStructureRepository;
+import com.logossystemsit.logiceducore.application.branch.port.out.BranchRepository;
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
@@ -15,6 +16,8 @@ import com.logossystemsit.logiceducore.infrastructure.academic.period.persistenc
 import com.logossystemsit.logiceducore.infrastructure.academic.period.persistence.repository.AcademicPeriodJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.academic.structure.persistence.adapter.AcademicStructureRepositoryAdapter;
 import com.logossystemsit.logiceducore.infrastructure.academic.structure.persistence.repository.AcademicStructureJpaRepository;
+import com.logossystemsit.logiceducore.infrastructure.branch.persistence.adapter.BranchRepositoryAdapter;
+import com.logossystemsit.logiceducore.infrastructure.branch.persistence.repository.BranchJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.membership.persistence.adapter.MembershipRepositoryAdapter;
 import com.logossystemsit.logiceducore.infrastructure.membership.persistence.repository.MembershipJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.school.persistence.adapter.SchoolRepositoryAdapter;
@@ -40,6 +43,11 @@ public class PersistenceConfig {
     @Bean
     public SchoolRepository schoolRepositoryAdapter(SchoolJpaRepository jpa) {
         return new SchoolRepositoryAdapter(jpa);
+    }
+
+    @Bean
+    public BranchRepository branchRepositoryAdapter(BranchJpaRepository jpa) {
+        return new BranchRepositoryAdapter(jpa);
     }
 
     @Bean

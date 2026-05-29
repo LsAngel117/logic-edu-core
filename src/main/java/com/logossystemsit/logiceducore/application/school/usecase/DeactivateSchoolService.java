@@ -1,5 +1,6 @@
 package com.logossystemsit.logiceducore.application.school.usecase;
 
+import com.logossystemsit.logiceducore.application.branch.port.out.BranchRepository;
 import com.logossystemsit.logiceducore.application.school.dto.result.SchoolResult;
 import com.logossystemsit.logiceducore.application.school.port.in.DeactivateSchoolUseCase;
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
@@ -12,10 +13,14 @@ import java.time.Clock;
 public class DeactivateSchoolService implements DeactivateSchoolUseCase {
 
     private final SchoolRepository schoolRepository;
+    private final BranchRepository branchRepository;
     private final Clock clock;
 
-    public DeactivateSchoolService(SchoolRepository schoolRepository, Clock clock) {
+    public DeactivateSchoolService(SchoolRepository schoolRepository,
+                                   BranchRepository branchRepository,
+                                   Clock clock) {
         this.schoolRepository = schoolRepository;
+        this.branchRepository = branchRepository;
         this.clock = clock;
     }
 
@@ -25,7 +30,9 @@ public class DeactivateSchoolService implements DeactivateSchoolUseCase {
         School school = schoolRepository.findById(schoolId)
                 .orElseThrow(() -> new IllegalArgumentException("School not found"));
 
-        // TODO PR#2: Check no active branches exist before deactivating
+        if (branchRepository.existsActiveBySchoolId(schoolId)) {
+            throw new IllegalStateException("Cannot deactivate school with active branches");
+        }
 
         School deactivated = school.deactivate(clock.instant());
 
