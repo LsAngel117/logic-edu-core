@@ -1,5 +1,6 @@
 package com.logossystemsit.logiceducore.infrastructure.config;
 
+import com.logossystemsit.logiceducore.application.branch.port.out.BranchRepository;
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.application.school.usecase.*;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +38,8 @@ public class SchoolBeansConfig {
     @Bean
     public DeactivateSchoolService deactivateSchoolService(
             SchoolRepository schoolRepository,
+            BranchRepository branchRepository,
             Clock clock) {
-        return new DeactivateSchoolService(schoolRepository, clock);
+        return new DeactivateSchoolService(schoolRepository, branchRepository, clock);
     }
 }
