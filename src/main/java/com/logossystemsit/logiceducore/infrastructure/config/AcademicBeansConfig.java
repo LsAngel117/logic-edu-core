@@ -1,5 +1,11 @@
 package com.logossystemsit.logiceducore.infrastructure.config;
 
+import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.EvaluationPeriodRepository;
+import com.logossystemsit.logiceducore.application.academic.evaluation.usecase.*;
+import com.logossystemsit.logiceducore.application.academic.level.port.out.AcademicLevelRepository;
+import com.logossystemsit.logiceducore.application.academic.level.usecase.*;
+import com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository;
+import com.logossystemsit.logiceducore.application.academic.period.usecase.*;
 import com.logossystemsit.logiceducore.application.academic.structure.port.out.AcademicStructureRepository;
 import com.logossystemsit.logiceducore.application.academic.structure.usecase.*;
 import org.springframework.context.annotation.Bean;
@@ -35,5 +41,111 @@ public class AcademicBeansConfig {
             AcademicStructureRepository repository,
             Clock clock) {
         return new DeactivateAcademicStructureService(repository, clock);
+    }
+
+    // ---- AcademicLevel Use Cases ----
+
+    @Bean
+    public CreateAcademicLevelService createAcademicLevelService(
+            AcademicLevelRepository repository,
+            Clock clock) {
+        return new CreateAcademicLevelService(repository, clock);
+    }
+
+    @Bean
+    public GetAcademicLevelService getAcademicLevelService(
+            AcademicLevelRepository repository) {
+        return new GetAcademicLevelService(repository);
+    }
+
+    @Bean
+    public ListAcademicLevelsBySchoolService listAcademicLevelsBySchoolService(
+            AcademicLevelRepository repository) {
+        return new ListAcademicLevelsBySchoolService(repository);
+    }
+
+    @Bean
+    public UpdateAcademicLevelService updateAcademicLevelService(
+            AcademicLevelRepository repository,
+            Clock clock) {
+        return new UpdateAcademicLevelService(repository, clock);
+    }
+
+    @Bean
+    public DeactivateAcademicLevelService deactivateAcademicLevelService(
+            AcademicLevelRepository repository,
+            Clock clock) {
+        return new DeactivateAcademicLevelService(repository, clock);
+    }
+
+    // ---- AcademicPeriod Use Cases ----
+
+    @Bean
+    public CreateAcademicPeriodService createAcademicPeriodService(
+            AcademicPeriodRepository repository,
+            Clock clock) {
+        return new CreateAcademicPeriodService(repository, clock);
+    }
+
+    @Bean
+    public GetAcademicPeriodService getAcademicPeriodService(
+            AcademicPeriodRepository repository) {
+        return new GetAcademicPeriodService(repository);
+    }
+
+    @Bean
+    public ListAcademicPeriodsByLevelService listAcademicPeriodsByLevelService(
+            AcademicPeriodRepository repository) {
+        return new ListAcademicPeriodsByLevelService(repository);
+    }
+
+    @Bean
+    public UpdateAcademicPeriodService updateAcademicPeriodService(
+            AcademicPeriodRepository repository,
+            Clock clock) {
+        return new UpdateAcademicPeriodService(repository, clock);
+    }
+
+    @Bean
+    public DeactivateAcademicPeriodService deactivateAcademicPeriodService(
+            AcademicPeriodRepository repository,
+            Clock clock) {
+        return new DeactivateAcademicPeriodService(repository, clock);
+    }
+
+    // ---- EvaluationPeriod Use Cases ----
+
+    @Bean
+    public CreateEvaluationPeriodService createEvaluationPeriodService(
+            EvaluationPeriodRepository evaluationRepository,
+            AcademicPeriodRepository periodRepository,
+            Clock clock) {
+        return new CreateEvaluationPeriodService(evaluationRepository, periodRepository, clock);
+    }
+
+    @Bean
+    public GetEvaluationPeriodService getEvaluationPeriodService(
+            EvaluationPeriodRepository repository) {
+        return new GetEvaluationPeriodService(repository);
+    }
+
+    @Bean
+    public ListEvaluationPeriodsByPeriodService listEvaluationPeriodsByPeriodService(
+            EvaluationPeriodRepository repository) {
+        return new ListEvaluationPeriodsByPeriodService(repository);
+    }
+
+    @Bean
+    public UpdateEvaluationPeriodService updateEvaluationPeriodService(
+            EvaluationPeriodRepository repository,
+            Clock clock) {
+        return new UpdateEvaluationPeriodService(repository, clock);
+    }
+
+    @Bean
+    public DeactivateEvaluationPeriodService deactivateEvaluationPeriodService(
+            EvaluationPeriodRepository repository,
+            Clock clock) {
+        return new DeactivateEvaluationPeriodService(repository, clock);
     }
 }
