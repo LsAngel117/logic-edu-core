@@ -6,6 +6,7 @@ import com.logossystemsit.logiceducore.application.academic.period.port.out.Acad
 import com.logossystemsit.logiceducore.application.academic.structure.port.out.AcademicStructureRepository;
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.application.membership.usecase.*;
+import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.application.user.usecase.*;
 import com.logossystemsit.logiceducore.domain.user.service.UserCreationPolicy;
@@ -19,6 +20,8 @@ import com.logossystemsit.logiceducore.infrastructure.academic.structure.persist
 import com.logossystemsit.logiceducore.infrastructure.academic.structure.persistence.repository.AcademicStructureJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.membership.persistence.adapter.MembershipRepositoryAdapter;
 import com.logossystemsit.logiceducore.infrastructure.membership.persistence.repository.MembershipJpaRepository;
+import com.logossystemsit.logiceducore.infrastructure.school.persistence.adapter.SchoolRepositoryAdapter;
+import com.logossystemsit.logiceducore.infrastructure.school.persistence.repository.SchoolJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.security.config.JwtProperties;
 import com.logossystemsit.logiceducore.infrastructure.security.service.JwtService;
 import com.logossystemsit.logiceducore.infrastructure.user.persistence.adapter.UserRepositoryAdapter;
@@ -80,6 +83,11 @@ public class HexagonalConfig {
     @Bean
     public EvaluationPeriodRepository evaluationPeriodRepositoryAdapter(EvaluationPeriodJpaRepository jpa) {
         return new EvaluationPeriodRepositoryAdapter(jpa);
+    }
+
+    @Bean
+    public SchoolRepository schoolRepositoryAdapter(SchoolJpaRepository jpa) {
+        return new SchoolRepositoryAdapter(jpa);
     }
 
     // ---- User Use Cases ----
