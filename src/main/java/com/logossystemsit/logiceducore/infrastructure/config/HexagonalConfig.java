@@ -10,6 +10,9 @@ import com.logossystemsit.logiceducore.application.school.port.out.SchoolReposit
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.application.user.usecase.*;
 import com.logossystemsit.logiceducore.domain.user.service.UserCreationPolicy;
+import com.logossystemsit.logiceducore.domain.user.service.UsernameBaseFormatter;
+import com.logossystemsit.logiceducore.domain.user.service.UsernameDisambiguator;
+import com.logossystemsit.logiceducore.domain.user.service.UsernameGenerator;
 import com.logossystemsit.logiceducore.infrastructure.academic.evaluation.persistence.adapter.EvaluationPeriodRepositoryAdapter;
 import com.logossystemsit.logiceducore.infrastructure.academic.evaluation.persistence.repository.EvaluationPeriodJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.academic.level.persistence.adapter.AcademicLevelRepositoryAdapter;
@@ -46,6 +49,23 @@ public class HexagonalConfig {
     @Bean
     public UserCreationPolicy userCreationPolicy() {
         return new UserCreationPolicy();
+    }
+
+    @Bean
+    public UsernameBaseFormatter usernameBaseFormatter() {
+        return new UsernameBaseFormatter();
+    }
+
+    @Bean
+    public UsernameDisambiguator usernameDisambiguator() {
+        return new UsernameDisambiguator();
+    }
+
+    @Bean
+    public UsernameGenerator usernameGenerator(
+            UsernameBaseFormatter formatter,
+            UsernameDisambiguator disambiguator) {
+        return new UsernameGenerator(formatter, disambiguator);
     }
 
     @Bean
@@ -97,8 +117,9 @@ public class HexagonalConfig {
             UserRepository userRepository,
             MembershipRepository membershipRepository,
             Clock clock,
-            UserCreationPolicy userCreationPolicy) {
-        return new CreateUserService(userRepository, membershipRepository, clock, userCreationPolicy);
+            UserCreationPolicy userCreationPolicy,
+            UsernameGenerator usernameGenerator) {
+        return new CreateUserService(userRepository, membershipRepository, clock, userCreationPolicy, usernameGenerator);
     }
 
     @Bean

@@ -11,6 +11,7 @@ import com.logossystemsit.logiceducore.domain.membership.model.valueobject.Scope
 import com.logossystemsit.logiceducore.domain.user.model.User;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.user.service.UserCreationPolicy;
+import com.logossystemsit.logiceducore.domain.user.service.UsernameGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.*;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -37,13 +39,15 @@ class CreateUserServiceTest {
     @Mock
     private Clock clock;
 
+    @Mock
+    private UsernameGenerator usernameGenerator;
+
     private final UserCreationPolicy policy = new UserCreationPolicy();
 
     private CreateUserUseCase useCase;
 
     private static final Instant FIXED_NOW = Instant.parse("2025-06-15T12:00:00Z");
     private static final UserId USER_ID = new UserId("123e4567-e89b-12d3-a456-426614174000");
-    private static final Username USERNAME = new Username("jdoe123");
     private static final Email EMAIL = new Email("jdoe@example.com");
     private static final PasswordHash PASSWORD = new PasswordHash(
             "$2a$10$abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890ab");
@@ -56,12 +60,14 @@ class CreateUserServiceTest {
     void setUp() {
         when(clock.instant()).thenReturn(FIXED_NOW);
         when(clock.getZone()).thenReturn(ZoneOffset.UTC);
-        useCase = new CreateUserService(userRepository, membershipRepository, clock, policy);
+        when(usernameGenerator.generate(NAME)).thenReturn(List.of("jdoe", "johndoe", "jdoe1"));
+        when(userRepository.existsByUsername(any(Username.class))).thenReturn(false);
+        useCase = new CreateUserService(userRepository, membershipRepository, clock, policy, usernameGenerator);
     }
 
     @Test
     void execute_shouldCreateUserAndMembership() {
-        CreateUserCommand command = new CreateUserCommand(USER_ID, USERNAME, EMAIL, PASSWORD,
+        CreateUserCommand command = new CreateUserCommand(USER_ID, EMAIL, PASSWORD,
                 NAME, User.Sex.MALE, BIRTH_DATE,
                 new Document(Document.DocumentType.CC, new DocumentNumber("1234567890")),
                 ROLE, SCOPE);
@@ -69,7 +75,7 @@ class CreateUserServiceTest {
         CreateUserResult result = useCase.execute(command);
 
         assertThat(result.userId()).isEqualTo(USER_ID);
-        assertThat(result.username()).isEqualTo("jdoe123");
+        assertThat(result.username()).isEqualTo("jdoe");
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userRepository).save(userCaptor.capture());
@@ -82,7 +88,7 @@ class CreateUserServiceTest {
 
     @Test
     void execute_shouldSetCorrectTimestamps() {
-        CreateUserCommand command = new CreateUserCommand(USER_ID, USERNAME, EMAIL, PASSWORD,
+        CreateUserCommand command = new CreateUserCommand(USER_ID, EMAIL, PASSWORD,
                 NAME, User.Sex.MALE, BIRTH_DATE,
                 new Document(Document.DocumentType.CC, new DocumentNumber("1234567890")),
                 ROLE, SCOPE);
@@ -98,8 +104,8 @@ class CreateUserServiceTest {
 
     @Test
     void execute_shouldRejectCCForMinor() {
-        LocalDate minorBirthDate = LocalDate.of(2015, 1, 15); // age 10 on 2025-06-15
-        CreateUserCommand command = new CreateUserCommand(USER_ID, USERNAME, EMAIL, PASSWORD,
+        LocalDate minorBirthDate = LocalDate.of(2015, 1, 15);
+        CreateUserCommand command = new CreateUserCommand(USER_ID, EMAIL, PASSWORD,
                 NAME, User.Sex.MALE, minorBirthDate,
                 new Document(Document.DocumentType.CC, new DocumentNumber("1234567890")),
                 ROLE, SCOPE);
@@ -111,8 +117,8 @@ class CreateUserServiceTest {
 
     @Test
     void execute_shouldRejectTIForAdult() {
-        LocalDate adultBirthDate = LocalDate.of(1990, 1, 15); // age 35 on 2025-06-15
-        CreateUserCommand command = new CreateUserCommand(USER_ID, USERNAME, EMAIL, PASSWORD,
+        LocalDate adultBirthDate = LocalDate.of(1990, 1, 15);
+        CreateUserCommand command = new CreateUserCommand(USER_ID, EMAIL, PASSWORD,
                 NAME, User.Sex.MALE, adultBirthDate,
                 new Document(Document.DocumentType.TI, new DocumentNumber("1234567890")),
                 ROLE, SCOPE);
