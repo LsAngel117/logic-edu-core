@@ -1,10 +1,13 @@
 package com.logossystemsit.logiceducore.infrastructure.config;
 
+import com.logossystemsit.logiceducore.application.academic.structure.port.out.AcademicStructureRepository;
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.application.membership.usecase.*;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.application.user.usecase.*;
 import com.logossystemsit.logiceducore.domain.user.service.UserCreationPolicy;
+import com.logossystemsit.logiceducore.infrastructure.academic.structure.persistence.adapter.AcademicStructureRepositoryAdapter;
+import com.logossystemsit.logiceducore.infrastructure.academic.structure.persistence.repository.AcademicStructureJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.membership.persistence.adapter.MembershipRepositoryAdapter;
 import com.logossystemsit.logiceducore.infrastructure.membership.persistence.repository.MembershipJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.security.config.JwtProperties;
@@ -48,6 +51,11 @@ public class HexagonalConfig {
     @Bean
     public MembershipRepository membershipRepositoryAdapter(MembershipJpaRepository jpa) {
         return new MembershipRepositoryAdapter(jpa);
+    }
+
+    @Bean
+    public AcademicStructureRepository academicStructureRepositoryAdapter(AcademicStructureJpaRepository jpa) {
+        return new AcademicStructureRepositoryAdapter(jpa);
     }
 
     // ---- User Use Cases ----
