@@ -1,5 +1,6 @@
 package com.logossystemsit.logiceducore.infrastructure.config;
 
+import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.EvaluationPeriodRepository;
 import com.logossystemsit.logiceducore.application.academic.level.port.out.AcademicLevelRepository;
 import com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository;
@@ -9,6 +10,8 @@ import com.logossystemsit.logiceducore.application.branch.port.out.BranchReposit
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
+import com.logossystemsit.logiceducore.infrastructure.academic.group.persistence.adapter.GroupRepositoryAdapter;
+import com.logossystemsit.logiceducore.infrastructure.academic.group.persistence.repository.GroupJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.academic.evaluation.persistence.adapter.EvaluationPeriodRepositoryAdapter;
 import com.logossystemsit.logiceducore.infrastructure.academic.evaluation.persistence.repository.EvaluationPeriodJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.academic.level.persistence.adapter.AcademicLevelRepositoryAdapter;
@@ -76,5 +79,10 @@ public class PersistenceConfig {
     @Bean
     public SubjectRepository subjectRepositoryAdapter(SubjectJpaRepository jpa) {
         return new SubjectRepositoryAdapter(jpa);
+    }
+
+    @Bean
+    public GroupRepository groupRepositoryAdapter(GroupJpaRepository jpa) {
+        return new GroupRepositoryAdapter(jpa);
     }
 }

@@ -38,7 +38,8 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
 
                                 "/api/v1/users", // TEMPORAL
-                                "/api/v1/memberships" // TEMPORAL
+                                "/api/v1/memberships", // TEMPORAL
+                                "/api/v1/schools/**" // TEMPORAL
                         ).permitAll()
                         .requestMatchers("/api/v1/**").authenticated()
                         .anyRequest().authenticated())

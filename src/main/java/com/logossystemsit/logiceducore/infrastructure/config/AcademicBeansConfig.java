@@ -8,8 +8,12 @@ import com.logossystemsit.logiceducore.application.academic.period.port.out.Acad
 import com.logossystemsit.logiceducore.application.academic.period.usecase.*;
 import com.logossystemsit.logiceducore.application.academic.structure.port.out.AcademicStructureRepository;
 import com.logossystemsit.logiceducore.application.academic.structure.usecase.*;
+import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
+import com.logossystemsit.logiceducore.application.academic.group.usecase.*;
 import com.logossystemsit.logiceducore.application.academic.subject.port.out.SubjectRepository;
 import com.logossystemsit.logiceducore.application.academic.subject.usecase.*;
+import com.logossystemsit.logiceducore.application.branch.port.out.BranchRepository;
+import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -186,5 +190,57 @@ public class AcademicBeansConfig {
             SubjectRepository repository,
             Clock clock) {
         return new DeactivateSubjectService(repository, clock);
+    }
+
+    // ---- Group Use Cases ----
+
+    @Bean
+    public CreateGroupService createGroupService(
+            GroupRepository groupRepository,
+            SchoolRepository schoolRepository,
+            SubjectRepository subjectRepository,
+            com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository periodRepository,
+            BranchRepository branchRepository,
+            com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository membershipRepository,
+            Clock clock) {
+        return new CreateGroupService(groupRepository, schoolRepository, subjectRepository,
+                periodRepository, branchRepository, membershipRepository, clock);
+    }
+
+    @Bean
+    public GetGroupService getGroupService(GroupRepository groupRepository) {
+        return new GetGroupService(groupRepository);
+    }
+
+    @Bean
+    public ListGroupsBySchoolService listGroupsBySchoolService(GroupRepository groupRepository) {
+        return new ListGroupsBySchoolService(groupRepository);
+    }
+
+    @Bean
+    public UpdateGroupService updateGroupService(
+            GroupRepository groupRepository,
+            SchoolRepository schoolRepository,
+            SubjectRepository subjectRepository,
+            com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository periodRepository,
+            BranchRepository branchRepository,
+            MembershipRepository membershipRepository,
+            Clock clock) {
+        return new UpdateGroupService(groupRepository, schoolRepository, subjectRepository,
+                periodRepository, branchRepository, membershipRepository, clock);
+    }
+
+    @Bean
+    public UpdateGroupSchedulesService updateGroupSchedulesService(
+            GroupRepository groupRepository,
+            Clock clock) {
+        return new UpdateGroupSchedulesService(groupRepository, clock);
+    }
+
+    @Bean
+    public DeactivateGroupService deactivateGroupService(
+            GroupRepository groupRepository,
+            Clock clock) {
+        return new DeactivateGroupService(groupRepository, clock);
     }
 }
