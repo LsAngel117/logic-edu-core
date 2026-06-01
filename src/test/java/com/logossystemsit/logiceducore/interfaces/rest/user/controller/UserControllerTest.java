@@ -181,7 +181,6 @@ class UserControllerTest {
 
     private static CreateUserRequest validCreateUserRequest() {
         return new CreateUserRequest(
-                "johnsmith",
                 "john@example.com",
                 "password123",
                 "John",

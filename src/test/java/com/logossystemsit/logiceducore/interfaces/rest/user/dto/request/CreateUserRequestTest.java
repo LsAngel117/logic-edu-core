@@ -9,7 +9,6 @@ class CreateUserRequestTest {
     @Test
     void shouldCreateCreateUserRequestWithAllFields() {
         CreateUserRequest request = new CreateUserRequest(
-                "jdoe",
                 "john@example.com",
                 "secretPassword",
                 "John",
@@ -25,7 +24,6 @@ class CreateUserRequestTest {
                 "school-001"
         );
 
-        assertThat(request.username()).isEqualTo("jdoe");
         assertThat(request.email()).isEqualTo("john@example.com");
         assertThat(request.rawPassword()).isEqualTo("secretPassword");
         assertThat(request.firstGivenName()).isEqualTo("John");
@@ -38,7 +36,6 @@ class CreateUserRequestTest {
     @Test
     void shouldCreateCreateUserRequestWithNullableFieldsNull() {
         CreateUserRequest request = new CreateUserRequest(
-                "jdoe",
                 "john@example.com",
                 "secretPassword",
                 "John",
