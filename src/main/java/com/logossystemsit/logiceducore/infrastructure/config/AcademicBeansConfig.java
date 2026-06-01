@@ -10,6 +10,8 @@ import com.logossystemsit.logiceducore.application.academic.structure.port.out.A
 import com.logossystemsit.logiceducore.application.academic.structure.usecase.*;
 import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
 import com.logossystemsit.logiceducore.application.academic.group.usecase.*;
+import com.logossystemsit.logiceducore.application.academic.attendance.port.out.AttendanceRepository;
+import com.logossystemsit.logiceducore.application.academic.attendance.usecase.*;
 import com.logossystemsit.logiceducore.application.academic.subject.port.out.SubjectRepository;
 import com.logossystemsit.logiceducore.application.academic.subject.usecase.*;
 import com.logossystemsit.logiceducore.application.branch.port.out.BranchRepository;
@@ -273,5 +275,35 @@ public class AcademicBeansConfig {
             com.logossystemsit.logiceducore.application.academic.enrollment.port.out.EnrollmentRepository enrollmentRepository,
             Clock clock) {
         return new com.logossystemsit.logiceducore.application.academic.enrollment.usecase.DropEnrollmentService(enrollmentRepository, clock);
+    }
+
+    // ---- Attendance Use Cases ----
+
+    @Bean
+    public RegisterAttendanceService registerAttendanceService(
+            AttendanceRepository attendanceRepository,
+            GroupRepository groupRepository,
+            Clock clock) {
+        return new RegisterAttendanceService(attendanceRepository, groupRepository, clock);
+    }
+
+    @Bean
+    public GetAttendanceByDateService getAttendanceByDateService(
+            AttendanceRepository attendanceRepository) {
+        return new GetAttendanceByDateService(attendanceRepository);
+    }
+
+    @Bean
+    public ListAttendancesByGroupService listAttendancesByGroupService(
+            AttendanceRepository attendanceRepository) {
+        return new ListAttendancesByGroupService(attendanceRepository);
+    }
+
+    @Bean
+    public UpdateAttendanceService updateAttendanceService(
+            AttendanceRepository attendanceRepository,
+            GroupRepository groupRepository,
+            Clock clock) {
+        return new UpdateAttendanceService(attendanceRepository, groupRepository, clock);
     }
 }
