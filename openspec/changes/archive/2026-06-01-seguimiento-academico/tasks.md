@@ -43,28 +43,28 @@ Chain strategy: pending
 
 ## Phase 3: Assessment — Domain + App + Infra + REST + Tests
 
-- [ ] 3.1 Domain: `AssessmentId` VO, `Assessment` aggregate (create/restore/changeData) with weight>0 and maxScore>0 validation, unit tests
-- [ ] 3.2 App port/in: `CreateAssessmentUseCase`, `GetAssessmentUseCase`, `ListAssessmentsUseCase`, `UpdateAssessmentUseCase`, `DeleteAssessmentUseCase`
-- [ ] 3.3 App port/out: `AssessmentRepository` — save/findById/findByGroupId/existsByNameInGroup
-- [ ] 3.4 App DTOs: `CreateAssessmentCommand`, `UpdateAssessmentCommand`, `AssessmentResult`
-- [ ] 3.5 App services: `CreateAssessmentService`, `GetAssessmentService`, `ListAssessmentsService`, `UpdateAssessmentService`, `DeleteAssessmentService` (grade count guard → 409) — Mockito tests
-- [ ] 3.6 Infra: `AssessmentEntity`, `AssessmentJpaRepository`, `AssessmentRepositoryAdapter` — `@DataJpaTest` + map roundtrip
-- [ ] 3.7 REST DTOs: `CreateAssessmentRequest`, `UpdateAssessmentRequest`, `AssessmentResponse`
-- [ ] 3.8 REST: `AssessmentController` under `/api/v1/groups/{groupId}/assessments` — `@WebMvcTest` covering delete-with-grades 409
+- [x] 3.1 Domain: `AssessmentId` VO, `Assessment` aggregate (create/restore/changeData) with weight>0 and maxScore>0 validation, unit tests
+- [x] 3.2 App port/in: `CreateAssessmentUseCase`, `GetAssessmentUseCase`, `ListAssessmentsUseCase`, `UpdateAssessmentUseCase`, `DeleteAssessmentUseCase`
+- [x] 3.3 App port/out: `AssessmentRepository` — save/findById/findByGroupId/existsByNameInGroup
+- [x] 3.4 App DTOs: `CreateAssessmentCommand`, `UpdateAssessmentCommand`, `AssessmentResult`
+- [x] 3.5 App services: `CreateAssessmentService`, `GetAssessmentService`, `ListAssessmentsService`, `UpdateAssessmentService`, `DeleteAssessmentService` (grade count guard → 409) — Mockito tests
+- [x] 3.6 Infra: `AssessmentEntity`, `AssessmentJpaRepository`, `AssessmentRepositoryAdapter` — `@DataJpaTest` + map roundtrip
+- [x] 3.7 REST DTOs: `CreateAssessmentRequest`, `UpdateAssessmentRequest`, `AssessmentResponse`
+- [x] 3.8 REST: `AssessmentController` under `/api/v1/groups/{groupId}/assessments` — `@WebMvcTest` covering delete-with-grades 409
 
 ## Phase 4: Grade — Domain + App + Infra + REST + Tests
 
-- [ ] 4.1 Domain: `GradeId` VO, `Grade` aggregate (create/restore), unit tests
-- [ ] 4.2 App port/in: `RegisterGradeUseCase`, `GetGradeUseCase`, `ListGradesByAssessmentUseCase`, `UpdateGradeUseCase`
-- [ ] 4.3 App port/out: `GradeRepository` — save/findById/findByAssessmentId/findByAssessmentIdAndStudentId/countByAssessmentId
-- [ ] 4.4 App DTOs: `RegisterGradeCommand`, `UpdateGradeCommand`, `GradeResult`
-- [ ] 4.5 App services: `RegisterGradeService` (cross-aggregate: Assessment→Group→teacherId + maxScore check), `GetGradeService`, `ListGradesByAssessmentService`, `UpdateGradeService` (same auth chain) — Mockito tests
-- [ ] 4.6 Infra: `GradeEntity`, `GradeJpaRepository`, `GradeRepositoryAdapter` — `@DataJpaTest`
-- [ ] 4.7 REST DTOs: `RegisterGradeRequest`, `UpdateGradeRequest`, `GradeResponse`
-- [ ] 4.8 REST: `GradeController` under `/api/v1/assessments/{assessmentId}/grades` — `@WebMvcTest` covering value>maxScore 422 and cross-aggregate auth 403
+- [x] 4.1 Domain: `GradeId` VO, `Grade` aggregate (create/restore), unit tests
+- [x] 4.2 App port/in: `RegisterGradeUseCase`, `GetGradeUseCase`, `ListGradesByAssessmentUseCase`, `UpdateGradeUseCase`
+- [x] 4.3 App port/out: `GradeRepository` — save/findById/findByAssessmentId/findByAssessmentIdAndStudentId/countByAssessmentId
+- [x] 4.4 App DTOs: `RegisterGradeCommand`, `UpdateGradeCommand`, `GradeResult`
+- [x] 4.5 App services: `RegisterGradeService` (cross-aggregate: Assessment→Group→teacherId + maxScore check), `GetGradeService`, `ListGradesByAssessmentService`, `UpdateGradeService` (same auth chain) — Mockito tests
+- [x] 4.6 Infra: `GradeEntity`, `GradeJpaRepository`, `GradeRepositoryAdapter` — `@DataJpaTest`
+- [x] 4.7 REST DTOs: `RegisterGradeRequest`, `UpdateGradeRequest`, `GradeResponse`
+- [x] 4.8 REST: `GradeController` under `/api/v1/assessments/{assessmentId}/grades` — `@WebMvcTest` covering value>maxScore 422 and cross-aggregate auth 403
 
 ## Phase 5: Wiring
 
-- [ ] 5.1 Add `findGroupByAssessmentId(Long assessmentId)` to `GroupRepository` port
-- [ ] 5.2 Wire all 13 service beans in `AcademicBeansConfig` + 3 adapter beans in `PersistenceConfig`
-- [ ] 5.3 Run `./gradlew build`, fix compilation issues, verify all tests pass
+- [x] 5.1 Add `findGroupByAssessmentId(Long assessmentId)` to `GroupRepository` port (skipped — current two-step approach via `assessment.getGroupId()` works and is simpler)
+- [x] 5.2 Wire all 13 service beans in `AcademicBeansConfig` + 3 adapter beans in `PersistenceConfig`
+- [x] 5.3 Run `./gradlew build`, fix compilation issues, verify all tests pass

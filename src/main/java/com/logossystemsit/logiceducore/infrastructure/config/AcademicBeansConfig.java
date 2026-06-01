@@ -10,8 +10,12 @@ import com.logossystemsit.logiceducore.application.academic.structure.port.out.A
 import com.logossystemsit.logiceducore.application.academic.structure.usecase.*;
 import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
 import com.logossystemsit.logiceducore.application.academic.group.usecase.*;
+import com.logossystemsit.logiceducore.application.academic.assessment.port.out.AssessmentRepository;
+import com.logossystemsit.logiceducore.application.academic.assessment.usecase.*;
 import com.logossystemsit.logiceducore.application.academic.attendance.port.out.AttendanceRepository;
 import com.logossystemsit.logiceducore.application.academic.attendance.usecase.*;
+import com.logossystemsit.logiceducore.application.academic.grade.port.out.GradeRepository;
+import com.logossystemsit.logiceducore.application.academic.grade.usecase.*;
 import com.logossystemsit.logiceducore.application.academic.subject.port.out.SubjectRepository;
 import com.logossystemsit.logiceducore.application.academic.subject.usecase.*;
 import com.logossystemsit.logiceducore.application.branch.port.out.BranchRepository;
@@ -305,5 +309,80 @@ public class AcademicBeansConfig {
             GroupRepository groupRepository,
             Clock clock) {
         return new UpdateAttendanceService(attendanceRepository, groupRepository, clock);
+    }
+
+    // ---- Assessment Use Cases ----
+
+    @Bean
+    public CreateAssessmentService createAssessmentService(
+            AssessmentRepository assessmentRepository,
+            GroupRepository groupRepository,
+            EvaluationPeriodRepository evaluationPeriodRepository,
+            Clock clock) {
+        return new CreateAssessmentService(
+                assessmentRepository, groupRepository, evaluationPeriodRepository, clock);
+    }
+
+    @Bean
+    public GetAssessmentService getAssessmentService(
+            AssessmentRepository assessmentRepository) {
+        return new GetAssessmentService(assessmentRepository);
+    }
+
+    @Bean
+    public ListAssessmentsByGroupService listAssessmentsByGroupService(
+            AssessmentRepository assessmentRepository) {
+        return new ListAssessmentsByGroupService(assessmentRepository);
+    }
+
+    @Bean
+    public UpdateAssessmentService updateAssessmentService(
+            AssessmentRepository assessmentRepository,
+            GroupRepository groupRepository,
+            Clock clock) {
+        return new UpdateAssessmentService(assessmentRepository, groupRepository, clock);
+    }
+
+    @Bean
+    public DeleteAssessmentService deleteAssessmentService(
+            AssessmentRepository assessmentRepository,
+            GroupRepository groupRepository,
+            GradeRepository gradeRepository,
+            Clock clock) {
+        return new DeleteAssessmentService(assessmentRepository, groupRepository, gradeRepository, clock);
+    }
+
+    // ---- Grade Use Cases ----
+
+    @Bean
+    public RegisterGradeService registerGradeService(
+            GradeRepository gradeRepository,
+            AssessmentRepository assessmentRepository,
+            GroupRepository groupRepository,
+            com.logossystemsit.logiceducore.application.user.port.out.UserRepository userRepository,
+            Clock clock) {
+        return new RegisterGradeService(
+                gradeRepository, assessmentRepository, groupRepository, userRepository, clock);
+    }
+
+    @Bean
+    public GetGradeService getGradeService(
+            GradeRepository gradeRepository) {
+        return new GetGradeService(gradeRepository);
+    }
+
+    @Bean
+    public ListGradesByAssessmentService listGradesByAssessmentService(
+            GradeRepository gradeRepository) {
+        return new ListGradesByAssessmentService(gradeRepository);
+    }
+
+    @Bean
+    public UpdateGradeService updateGradeService(
+            GradeRepository gradeRepository,
+            AssessmentRepository assessmentRepository,
+            GroupRepository groupRepository,
+            Clock clock) {
+        return new UpdateGradeService(gradeRepository, assessmentRepository, groupRepository, clock);
     }
 }

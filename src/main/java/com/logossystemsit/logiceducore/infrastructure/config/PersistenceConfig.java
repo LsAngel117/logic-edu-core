@@ -1,6 +1,8 @@
 package com.logossystemsit.logiceducore.infrastructure.config;
 
+import com.logossystemsit.logiceducore.application.academic.assessment.port.out.AssessmentRepository;
 import com.logossystemsit.logiceducore.application.academic.attendance.port.out.AttendanceRepository;
+import com.logossystemsit.logiceducore.application.academic.grade.port.out.GradeRepository;
 import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
 import com.logossystemsit.logiceducore.application.academic.enrollment.port.out.EnrollmentRepository;
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.EvaluationPeriodRepository;
@@ -12,8 +14,12 @@ import com.logossystemsit.logiceducore.application.branch.port.out.BranchReposit
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
+import com.logossystemsit.logiceducore.infrastructure.academic.assessment.persistence.adapter.AssessmentRepositoryAdapter;
+import com.logossystemsit.logiceducore.infrastructure.academic.assessment.persistence.repository.AssessmentJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.academic.attendance.persistence.adapter.AttendanceRepositoryAdapter;
 import com.logossystemsit.logiceducore.infrastructure.academic.attendance.persistence.repository.AttendanceJpaRepository;
+import com.logossystemsit.logiceducore.infrastructure.academic.grade.persistence.adapter.GradeRepositoryAdapter;
+import com.logossystemsit.logiceducore.infrastructure.academic.grade.persistence.repository.GradeJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.academic.group.persistence.adapter.GroupRepositoryAdapter;
 import com.logossystemsit.logiceducore.infrastructure.academic.group.persistence.repository.GroupJpaRepository;
 import com.logossystemsit.logiceducore.infrastructure.academic.enrollment.persistence.adapter.EnrollmentRepositoryAdapter;
@@ -100,5 +106,15 @@ public class PersistenceConfig {
     @Bean
     public AttendanceRepository attendanceRepositoryAdapter(AttendanceJpaRepository jpa) {
         return new AttendanceRepositoryAdapter(jpa);
+    }
+
+    @Bean
+    public AssessmentRepository assessmentRepositoryAdapter(AssessmentJpaRepository jpa) {
+        return new AssessmentRepositoryAdapter(jpa);
+    }
+
+    @Bean
+    public GradeRepository gradeRepositoryAdapter(GradeJpaRepository jpa) {
+        return new GradeRepositoryAdapter(jpa);
     }
 }
