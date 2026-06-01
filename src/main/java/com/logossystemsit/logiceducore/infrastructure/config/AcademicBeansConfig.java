@@ -8,6 +8,9 @@ import com.logossystemsit.logiceducore.application.academic.period.port.out.Acad
 import com.logossystemsit.logiceducore.application.academic.period.usecase.*;
 import com.logossystemsit.logiceducore.application.academic.structure.port.out.AcademicStructureRepository;
 import com.logossystemsit.logiceducore.application.academic.structure.usecase.*;
+import com.logossystemsit.logiceducore.application.academic.subject.port.out.SubjectRepository;
+import com.logossystemsit.logiceducore.application.academic.subject.usecase.*;
+import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -147,5 +150,41 @@ public class AcademicBeansConfig {
             EvaluationPeriodRepository repository,
             Clock clock) {
         return new DeactivateEvaluationPeriodService(repository, clock);
+    }
+
+    // ---- Subject Use Cases ----
+
+    @Bean
+    public CreateSubjectService createSubjectService(
+            SubjectRepository subjectRepository,
+            SchoolRepository schoolRepository,
+            Clock clock) {
+        return new CreateSubjectService(subjectRepository, schoolRepository, clock);
+    }
+
+    @Bean
+    public GetSubjectService getSubjectService(
+            SubjectRepository repository) {
+        return new GetSubjectService(repository);
+    }
+
+    @Bean
+    public ListSubjectsBySchoolService listSubjectsBySchoolService(
+            SubjectRepository repository) {
+        return new ListSubjectsBySchoolService(repository);
+    }
+
+    @Bean
+    public UpdateSubjectService updateSubjectService(
+            SubjectRepository repository,
+            Clock clock) {
+        return new UpdateSubjectService(repository, clock);
+    }
+
+    @Bean
+    public DeactivateSubjectService deactivateSubjectService(
+            SubjectRepository repository,
+            Clock clock) {
+        return new DeactivateSubjectService(repository, clock);
     }
 }
