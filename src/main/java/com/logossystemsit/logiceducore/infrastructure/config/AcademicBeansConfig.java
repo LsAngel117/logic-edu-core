@@ -243,4 +243,35 @@ public class AcademicBeansConfig {
             Clock clock) {
         return new DeactivateGroupService(groupRepository, clock);
     }
+
+    // ---- Enrollment Use Cases ----
+
+    @Bean
+    public com.logossystemsit.logiceducore.application.academic.enrollment.usecase.EnrollStudentService enrollStudentService(
+            com.logossystemsit.logiceducore.application.academic.enrollment.port.out.EnrollmentRepository enrollmentRepository,
+            GroupRepository groupRepository,
+            com.logossystemsit.logiceducore.application.user.port.out.UserRepository userRepository,
+            Clock clock) {
+        return new com.logossystemsit.logiceducore.application.academic.enrollment.usecase.EnrollStudentService(
+                enrollmentRepository, groupRepository, userRepository, clock);
+    }
+
+    @Bean
+    public com.logossystemsit.logiceducore.application.academic.enrollment.usecase.GetEnrollmentService getEnrollmentService(
+            com.logossystemsit.logiceducore.application.academic.enrollment.port.out.EnrollmentRepository enrollmentRepository) {
+        return new com.logossystemsit.logiceducore.application.academic.enrollment.usecase.GetEnrollmentService(enrollmentRepository);
+    }
+
+    @Bean
+    public com.logossystemsit.logiceducore.application.academic.enrollment.usecase.ListEnrollmentsByGroupService listEnrollmentsByGroupService(
+            com.logossystemsit.logiceducore.application.academic.enrollment.port.out.EnrollmentRepository enrollmentRepository) {
+        return new com.logossystemsit.logiceducore.application.academic.enrollment.usecase.ListEnrollmentsByGroupService(enrollmentRepository);
+    }
+
+    @Bean
+    public com.logossystemsit.logiceducore.application.academic.enrollment.usecase.DropEnrollmentService dropEnrollmentService(
+            com.logossystemsit.logiceducore.application.academic.enrollment.port.out.EnrollmentRepository enrollmentRepository,
+            Clock clock) {
+        return new com.logossystemsit.logiceducore.application.academic.enrollment.usecase.DropEnrollmentService(enrollmentRepository, clock);
+    }
 }
