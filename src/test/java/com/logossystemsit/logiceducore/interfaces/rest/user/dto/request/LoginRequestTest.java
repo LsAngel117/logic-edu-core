@@ -8,9 +8,9 @@ class LoginRequestTest {
 
     @Test
     void shouldCreateLoginRequest() {
-        LoginRequest request = new LoginRequest("jdoe", "secretPassword");
+        LoginRequest request = new LoginRequest("jdoe@example.com", "secretPassword");
 
-        assertThat(request.username()).isEqualTo("jdoe");
+        assertThat(request.email()).isEqualTo("jdoe@example.com");
         assertThat(request.rawPassword()).isEqualTo("secretPassword");
     }
 
@@ -18,7 +18,7 @@ class LoginRequestTest {
     void shouldCreateLoginRequestWithEmptyFields() {
         LoginRequest request = new LoginRequest("", "");
 
-        assertThat(request.username()).isEmpty();
+        assertThat(request.email()).isEmpty();
         assertThat(request.rawPassword()).isEmpty();
     }
 }

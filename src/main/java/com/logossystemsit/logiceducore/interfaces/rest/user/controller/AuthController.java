@@ -67,9 +67,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
-        Username username = new Username(request.username());
+        Email email = new Email(request.email());
 
-        var user = userRepository.findByUsername(username)
+        var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"));
 
         LoginCommand command = new LoginCommand(user.getId(), request.rawPassword());

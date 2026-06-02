@@ -115,12 +115,12 @@ class AuthControllerTest {
 
     @Test
     void loginWithValidCredentialsShouldReturn200WithAuthResponse() throws Exception {
-        LoginRequest request = new LoginRequest("johnsmith", "password123");
+        LoginRequest request = new LoginRequest("john@example.com", "password123");
         UserId userId = UserId.generate();
         LoginResult result = new LoginResult("test-jwt-token", userId, "johnsmith");
         User user = mockUser(userId);
 
-        when(userRepository.findByUsername(any())).thenReturn(Optional.of(user));
+        when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
         when(authenticateUserUseCase.execute(any(LoginCommand.class))).thenReturn(result);
 
         mockMvc.perform(post("/auth/login")
@@ -134,9 +134,9 @@ class AuthControllerTest {
 
     @Test
     void loginWithUnknownUsernameShouldReturn401() throws Exception {
-        LoginRequest request = new LoginRequest("unknownuser", "password123");
+        LoginRequest request = new LoginRequest("unknown@example.com", "password123");
 
-        when(userRepository.findByUsername(any())).thenReturn(Optional.empty());
+        when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
 
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -146,11 +146,11 @@ class AuthControllerTest {
 
     @Test
     void loginWithInvalidPasswordShouldReturn401() throws Exception {
-        LoginRequest request = new LoginRequest("johnsmith", "wrongpassword");
+        LoginRequest request = new LoginRequest("john@example.com", "wrongpassword");
         UserId userId = UserId.generate();
         User user = mockUser(userId);
 
-        when(userRepository.findByUsername(any())).thenReturn(Optional.of(user));
+        when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
         when(authenticateUserUseCase.execute(any(LoginCommand.class)))
                 .thenThrow(new IllegalArgumentException("Invalid credentials"));
 
