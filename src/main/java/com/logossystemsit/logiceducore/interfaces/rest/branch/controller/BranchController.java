@@ -10,6 +10,11 @@ import com.logossystemsit.logiceducore.interfaces.rest.branch.dto.request.Create
 import com.logossystemsit.logiceducore.interfaces.rest.branch.dto.request.UpdateBranchRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.branch.dto.response.BranchResponse;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/schools/{schoolId}/branches")
+@Tag(name = "Sedes", description = "Administración de sedes por institución")
 public class BranchController {
 
     private final CreateBranchUseCase createBranchUseCase;
@@ -40,8 +46,18 @@ public class BranchController {
     }
 
     @PostMapping
+    @Operation(summary = "Crear sede", description = "Registra una nueva sede para una institución")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recurso creado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<BranchResponse> createBranch(@PathVariable String schoolId,
-                                                         @RequestBody CreateBranchRequest request) {
+                                                          @RequestBody CreateBranchRequest request) {
         try {
             CreateBranchCommand command = mapToCreateCommand(schoolId, request);
             BranchResult result = createBranchUseCase.execute(command);
@@ -54,8 +70,18 @@ public class BranchController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Obtener sede", description = "Consulta una sede por su ID")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<BranchResponse> getBranch(@PathVariable String schoolId,
-                                                      @PathVariable String id) {
+                                                       @PathVariable String id) {
         try {
             SchoolId sId = new SchoolId(schoolId);
             BranchId bId = BranchId.of(id);
@@ -67,6 +93,16 @@ public class BranchController {
     }
 
     @GetMapping
+    @Operation(summary = "Listar sedes", description = "Obtiene todas las sedes de una institución")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<BranchResponse>> listBranches(@PathVariable String schoolId) {
         SchoolId sId = new SchoolId(schoolId);
         List<BranchResult> results = listBranchesBySchoolUseCase.execute(sId);
@@ -77,9 +113,19 @@ public class BranchController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Actualizar sede", description = "Modifica los datos de una sede")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<BranchResponse> updateBranch(@PathVariable String schoolId,
-                                                         @PathVariable String id,
-                                                         @RequestBody UpdateBranchRequest request) {
+                                                          @PathVariable String id,
+                                                          @RequestBody UpdateBranchRequest request) {
         try {
             UpdateBranchCommand command = mapToUpdateCommand(schoolId, id, request);
             BranchResult result = updateBranchUseCase.execute(command);
@@ -92,8 +138,18 @@ public class BranchController {
     }
 
     @PatchMapping("/{id}/deactivate")
+    @Operation(summary = "Desactivar sede", description = "Desactiva una sede")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<BranchResponse> deactivateBranch(@PathVariable String schoolId,
-                                                             @PathVariable String id) {
+                                                              @PathVariable String id) {
         try {
             SchoolId sId = new SchoolId(schoolId);
             BranchId bId = BranchId.of(id);
@@ -155,9 +211,6 @@ public class BranchController {
     }
 
     private BranchType resolveType(CreateBranchRequest r) {
-        // For REST requests without explicit type, default to MAIN for first branch, SECONDARY for others
-        // Since the request doesn't have type field, we infer from address presence:
-        // VIRTUAL: no address; MAIN: has address
         boolean hasAddress = r.address() != null && !r.address().isBlank();
         return hasAddress ? BranchType.MAIN : BranchType.VIRTUAL;
     }
