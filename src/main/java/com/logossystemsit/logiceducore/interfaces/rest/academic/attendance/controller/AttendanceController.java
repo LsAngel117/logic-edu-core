@@ -10,6 +10,12 @@ import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.attendance.dto.request.RegisterAttendanceRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.attendance.dto.request.UpdateAttendanceRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.attendance.dto.response.AttendanceResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +28,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/groups/{groupId}/attendances")
+@Tag(name = "Asistencia", description = "Registro y consulta de asistencia por sesión")
 public class AttendanceController {
 
     private final RegisterAttendanceUseCase registerUseCase;
@@ -42,6 +49,16 @@ public class AttendanceController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('TEACHER','SCHOOL_ADMIN')")
+    @Operation(summary = "Registrar asistencia", description = "Registra la asistencia de estudiantes en una sesión")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recurso creado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AttendanceResponse> register(
             @PathVariable String groupId,
             @RequestBody RegisterAttendanceRequest request,
@@ -65,6 +82,16 @@ public class AttendanceController {
 
     @GetMapping("/{date}")
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Obtener asistencia", description = "Consulta la asistencia de una fecha específica")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<AttendanceResponse>> getByDate(
             @PathVariable String groupId,
             @PathVariable String date) {
@@ -78,6 +105,16 @@ public class AttendanceController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Listar asistencias", description = "Obtiene el historial de asistencia de un grupo")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<AttendanceResponse>> listByGroup(@PathVariable String groupId) {
         List<AttendanceResult> results = listUseCase.execute(new GroupId(groupId));
         List<AttendanceResponse> responses = results.stream()
@@ -88,6 +125,16 @@ public class AttendanceController {
 
     @PutMapping("/{date}/{studentId}")
     @PreAuthorize("hasAnyRole('TEACHER','SCHOOL_ADMIN')")
+    @Operation(summary = "Actualizar asistencia", description = "Modifica el estado de asistencia de un estudiante")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AttendanceResponse> update(
             @PathVariable String groupId,
             @PathVariable String date,

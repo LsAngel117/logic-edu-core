@@ -12,6 +12,12 @@ import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.assessment.dto.request.CreateAssessmentRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.assessment.dto.request.UpdateAssessmentRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.assessment.dto.response.AssessmentResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +29,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/groups/{groupId}/assessments")
+@Tag(name = "Evaluaciones", description = "Creación y gestión de actividades evaluables")
 public class AssessmentController {
 
     private final CreateAssessmentUseCase createUseCase;
@@ -46,6 +53,16 @@ public class AssessmentController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('TEACHER','SCHOOL_ADMIN')")
+    @Operation(summary = "Crear evaluación", description = "Crea una actividad evaluable para un grupo")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recurso creado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AssessmentResponse> create(
             @PathVariable String groupId,
             @RequestBody CreateAssessmentRequest request,
@@ -77,6 +94,16 @@ public class AssessmentController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Obtener evaluación", description = "Consulta una evaluación por su ID")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AssessmentResponse> getById(
             @PathVariable String groupId,
             @PathVariable String id) {
@@ -93,6 +120,16 @@ public class AssessmentController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Listar evaluaciones", description = "Obtiene las evaluaciones de un grupo")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<AssessmentResponse>> listByGroup(@PathVariable String groupId) {
         List<AssessmentResult> results = listUseCase.execute(new GroupId(groupId));
         List<AssessmentResponse> responses = results.stream()
@@ -103,6 +140,16 @@ public class AssessmentController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('TEACHER','SCHOOL_ADMIN')")
+    @Operation(summary = "Actualizar evaluación", description = "Modifica una actividad evaluable")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AssessmentResponse> update(
             @PathVariable String groupId,
             @PathVariable String id,
@@ -135,6 +182,16 @@ public class AssessmentController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('TEACHER','SCHOOL_ADMIN')")
+    @Operation(summary = "Eliminar evaluación", description = "Elimina una evaluación si no tiene calificaciones registradas")
+    @ApiResponses({
+        @ApiResponse(responseCode = "204", description = "Operación exitosa sin contenido"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<Void> delete(
             @PathVariable String groupId,
             @PathVariable String id,

@@ -8,6 +8,12 @@ import com.logossystemsit.logiceducore.domain.academic.group.model.GroupId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.enrollment.dto.request.EnrollStudentRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.enrollment.dto.response.EnrollmentResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
+@Tag(name = "Matrículas", description = "Inscripción de estudiantes en grupos")
 public class EnrollmentController {
 
     private final EnrollStudentUseCase enrollUseCase;
@@ -38,6 +45,16 @@ public class EnrollmentController {
 
     @PostMapping("/api/v1/enrollments")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Matricular estudiante", description = "Inscribe a un estudiante en un grupo, validando capacidad y reglas de negocio")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recurso creado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<EnrollmentResponse> enroll(
             @RequestBody EnrollStudentRequest request) {
         try {
@@ -62,6 +79,16 @@ public class EnrollmentController {
 
     @GetMapping("/api/v1/enrollments/{id}")
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Obtener matrícula", description = "Consulta una matrícula por su ID")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<EnrollmentResponse> getById(@PathVariable String id) {
         try {
             EnrollmentId enrollmentId = new EnrollmentId(id);
@@ -74,6 +101,16 @@ public class EnrollmentController {
 
     @GetMapping("/api/v1/groups/{groupId}/enrollments")
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Listar matrículas", description = "Obtiene las matrículas de un grupo")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<EnrollmentResponse>> listByGroup(
             @PathVariable String groupId) {
         try {
@@ -90,6 +127,16 @@ public class EnrollmentController {
 
     @PatchMapping("/api/v1/enrollments/{id}/drop")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Anular matrícula", description = "Cancela la matrícula de un estudiante")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<EnrollmentResponse> drop(@PathVariable String id) {
         try {
             EnrollmentId enrollmentId = new EnrollmentId(id);

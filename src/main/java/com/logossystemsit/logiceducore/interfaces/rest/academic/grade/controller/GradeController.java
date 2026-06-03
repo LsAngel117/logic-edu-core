@@ -10,6 +10,12 @@ import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.grade.dto.request.RegisterGradeRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.grade.dto.request.UpdateGradeRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.grade.dto.response.GradeResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/assessments/{assessmentId}/grades")
+@Tag(name = "Calificaciones", description = "Registro de notas y resultados académicos")
 public class GradeController {
 
     private final RegisterGradeUseCase registerUseCase;
@@ -41,6 +48,16 @@ public class GradeController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('TEACHER','SCHOOL_ADMIN')")
+    @Operation(summary = "Registrar calificación", description = "Asigna una nota a un estudiante en una evaluación")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recurso creado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<GradeResponse> register(
             @PathVariable String assessmentId,
             @RequestBody RegisterGradeRequest request,
@@ -64,6 +81,16 @@ public class GradeController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Obtener calificación", description = "Consulta una calificación por su ID")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<GradeResponse> getById(
             @PathVariable String assessmentId,
             @PathVariable String id) {
@@ -80,6 +107,16 @@ public class GradeController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Listar calificaciones", description = "Obtiene las calificaciones de una evaluación")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<GradeResponse>> listByAssessment(@PathVariable String assessmentId) {
         List<GradeResult> results = listUseCase.execute(new AssessmentId(assessmentId));
         List<GradeResponse> responses = results.stream()
@@ -90,6 +127,16 @@ public class GradeController {
 
     @PutMapping("/{studentId}")
     @PreAuthorize("hasAnyRole('TEACHER','SCHOOL_ADMIN')")
+    @Operation(summary = "Actualizar calificación", description = "Modifica la nota de un estudiante")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<GradeResponse> update(
             @PathVariable String assessmentId,
             @PathVariable String studentId,
