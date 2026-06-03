@@ -10,6 +10,12 @@ import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.structure.dto.request.CreateAcademicStructureRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.structure.dto.request.UpdateAcademicStructureRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.structure.dto.response.AcademicStructureResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/v1/schools/{schoolId}/structures")
+@Tag(name = "Estructura Académica", description = "Configuración académica de instituciones")
 public class AcademicStructureController {
 
     private final CreateAcademicStructureUseCase createUseCase;
@@ -38,6 +45,16 @@ public class AcademicStructureController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Crear estructura académica", description = "Define la configuración académica de una institución")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recurso creado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AcademicStructureResponse> create(
             @PathVariable String schoolId,
             @RequestBody CreateAcademicStructureRequest request) {
@@ -53,6 +70,16 @@ public class AcademicStructureController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Obtener estructura", description = "Consulta una estructura académica")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AcademicStructureResponse> getById(@PathVariable String id) {
         try {
             AcademicStructureId structureId = new AcademicStructureId(id);
@@ -65,6 +92,16 @@ public class AcademicStructureController {
 
     @GetMapping("/active")
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Obtener estructura activa", description = "Consulta la estructura académica activa de una institución")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AcademicStructureResponse> getActive(@PathVariable String schoolId) {
         try {
             SchoolId sid = new SchoolId(schoolId);
@@ -77,6 +114,16 @@ public class AcademicStructureController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Actualizar estructura", description = "Modifica una estructura académica")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AcademicStructureResponse> update(
             @PathVariable String schoolId,
             @PathVariable String id,
@@ -94,6 +141,16 @@ public class AcademicStructureController {
 
     @PatchMapping("/{id}/deactivate")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Desactivar estructura", description = "Desactiva una estructura académica")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AcademicStructureResponse> deactivate(@PathVariable String id) {
         try {
             AcademicStructureId structureId = new AcademicStructureId(id);

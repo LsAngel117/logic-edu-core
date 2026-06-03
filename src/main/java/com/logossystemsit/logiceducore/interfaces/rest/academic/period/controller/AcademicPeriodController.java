@@ -10,6 +10,12 @@ import com.logossystemsit.logiceducore.domain.academic.period.model.PeriodType;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.period.dto.request.CreateAcademicPeriodRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.period.dto.request.UpdateAcademicPeriodRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.period.dto.response.AcademicPeriodResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/levels/{levelId}/periods")
+@Tag(name = "Períodos Académicos", description = "Administración de semestres, trimestres y ciclos")
 public class AcademicPeriodController {
 
     private final CreateAcademicPeriodUseCase createUseCase;
@@ -44,6 +51,16 @@ public class AcademicPeriodController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Crear período", description = "Crea un período académico (semestre, trimestre, etc.)")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recurso creado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AcademicPeriodResponse> create(
             @PathVariable String levelId,
             @RequestBody CreateAcademicPeriodRequest request) {
@@ -59,6 +76,16 @@ public class AcademicPeriodController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Obtener período", description = "Consulta un período académico")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AcademicPeriodResponse> getById(@PathVariable String id) {
         try {
             AcademicPeriodId periodId = new AcademicPeriodId(id);
@@ -71,6 +98,16 @@ public class AcademicPeriodController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Listar períodos", description = "Obtiene los períodos de un nivel")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<AcademicPeriodResponse>> listByLevel(@PathVariable String levelId) {
         AcademicLevelId lid = new AcademicLevelId(levelId);
         List<AcademicPeriodResult> results = listUseCase.execute(lid);
@@ -82,6 +119,16 @@ public class AcademicPeriodController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Actualizar período", description = "Modifica un período académico")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AcademicPeriodResponse> update(
             @PathVariable String levelId,
             @PathVariable String id,
@@ -102,6 +149,16 @@ public class AcademicPeriodController {
 
     @PatchMapping("/{id}/deactivate")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Desactivar período", description = "Desactiva un período académico")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AcademicPeriodResponse> deactivate(@PathVariable String id) {
         try {
             AcademicPeriodId periodId = new AcademicPeriodId(id);
@@ -127,7 +184,7 @@ public class AcademicPeriodController {
     }
 
     private UpdateAcademicPeriodCommand mapToUpdateCommand(String levelId, String id,
-                                                            UpdateAcademicPeriodRequest r) {
+                                                             UpdateAcademicPeriodRequest r) {
         return new UpdateAcademicPeriodCommand(
                 new AcademicPeriodId(id),
                 new AcademicLevelId(levelId),
