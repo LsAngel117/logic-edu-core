@@ -6,9 +6,9 @@ import com.logossystemsit.logiceducore.application.academic.attendance.port.in.R
 import com.logossystemsit.logiceducore.application.academic.attendance.port.out.AttendanceRepository;
 import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
 import com.logossystemsit.logiceducore.domain.academic.attendance.model.Attendance;
-import com.logossystemsit.logiceducore.domain.academic.attendance.model.AttendanceId;
+import com.logossystemsit.logiceducore.domain.academic.attendance.model.valueobject.AttendanceId;
 import com.logossystemsit.logiceducore.domain.academic.group.model.Group;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupStatus;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;

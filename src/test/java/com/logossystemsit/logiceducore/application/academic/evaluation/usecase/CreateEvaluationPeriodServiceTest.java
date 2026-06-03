@@ -6,9 +6,11 @@ import com.logossystemsit.logiceducore.application.academic.evaluation.port.in.C
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.EvaluationPeriodRepository;
 import com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriod;
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodId;
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodStatus;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
 import com.logossystemsit.logiceducore.domain.academic.period.model.*;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.PeriodType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -22,7 +24,6 @@ import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -166,7 +167,7 @@ class CreateEvaluationPeriodServiceTest {
     private AcademicPeriod createPeriod() {
         return AcademicPeriod.create(
                 PERIOD_ID,
-                new com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevelId("level-1"),
+                new AcademicLevelId("level-1"),
                 PeriodType.SEMESTER, "Semestre 1", 1,
                 LocalDate.of(2026, 1, 1), LocalDate.of(2026, 6, 30),
                 FIXED_NOW

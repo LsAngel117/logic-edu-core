@@ -5,7 +5,7 @@ import com.logossystemsit.logiceducore.application.academic.subject.dto.result.S
 import com.logossystemsit.logiceducore.application.academic.subject.port.in.UpdateSubjectUseCase;
 import com.logossystemsit.logiceducore.application.academic.subject.port.out.SubjectRepository;
 import com.logossystemsit.logiceducore.domain.academic.subject.model.Subject;
-import com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectStatus;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;

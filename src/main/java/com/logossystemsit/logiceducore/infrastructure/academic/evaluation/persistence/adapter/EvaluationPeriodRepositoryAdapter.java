@@ -2,9 +2,9 @@ package com.logossystemsit.logiceducore.infrastructure.academic.evaluation.persi
 
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.EvaluationPeriodRepository;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriod;
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodId;
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodStatus;
-import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodStatus;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
 import com.logossystemsit.logiceducore.infrastructure.academic.evaluation.persistence.entity.EvaluationPeriodEntity;
 import com.logossystemsit.logiceducore.infrastructure.academic.evaluation.persistence.repository.EvaluationPeriodJpaRepository;
 

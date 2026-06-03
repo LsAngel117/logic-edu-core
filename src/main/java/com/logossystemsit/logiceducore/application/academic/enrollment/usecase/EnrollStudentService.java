@@ -7,8 +7,8 @@ import com.logossystemsit.logiceducore.application.academic.enrollment.port.out.
 import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.domain.academic.enrollment.model.Enrollment;
-import com.logossystemsit.logiceducore.domain.academic.enrollment.model.EnrollmentId;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupStatus;
+import com.logossystemsit.logiceducore.domain.academic.enrollment.model.valueobject.EnrollmentId;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
 import com.logossystemsit.logiceducore.domain.user.model.User;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.transaction.annotation.Transactional;

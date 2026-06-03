@@ -9,7 +9,7 @@ import com.logossystemsit.logiceducore.application.academic.group.port.out.Group
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.domain.academic.assessment.model.Assessment;
 import com.logossystemsit.logiceducore.domain.academic.grade.model.Grade;
-import com.logossystemsit.logiceducore.domain.academic.grade.model.GradeId;
+import com.logossystemsit.logiceducore.domain.academic.grade.model.valueobject.GradeId;
 import com.logossystemsit.logiceducore.domain.academic.group.model.Group;
 import com.logossystemsit.logiceducore.domain.user.model.User;
 import org.springframework.transaction.annotation.Transactional;

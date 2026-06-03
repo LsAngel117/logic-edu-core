@@ -4,8 +4,11 @@ import com.logossystemsit.logiceducore.application.academic.period.dto.command.U
 import com.logossystemsit.logiceducore.application.academic.period.dto.result.AcademicPeriodResult;
 import com.logossystemsit.logiceducore.application.academic.period.port.in.UpdateAcademicPeriodUseCase;
 import com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository;
-import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevelId;
+import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
 import com.logossystemsit.logiceducore.domain.academic.period.model.*;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.PeriodStatus;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.PeriodType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

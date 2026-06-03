@@ -4,8 +4,8 @@ import com.logossystemsit.logiceducore.application.academic.evaluation.dto.resul
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.in.DeactivateEvaluationPeriodUseCase;
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.EvaluationPeriodRepository;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriod;
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodId;
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodStatus;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;

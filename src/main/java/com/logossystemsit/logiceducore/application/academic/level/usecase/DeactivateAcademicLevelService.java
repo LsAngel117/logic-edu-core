@@ -4,7 +4,7 @@ import com.logossystemsit.logiceducore.application.academic.level.dto.result.Aca
 import com.logossystemsit.logiceducore.application.academic.level.port.in.DeactivateAcademicLevelUseCase;
 import com.logossystemsit.logiceducore.application.academic.level.port.out.AcademicLevelRepository;
 import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevel;
-import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevelId;
+import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;

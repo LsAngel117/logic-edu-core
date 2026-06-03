@@ -6,7 +6,7 @@ import com.logossystemsit.logiceducore.application.academic.subject.port.in.Crea
 import com.logossystemsit.logiceducore.application.academic.subject.port.out.SubjectRepository;
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.domain.academic.subject.model.Subject;
-import com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectId;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectId;
 import com.logossystemsit.logiceducore.domain.school.model.School;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 import org.junit.jupiter.api.BeforeEach;

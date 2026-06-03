@@ -4,7 +4,7 @@ import com.logossystemsit.logiceducore.application.academic.evaluation.dto.resul
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.in.ListEvaluationPeriodsByPeriodUseCase;
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.EvaluationPeriodRepository;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriod;
-import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
 
 import java.util.List;
 

@@ -2,10 +2,10 @@ package com.logossystemsit.logiceducore.infrastructure.academic.assessment.persi
 
 import com.logossystemsit.logiceducore.application.academic.assessment.port.out.AssessmentRepository;
 import com.logossystemsit.logiceducore.domain.academic.assessment.model.Assessment;
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentId;
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentType;
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodId;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupId;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentType;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
 import com.logossystemsit.logiceducore.infrastructure.academic.assessment.persistence.entity.AssessmentEntity;
 import com.logossystemsit.logiceducore.infrastructure.academic.assessment.persistence.repository.AssessmentJpaRepository;
 import org.junit.jupiter.api.BeforeEach;

@@ -2,12 +2,8 @@ package com.logossystemsit.logiceducore.interfaces.rest.academic.structure.contr
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.logossystemsit.logiceducore.application.academic.structure.dto.command.CreateAcademicStructureCommand;
-import com.logossystemsit.logiceducore.application.academic.structure.dto.command.UpdateAcademicStructureCommand;
 import com.logossystemsit.logiceducore.application.academic.structure.dto.result.AcademicStructureResult;
 import com.logossystemsit.logiceducore.application.academic.structure.port.in.*;
-import com.logossystemsit.logiceducore.domain.academic.structure.model.AcademicStructureId;
-import com.logossystemsit.logiceducore.domain.academic.structure.model.StructureType;
-import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.structure.dto.request.CreateAcademicStructureRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.structure.dto.request.UpdateAcademicStructureRequest;
 import org.junit.jupiter.api.BeforeEach;

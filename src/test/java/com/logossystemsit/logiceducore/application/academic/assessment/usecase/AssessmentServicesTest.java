@@ -9,14 +9,16 @@ import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.
 import com.logossystemsit.logiceducore.application.academic.grade.port.out.GradeRepository;
 import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
 import com.logossystemsit.logiceducore.domain.academic.assessment.model.Assessment;
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentId;
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentType;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentType;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriod;
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodId;
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodStatus;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodStatus;
 import com.logossystemsit.logiceducore.domain.academic.group.model.Group;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupId;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupStatus;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -75,8 +77,8 @@ class AssessmentServicesTest {
         sampleGroup = Group.restore(
                 GROUP_ID,
                 new com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId("550e8400-e29b-41d4-a716-446655440000"),
-                new com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectId("660e8400-e29b-41d4-a716-446655440001"),
-                new com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId("770e8400-e29b-41d4-a716-446655440002"),
+                new SubjectId("660e8400-e29b-41d4-a716-446655440001"),
+                new AcademicPeriodId("770e8400-e29b-41d4-a716-446655440002"),
                 com.logossystemsit.logiceducore.domain.branch.model.valueobject.BranchId.of("880e8400-e29b-41d4-a716-446655440003"),
                 TEACHER_ID, "MATH-101", 30, List.of(),
                 GroupStatus.ACTIVE, 0L, FIXED_NOW, FIXED_NOW
@@ -84,7 +86,7 @@ class AssessmentServicesTest {
 
         sampleEvalPeriod = EvaluationPeriod.restore(
                 EVAL_PERIOD_ID,
-                new com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId("770e8400-e29b-41d4-a716-446655440002"),
+                new AcademicPeriodId("770e8400-e29b-41d4-a716-446655440002"),
                 "P1", 1,
                 new BigDecimal("30.00"),
                 java.time.LocalDate.of(2026, 1, 1),
@@ -185,8 +187,8 @@ class AssessmentServicesTest {
             Group inactiveGroup = Group.restore(
                     GROUP_ID,
                     new com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId("550e8400-e29b-41d4-a716-446655440000"),
-                    new com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectId("660e8400-e29b-41d4-a716-446655440001"),
-                    new com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId("770e8400-e29b-41d4-a716-446655440002"),
+                    new SubjectId("660e8400-e29b-41d4-a716-446655440001"),
+                    new AcademicPeriodId("770e8400-e29b-41d4-a716-446655440002"),
                     com.logossystemsit.logiceducore.domain.branch.model.valueobject.BranchId.of("880e8400-e29b-41d4-a716-446655440003"),
                     TEACHER_ID, "MATH-101", 30, List.of(),
                     GroupStatus.INACTIVE, 0L, FIXED_NOW, FIXED_NOW

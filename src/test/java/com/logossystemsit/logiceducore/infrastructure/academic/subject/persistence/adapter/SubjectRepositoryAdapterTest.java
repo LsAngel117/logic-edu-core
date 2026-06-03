@@ -1,8 +1,8 @@
 package com.logossystemsit.logiceducore.infrastructure.academic.subject.persistence.adapter;
 
 import com.logossystemsit.logiceducore.domain.academic.subject.model.Subject;
-import com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectId;
-import com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectStatus;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectId;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectStatus;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 import com.logossystemsit.logiceducore.infrastructure.academic.subject.persistence.entity.SubjectEntity;
 import com.logossystemsit.logiceducore.infrastructure.academic.subject.persistence.repository.SubjectJpaRepository;

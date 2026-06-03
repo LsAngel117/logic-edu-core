@@ -1,4 +1,4 @@
-package com.logossystemsit.logiceducore.domain.academic.enrollment.model;
+package com.logossystemsit.logiceducore.domain.academic.enrollment.model.valueobject;
 
 import java.util.UUID;
 

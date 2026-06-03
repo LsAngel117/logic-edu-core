@@ -7,11 +7,13 @@ import com.logossystemsit.logiceducore.application.academic.attendance.port.in.*
 import com.logossystemsit.logiceducore.application.academic.attendance.port.out.AttendanceRepository;
 import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
 import com.logossystemsit.logiceducore.domain.academic.attendance.model.Attendance;
-import com.logossystemsit.logiceducore.domain.academic.attendance.model.AttendanceId;
-import com.logossystemsit.logiceducore.domain.academic.attendance.model.AttendanceStatus;
+import com.logossystemsit.logiceducore.domain.academic.attendance.model.valueobject.AttendanceId;
+import com.logossystemsit.logiceducore.domain.academic.attendance.model.valueobject.AttendanceStatus;
 import com.logossystemsit.logiceducore.domain.academic.group.model.Group;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupId;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupStatus;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -66,8 +68,8 @@ class AttendanceServicesTest {
         sampleGroup = Group.restore(
                 GROUP_ID,
                 new com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId("550e8400-e29b-41d4-a716-446655440000"),
-                new com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectId("660e8400-e29b-41d4-a716-446655440001"),
-                new com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId("770e8400-e29b-41d4-a716-446655440002"),
+                new SubjectId("660e8400-e29b-41d4-a716-446655440001"),
+                new AcademicPeriodId("770e8400-e29b-41d4-a716-446655440002"),
                 com.logossystemsit.logiceducore.domain.branch.model.valueobject.BranchId.of("880e8400-e29b-41d4-a716-446655440003"),
                 TEACHER_ID, "MATH-101", 30, List.of(),
                 GroupStatus.ACTIVE, 0L, FIXED_NOW, FIXED_NOW
@@ -157,8 +159,8 @@ class AttendanceServicesTest {
             Group inactiveGroup = Group.restore(
                     GROUP_ID,
                     new com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId("550e8400-e29b-41d4-a716-446655440000"),
-                    new com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectId("660e8400-e29b-41d4-a716-446655440001"),
-                    new com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId("770e8400-e29b-41d4-a716-446655440002"),
+                    new SubjectId("660e8400-e29b-41d4-a716-446655440001"),
+                    new AcademicPeriodId("770e8400-e29b-41d4-a716-446655440002"),
                     com.logossystemsit.logiceducore.domain.branch.model.valueobject.BranchId.of("880e8400-e29b-41d4-a716-446655440003"),
                     TEACHER_ID, "MATH-101", 30, List.of(),
                     GroupStatus.INACTIVE, 0L, FIXED_NOW, FIXED_NOW

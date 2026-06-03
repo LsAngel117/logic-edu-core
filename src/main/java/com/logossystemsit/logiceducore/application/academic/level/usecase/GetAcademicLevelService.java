@@ -3,7 +3,7 @@ package com.logossystemsit.logiceducore.application.academic.level.usecase;
 import com.logossystemsit.logiceducore.application.academic.level.dto.result.AcademicLevelResult;
 import com.logossystemsit.logiceducore.application.academic.level.port.in.GetAcademicLevelUseCase;
 import com.logossystemsit.logiceducore.application.academic.level.port.out.AcademicLevelRepository;
-import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevelId;
+import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
 
 public class GetAcademicLevelService implements GetAcademicLevelUseCase {
 

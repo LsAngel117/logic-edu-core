@@ -4,8 +4,8 @@ import com.logossystemsit.logiceducore.application.academic.structure.dto.comman
 import com.logossystemsit.logiceducore.application.academic.structure.dto.command.UpdateAcademicStructureCommand;
 import com.logossystemsit.logiceducore.application.academic.structure.dto.result.AcademicStructureResult;
 import com.logossystemsit.logiceducore.application.academic.structure.port.in.*;
-import com.logossystemsit.logiceducore.domain.academic.structure.model.AcademicStructureId;
-import com.logossystemsit.logiceducore.domain.academic.structure.model.StructureType;
+import com.logossystemsit.logiceducore.domain.academic.structure.model.valueobject.AcademicStructureId;
+import com.logossystemsit.logiceducore.domain.academic.structure.model.valueobject.StructureType;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.structure.dto.request.CreateAcademicStructureRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.structure.dto.request.UpdateAcademicStructureRequest;

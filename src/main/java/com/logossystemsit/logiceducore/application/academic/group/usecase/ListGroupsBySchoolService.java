@@ -3,7 +3,7 @@ package com.logossystemsit.logiceducore.application.academic.group.usecase;
 import com.logossystemsit.logiceducore.application.academic.group.dto.result.GroupResult;
 import com.logossystemsit.logiceducore.application.academic.group.port.in.ListGroupsBySchoolUseCase;
 import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
-import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.BranchId;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 import org.springframework.transaction.annotation.Transactional;

@@ -2,11 +2,8 @@ package com.logossystemsit.logiceducore.interfaces.rest.academic.level.controlle
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.logossystemsit.logiceducore.application.academic.level.dto.command.CreateAcademicLevelCommand;
-import com.logossystemsit.logiceducore.application.academic.level.dto.command.UpdateAcademicLevelCommand;
 import com.logossystemsit.logiceducore.application.academic.level.dto.result.AcademicLevelResult;
 import com.logossystemsit.logiceducore.application.academic.level.port.in.*;
-import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevelId;
-import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.level.dto.request.CreateAcademicLevelRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.level.dto.request.UpdateAcademicLevelRequest;
 import org.junit.jupiter.api.BeforeEach;

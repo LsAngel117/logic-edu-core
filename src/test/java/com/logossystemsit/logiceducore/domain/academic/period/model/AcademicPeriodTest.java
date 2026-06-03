@@ -1,6 +1,9 @@
 package com.logossystemsit.logiceducore.domain.academic.period.model;
 
-import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevelId;
+import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.PeriodStatus;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.PeriodType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

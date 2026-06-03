@@ -3,7 +3,7 @@ package com.logossystemsit.logiceducore.application.academic.structure.usecase;
 import com.logossystemsit.logiceducore.application.academic.structure.dto.result.AcademicStructureResult;
 import com.logossystemsit.logiceducore.application.academic.structure.port.in.GetAcademicStructureUseCase;
 import com.logossystemsit.logiceducore.application.academic.structure.port.out.AcademicStructureRepository;
-import com.logossystemsit.logiceducore.domain.academic.structure.model.AcademicStructureId;
+import com.logossystemsit.logiceducore.domain.academic.structure.model.valueobject.AcademicStructureId;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 
 public class GetAcademicStructureService implements GetAcademicStructureUseCase {

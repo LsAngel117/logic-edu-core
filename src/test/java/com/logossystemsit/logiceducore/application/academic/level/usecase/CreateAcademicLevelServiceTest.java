@@ -5,7 +5,7 @@ import com.logossystemsit.logiceducore.application.academic.level.dto.result.Aca
 import com.logossystemsit.logiceducore.application.academic.level.port.in.CreateAcademicLevelUseCase;
 import com.logossystemsit.logiceducore.application.academic.level.port.out.AcademicLevelRepository;
 import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevel;
-import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevelId;
+import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

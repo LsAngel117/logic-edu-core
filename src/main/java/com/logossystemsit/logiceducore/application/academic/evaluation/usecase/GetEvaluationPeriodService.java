@@ -4,7 +4,7 @@ import com.logossystemsit.logiceducore.application.academic.evaluation.dto.resul
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.in.GetEvaluationPeriodUseCase;
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.EvaluationPeriodRepository;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriod;
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
 
 public class GetEvaluationPeriodService implements GetEvaluationPeriodUseCase {
 

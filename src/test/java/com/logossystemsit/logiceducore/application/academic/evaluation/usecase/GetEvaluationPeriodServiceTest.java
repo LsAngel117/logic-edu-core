@@ -4,7 +4,9 @@ import com.logossystemsit.logiceducore.application.academic.evaluation.dto.resul
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.in.GetEvaluationPeriodUseCase;
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.EvaluationPeriodRepository;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriod;
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodStatus;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -48,10 +50,10 @@ class GetEvaluationPeriodServiceTest {
         void shouldReturnById() {
             EvaluationPeriod period = EvaluationPeriod.restore(
                     EVAL_ID,
-                    new com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId("period-1"),
+                    new AcademicPeriodId("period-1"),
                     "Examen", 1, new BigDecimal("25.00"),
                     LocalDate.of(2026, 3, 1), LocalDate.of(2026, 3, 15),
-                    com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodStatus.ACTIVE,
+                    EvaluationPeriodStatus.ACTIVE,
                     NOW, NOW
             );
             when(repository.findById(EVAL_ID)).thenReturn(Optional.of(period));

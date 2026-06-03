@@ -4,9 +4,9 @@ import com.logossystemsit.logiceducore.application.academic.period.dto.command.C
 import com.logossystemsit.logiceducore.application.academic.period.dto.command.UpdateAcademicPeriodCommand;
 import com.logossystemsit.logiceducore.application.academic.period.dto.result.AcademicPeriodResult;
 import com.logossystemsit.logiceducore.application.academic.period.port.in.*;
-import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevelId;
-import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId;
-import com.logossystemsit.logiceducore.domain.academic.period.model.PeriodType;
+import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.PeriodType;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.period.dto.request.CreateAcademicPeriodRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.period.dto.request.UpdateAcademicPeriodRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.period.dto.response.AcademicPeriodResponse;

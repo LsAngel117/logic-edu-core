@@ -1,7 +1,7 @@
 package com.logossystemsit.logiceducore.application.academic.level.port.out;
 
 import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevel;
-import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevelId;
+import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 
 import java.util.List;

@@ -7,9 +7,9 @@ import com.logossystemsit.logiceducore.application.academic.assessment.port.out.
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.EvaluationPeriodRepository;
 import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
 import com.logossystemsit.logiceducore.domain.academic.assessment.model.Assessment;
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentId;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
 import com.logossystemsit.logiceducore.domain.academic.group.model.Group;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupStatus;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;

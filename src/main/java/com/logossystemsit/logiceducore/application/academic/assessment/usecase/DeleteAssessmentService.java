@@ -5,9 +5,9 @@ import com.logossystemsit.logiceducore.application.academic.assessment.port.out.
 import com.logossystemsit.logiceducore.application.academic.grade.port.out.GradeRepository;
 import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
 import com.logossystemsit.logiceducore.domain.academic.assessment.model.Assessment;
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentId;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
 import com.logossystemsit.logiceducore.domain.academic.group.model.Group;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupId;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import org.springframework.transaction.annotation.Transactional;
 

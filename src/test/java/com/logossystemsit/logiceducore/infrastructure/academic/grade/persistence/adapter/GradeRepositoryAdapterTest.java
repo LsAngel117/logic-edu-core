@@ -1,9 +1,9 @@
 package com.logossystemsit.logiceducore.infrastructure.academic.grade.persistence.adapter;
 
 import com.logossystemsit.logiceducore.application.academic.grade.port.out.GradeRepository;
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentId;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
 import com.logossystemsit.logiceducore.domain.academic.grade.model.Grade;
-import com.logossystemsit.logiceducore.domain.academic.grade.model.GradeId;
+import com.logossystemsit.logiceducore.domain.academic.grade.model.valueobject.GradeId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import com.logossystemsit.logiceducore.infrastructure.academic.grade.persistence.entity.GradeEntity;
 import com.logossystemsit.logiceducore.infrastructure.academic.grade.persistence.repository.GradeJpaRepository;

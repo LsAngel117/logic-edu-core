@@ -1,4 +1,4 @@
-package com.logossystemsit.logiceducore.domain.academic.evaluation.model;
+package com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject;
 
 import java.util.UUID;
 

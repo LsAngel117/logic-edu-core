@@ -1,7 +1,7 @@
 package com.logossystemsit.logiceducore.application.academic.evaluation.dto.command;
 
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodId;
-import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

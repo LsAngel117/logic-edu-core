@@ -1,5 +1,7 @@
 package com.logossystemsit.logiceducore.domain.academic.group.model;
 
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.ScheduleId;
+
 import java.time.LocalTime;
 import java.util.Objects;
 

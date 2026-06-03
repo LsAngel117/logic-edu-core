@@ -4,8 +4,8 @@ import com.logossystemsit.logiceducore.application.academic.attendance.dto.comma
 import com.logossystemsit.logiceducore.application.academic.attendance.dto.command.UpdateAttendanceCommand;
 import com.logossystemsit.logiceducore.application.academic.attendance.dto.result.AttendanceResult;
 import com.logossystemsit.logiceducore.application.academic.attendance.port.in.*;
-import com.logossystemsit.logiceducore.domain.academic.attendance.model.AttendanceStatus;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupId;
+import com.logossystemsit.logiceducore.domain.academic.attendance.model.valueobject.AttendanceStatus;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.attendance.dto.request.RegisterAttendanceRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.attendance.dto.request.UpdateAttendanceRequest;

@@ -3,7 +3,7 @@ package com.logossystemsit.logiceducore.application.academic.attendance.usecase;
 import com.logossystemsit.logiceducore.application.academic.attendance.dto.result.AttendanceResult;
 import com.logossystemsit.logiceducore.application.academic.attendance.port.in.GetAttendanceByDateUseCase;
 import com.logossystemsit.logiceducore.application.academic.attendance.port.out.AttendanceRepository;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupId;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;

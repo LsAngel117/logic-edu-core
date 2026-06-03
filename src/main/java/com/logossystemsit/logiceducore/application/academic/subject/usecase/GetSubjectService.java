@@ -3,7 +3,7 @@ package com.logossystemsit.logiceducore.application.academic.subject.usecase;
 import com.logossystemsit.logiceducore.application.academic.subject.dto.result.SubjectResult;
 import com.logossystemsit.logiceducore.application.academic.subject.port.in.GetSubjectUseCase;
 import com.logossystemsit.logiceducore.application.academic.subject.port.out.SubjectRepository;
-import com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectId;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectId;
 import org.springframework.transaction.annotation.Transactional;
 
 public class GetSubjectService implements GetSubjectUseCase {

@@ -1,8 +1,8 @@
 package com.logossystemsit.logiceducore.application.academic.grade.port.out;
 
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentId;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
 import com.logossystemsit.logiceducore.domain.academic.grade.model.Grade;
-import com.logossystemsit.logiceducore.domain.academic.grade.model.GradeId;
+import com.logossystemsit.logiceducore.domain.academic.grade.model.valueobject.GradeId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 
 import java.util.List;

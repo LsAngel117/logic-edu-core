@@ -4,7 +4,8 @@ import com.logossystemsit.logiceducore.application.academic.subject.dto.result.S
 import com.logossystemsit.logiceducore.application.academic.subject.port.in.GetSubjectUseCase;
 import com.logossystemsit.logiceducore.application.academic.subject.port.out.SubjectRepository;
 import com.logossystemsit.logiceducore.domain.academic.subject.model.Subject;
-import com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectId;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectId;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectStatus;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -71,7 +72,7 @@ class GetSubjectServiceTest {
     void shouldReturnInactiveSubject() {
         Subject inactive = Subject.restore(
                 SUBJECT_ID, SCHOOL_ID, "MAT101", "Mathematics", null, 120,
-                com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectStatus.INACTIVE,
+                SubjectStatus.INACTIVE,
                 FIXED_NOW, FIXED_NOW
         );
         when(repository.findById(SUBJECT_ID)).thenReturn(Optional.of(inactive));

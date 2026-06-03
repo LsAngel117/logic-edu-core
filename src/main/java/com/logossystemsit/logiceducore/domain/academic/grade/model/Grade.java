@@ -1,6 +1,7 @@
 package com.logossystemsit.logiceducore.domain.academic.grade.model;
 
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentId;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
+import com.logossystemsit.logiceducore.domain.academic.grade.model.valueobject.GradeId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 
 import java.math.BigDecimal;

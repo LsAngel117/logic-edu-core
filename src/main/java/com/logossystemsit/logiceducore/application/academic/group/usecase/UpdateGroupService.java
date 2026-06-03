@@ -9,9 +9,9 @@ import com.logossystemsit.logiceducore.application.academic.subject.port.out.Sub
 import com.logossystemsit.logiceducore.application.branch.port.out.BranchRepository;
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupStatus;
-import com.logossystemsit.logiceducore.domain.academic.period.model.PeriodStatus;
-import com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectStatus;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.PeriodStatus;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;

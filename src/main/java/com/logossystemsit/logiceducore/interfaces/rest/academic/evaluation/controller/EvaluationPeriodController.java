@@ -4,8 +4,8 @@ import com.logossystemsit.logiceducore.application.academic.evaluation.dto.comma
 import com.logossystemsit.logiceducore.application.academic.evaluation.dto.command.UpdateEvaluationPeriodCommand;
 import com.logossystemsit.logiceducore.application.academic.evaluation.dto.result.EvaluationPeriodResult;
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.in.*;
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodId;
-import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.evaluation.dto.request.CreateEvaluationPeriodRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.evaluation.dto.request.UpdateEvaluationPeriodRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.evaluation.dto.response.EvaluationPeriodResponse;

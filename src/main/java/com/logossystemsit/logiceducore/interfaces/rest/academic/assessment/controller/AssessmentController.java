@@ -4,10 +4,10 @@ import com.logossystemsit.logiceducore.application.academic.assessment.dto.comma
 import com.logossystemsit.logiceducore.application.academic.assessment.dto.command.UpdateAssessmentCommand;
 import com.logossystemsit.logiceducore.application.academic.assessment.dto.result.AssessmentResult;
 import com.logossystemsit.logiceducore.application.academic.assessment.port.in.*;
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentId;
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentType;
-import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriodId;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupId;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentType;
+import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.assessment.dto.request.CreateAssessmentRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.assessment.dto.request.UpdateAssessmentRequest;

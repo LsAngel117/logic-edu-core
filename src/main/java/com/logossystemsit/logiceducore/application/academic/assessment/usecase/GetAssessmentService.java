@@ -3,7 +3,7 @@ package com.logossystemsit.logiceducore.application.academic.assessment.usecase;
 import com.logossystemsit.logiceducore.application.academic.assessment.dto.result.AssessmentResult;
 import com.logossystemsit.logiceducore.application.academic.assessment.port.in.GetAssessmentUseCase;
 import com.logossystemsit.logiceducore.application.academic.assessment.port.out.AssessmentRepository;
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentId;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
 import org.springframework.transaction.annotation.Transactional;
 
 public class GetAssessmentService implements GetAssessmentUseCase {

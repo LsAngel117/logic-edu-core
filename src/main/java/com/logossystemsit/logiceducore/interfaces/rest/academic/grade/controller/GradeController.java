@@ -4,8 +4,8 @@ import com.logossystemsit.logiceducore.application.academic.grade.dto.command.Re
 import com.logossystemsit.logiceducore.application.academic.grade.dto.command.UpdateGradeCommand;
 import com.logossystemsit.logiceducore.application.academic.grade.dto.result.GradeResult;
 import com.logossystemsit.logiceducore.application.academic.grade.port.in.*;
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentId;
-import com.logossystemsit.logiceducore.domain.academic.grade.model.GradeId;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
+import com.logossystemsit.logiceducore.domain.academic.grade.model.valueobject.GradeId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.grade.dto.request.RegisterGradeRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.grade.dto.request.UpdateGradeRequest;

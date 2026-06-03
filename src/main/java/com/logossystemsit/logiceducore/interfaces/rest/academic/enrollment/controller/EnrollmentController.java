@@ -3,8 +3,8 @@ package com.logossystemsit.logiceducore.interfaces.rest.academic.enrollment.cont
 import com.logossystemsit.logiceducore.application.academic.enrollment.dto.command.EnrollStudentCommand;
 import com.logossystemsit.logiceducore.application.academic.enrollment.dto.result.EnrollmentResult;
 import com.logossystemsit.logiceducore.application.academic.enrollment.port.in.*;
-import com.logossystemsit.logiceducore.domain.academic.enrollment.model.EnrollmentId;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupId;
+import com.logossystemsit.logiceducore.domain.academic.enrollment.model.valueobject.EnrollmentId;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.enrollment.dto.request.EnrollStudentRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.enrollment.dto.response.EnrollmentResponse;

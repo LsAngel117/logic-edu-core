@@ -1,6 +1,10 @@
 package com.logossystemsit.logiceducore.domain.academic.group.model;
 
-import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.ScheduleId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectId;
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.BranchId;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
@@ -25,8 +29,8 @@ class GroupTest {
     private static final Instant LATER = Instant.parse("2026-06-02T10:00:00Z");
     private static final GroupId GROUP_ID = GroupId.generate();
     private static final SchoolId SCHOOL_ID = new SchoolId("550e8400-e29b-41d4-a716-446655440000");
-    private static final com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectId SUBJECT_ID =
-            new com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectId("660e8400-e29b-41d4-a716-446655440001");
+    private static final SubjectId SUBJECT_ID =
+            new SubjectId("660e8400-e29b-41d4-a716-446655440001");
     private static final AcademicPeriodId PERIOD_ID =
             new AcademicPeriodId("770e8400-e29b-41d4-a716-446655440002");
     private static final BranchId BRANCH_ID =

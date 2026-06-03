@@ -4,7 +4,7 @@ import com.logossystemsit.logiceducore.application.academic.subject.dto.command.
 import com.logossystemsit.logiceducore.application.academic.subject.dto.command.UpdateSubjectCommand;
 import com.logossystemsit.logiceducore.application.academic.subject.dto.result.SubjectResult;
 import com.logossystemsit.logiceducore.application.academic.subject.port.in.*;
-import com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectId;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectId;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.subject.dto.request.CreateSubjectRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.subject.dto.request.UpdateSubjectRequest;

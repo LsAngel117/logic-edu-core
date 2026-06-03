@@ -4,7 +4,7 @@ import com.logossystemsit.logiceducore.application.academic.level.dto.command.Cr
 import com.logossystemsit.logiceducore.application.academic.level.dto.command.UpdateAcademicLevelCommand;
 import com.logossystemsit.logiceducore.application.academic.level.dto.result.AcademicLevelResult;
 import com.logossystemsit.logiceducore.application.academic.level.port.in.*;
-import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevelId;
+import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.level.dto.request.CreateAcademicLevelRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.level.dto.request.UpdateAcademicLevelRequest;

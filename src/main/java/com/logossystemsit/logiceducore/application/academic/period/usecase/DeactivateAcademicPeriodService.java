@@ -4,8 +4,8 @@ import com.logossystemsit.logiceducore.application.academic.period.dto.result.Ac
 import com.logossystemsit.logiceducore.application.academic.period.port.in.DeactivateAcademicPeriodUseCase;
 import com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository;
 import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriod;
-import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId;
-import com.logossystemsit.logiceducore.domain.academic.period.model.PeriodStatus;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.PeriodStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;

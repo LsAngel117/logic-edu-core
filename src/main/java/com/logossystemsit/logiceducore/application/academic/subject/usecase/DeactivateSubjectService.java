@@ -4,7 +4,7 @@ import com.logossystemsit.logiceducore.application.academic.subject.dto.result.S
 import com.logossystemsit.logiceducore.application.academic.subject.port.in.DeactivateSubjectUseCase;
 import com.logossystemsit.logiceducore.application.academic.subject.port.out.SubjectRepository;
 import com.logossystemsit.logiceducore.domain.academic.subject.model.Subject;
-import com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectId;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectId;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;

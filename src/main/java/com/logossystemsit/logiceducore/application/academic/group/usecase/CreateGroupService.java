@@ -1,7 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.group.usecase;
 
 import com.logossystemsit.logiceducore.application.academic.group.dto.command.CreateGroupCommand;
-import com.logossystemsit.logiceducore.application.academic.group.dto.command.ScheduleData;
 import com.logossystemsit.logiceducore.application.academic.group.dto.result.GroupResult;
 import com.logossystemsit.logiceducore.application.academic.group.port.in.CreateGroupUseCase;
 import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
@@ -11,8 +10,11 @@ import com.logossystemsit.logiceducore.application.branch.port.out.BranchReposit
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.domain.academic.group.model.*;
-import com.logossystemsit.logiceducore.domain.academic.period.model.PeriodStatus;
-import com.logossystemsit.logiceducore.domain.academic.subject.model.SubjectStatus;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
+import com.logossystemsit.logiceducore.domain.academic.group.model.Schedule;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.ScheduleId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.PeriodStatus;
+import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectStatus;
 import com.logossystemsit.logiceducore.domain.branch.model.Branch;
 import com.logossystemsit.logiceducore.domain.school.model.School;
 import org.springframework.transaction.annotation.Transactional;

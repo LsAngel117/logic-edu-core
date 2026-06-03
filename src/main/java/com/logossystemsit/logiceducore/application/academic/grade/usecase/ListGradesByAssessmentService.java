@@ -3,7 +3,7 @@ package com.logossystemsit.logiceducore.application.academic.grade.usecase;
 import com.logossystemsit.logiceducore.application.academic.grade.dto.result.GradeResult;
 import com.logossystemsit.logiceducore.application.academic.grade.port.in.ListGradesByAssessmentUseCase;
 import com.logossystemsit.logiceducore.application.academic.grade.port.out.GradeRepository;
-import com.logossystemsit.logiceducore.domain.academic.assessment.model.AssessmentId;
+import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
 
 import java.util.List;
 

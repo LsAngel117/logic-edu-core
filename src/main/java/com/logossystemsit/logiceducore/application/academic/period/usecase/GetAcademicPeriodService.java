@@ -4,7 +4,7 @@ import com.logossystemsit.logiceducore.application.academic.period.dto.result.Ac
 import com.logossystemsit.logiceducore.application.academic.period.port.in.GetAcademicPeriodUseCase;
 import com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository;
 import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriod;
-import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
 
 public class GetAcademicPeriodService implements GetAcademicPeriodUseCase {
 

@@ -3,7 +3,10 @@ package com.logossystemsit.logiceducore.application.academic.period.usecase;
 import com.logossystemsit.logiceducore.application.academic.period.dto.result.AcademicPeriodResult;
 import com.logossystemsit.logiceducore.application.academic.period.port.in.GetAcademicPeriodUseCase;
 import com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository;
+import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
 import com.logossystemsit.logiceducore.domain.academic.period.model.*;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
+import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.PeriodType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +45,7 @@ class GetAcademicPeriodServiceTest {
     void shouldReturnPeriodWhenFound() {
         AcademicPeriod period = AcademicPeriod.create(
                 PERIOD_ID,
-                new com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevelId("level-1"),
+                new AcademicLevelId("level-1"),
                 PeriodType.SEMESTER,
                 "Primer Semestre", 1,
                 LocalDate.of(2026, 3, 1), LocalDate.of(2026, 7, 31),

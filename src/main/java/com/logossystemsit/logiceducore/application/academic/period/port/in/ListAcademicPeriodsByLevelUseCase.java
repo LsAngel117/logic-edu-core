@@ -1,7 +1,7 @@
 package com.logossystemsit.logiceducore.application.academic.period.port.in;
 
 import com.logossystemsit.logiceducore.application.academic.period.dto.result.AcademicPeriodResult;
-import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevelId;
+import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
 
 import java.util.List;
 

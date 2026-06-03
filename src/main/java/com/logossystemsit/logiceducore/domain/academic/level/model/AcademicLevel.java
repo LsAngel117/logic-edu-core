@@ -1,5 +1,7 @@
 package com.logossystemsit.logiceducore.domain.academic.level.model;
 
+import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
+import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelStatus;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 
 import java.time.Instant;

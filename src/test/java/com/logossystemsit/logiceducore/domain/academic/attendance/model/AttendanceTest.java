@@ -1,6 +1,8 @@
 package com.logossystemsit.logiceducore.domain.academic.attendance.model;
 
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupId;
+import com.logossystemsit.logiceducore.domain.academic.attendance.model.valueobject.AttendanceId;
+import com.logossystemsit.logiceducore.domain.academic.attendance.model.valueobject.AttendanceStatus;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

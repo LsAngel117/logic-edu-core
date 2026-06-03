@@ -3,7 +3,7 @@ package com.logossystemsit.logiceducore.application.academic.group.usecase;
 import com.logossystemsit.logiceducore.application.academic.group.dto.result.GroupResult;
 import com.logossystemsit.logiceducore.application.academic.group.port.in.DeactivateGroupUseCase;
 import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
-import com.logossystemsit.logiceducore.domain.academic.group.model.GroupId;
+import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
