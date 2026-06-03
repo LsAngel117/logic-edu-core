@@ -10,6 +10,11 @@ import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
 import com.logossystemsit.logiceducore.interfaces.rest.dto.response.MembershipResponse;
 import com.logossystemsit.logiceducore.interfaces.rest.membership.dto.request.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/memberships")
+@Tag(name = "Membresías", description = "Administración de roles y membresías de usuario")
 public class MembershipController {
 
     private final AssignMembershipUseCase assignMembershipUseCase;
@@ -43,6 +49,16 @@ public class MembershipController {
     }
 
     @PostMapping
+    @Operation(summary = "Asignar membresía", description = "Asigna un rol y alcance a un usuario")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recurso creado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<MembershipResponse> assign(@RequestBody AssignMembershipRequest request) {
         UserId userId = new UserId(request.userId());
         Role role = Role.valueOf(request.role().toUpperCase());
@@ -58,6 +74,16 @@ public class MembershipController {
     }
 
     @GetMapping("/users/{userId}")
+    @Operation(summary = "Listar membresías", description = "Obtiene todas las membresías de un usuario")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<MembershipResponse>> getUserMemberships(@PathVariable String userId) {
         UserId uid = new UserId(userId);
         List<MembershipResult> results = getUserMembershipsUseCase.execute(uid);
@@ -70,6 +96,16 @@ public class MembershipController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Desactivar membresía", description = "Desactiva una membresía existente")
+    @ApiResponses({
+        @ApiResponse(responseCode = "204", description = "Operación exitosa sin contenido"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<Void> deactivate(@PathVariable String id) {
         MembershipId membershipId = new MembershipId(id);
         toggleMembershipUseCase.deactivate(membershipId);
@@ -77,6 +113,16 @@ public class MembershipController {
     }
 
     @PutMapping("/{id}/activate")
+    @Operation(summary = "Activar membresía", description = "Reactiva una membresía desactivada")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<MembershipResponse> activate(@PathVariable String id) {
         MembershipId membershipId = new MembershipId(id);
         toggleMembershipUseCase.activate(membershipId);
@@ -88,8 +134,18 @@ public class MembershipController {
     }
 
     @PatchMapping("/{id}/role")
+    @Operation(summary = "Cambiar rol", description = "Modifica el rol de una membresía")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<MembershipResponse> changeRole(@PathVariable String id,
-                                                         @RequestBody ChangeMembershipRoleRequest request) {
+                                                          @RequestBody ChangeMembershipRoleRequest request) {
         MembershipId membershipId = new MembershipId(id);
         Role newRole = Role.valueOf(request.role().toUpperCase());
 
@@ -103,8 +159,18 @@ public class MembershipController {
     }
 
     @PatchMapping("/{id}/scope")
+    @Operation(summary = "Cambiar alcance", description = "Modifica el alcance de una membresía")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<MembershipResponse> changeScope(@PathVariable String id,
-                                                          @RequestBody ChangeMembershipScopeRequest request) {
+                                                           @RequestBody ChangeMembershipScopeRequest request) {
         MembershipId membershipId = new MembershipId(id);
         Scope newScope = Scope.from(Scope.Type.valueOf(request.scopeType().toUpperCase()), request.scopeRefId());
 

@@ -16,6 +16,11 @@ import com.logossystemsit.logiceducore.interfaces.rest.dto.response.AuthResponse
 import com.logossystemsit.logiceducore.interfaces.rest.user.dto.request.LoginRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.user.dto.request.RegisterRequest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +32,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Autenticación", description = "Registro e inicio de sesión de usuarios")
 public class AuthController {
 
     private final CreateUserUseCase createUserUseCase;
@@ -48,6 +54,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @Operation(summary = "Registrar usuario", description = "Crea un nuevo usuario con su membresía inicial y devuelve token JWT")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recurso creado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
         if (userRepository.existsByUsername(new Username(request.username()))) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
@@ -66,6 +82,16 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Iniciar sesión", description = "Autentica al usuario con email y contraseña, devuelve token JWT")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         Email email = new Email(request.email());
 

@@ -11,6 +11,11 @@ import com.logossystemsit.logiceducore.domain.user.model.valueobject.*;
 import com.logossystemsit.logiceducore.interfaces.rest.dto.response.UserResponse;
 import com.logossystemsit.logiceducore.interfaces.rest.user.dto.request.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@Tag(name = "Usuarios", description = "Gestión de usuarios de la plataforma")
 public class UserController {
 
     private final CreateUserUseCase createUserUseCase;
@@ -46,6 +52,16 @@ public class UserController {
     }
 
     @PostMapping
+    @Operation(summary = "Crear usuario", description = "Registra un nuevo usuario en la plataforma")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recurso creado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<UserResponse> createUser(@RequestBody CreateUserRequest request) {
         CreateUserCommand command = mapToCreateUserCommand(request);
         CreateUserResult result = createUserUseCase.execute(command);
@@ -55,6 +71,16 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Obtener usuario", description = "Consulta un usuario por su identificador único")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<UserResponse> getUser(@PathVariable String id) {
         UserId userId;
         try {
@@ -71,6 +97,16 @@ public class UserController {
     }
 
     @GetMapping
+    @Operation(summary = "Listar usuarios", description = "Obtiene todos los usuarios registrados")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<UserResponse>> listUsers() {
         List<UserResult> results = listUsersUseCase.execute();
         List<UserResponse> responses = results.stream()
@@ -80,8 +116,18 @@ public class UserController {
     }
 
     @PatchMapping("/{id}/status")
+    @Operation(summary = "Cambiar estado", description = "Activa, desactiva o bloquea un usuario")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<UserResponse> changeStatus(@PathVariable String id,
-                                                     @RequestBody ChangeUserStatusRequest request) {
+                                                      @RequestBody ChangeUserStatusRequest request) {
         try {
             UserId userId = new UserId(id);
             User.Status status = User.Status.valueOf(request.status().toUpperCase());
@@ -99,8 +145,18 @@ public class UserController {
     }
 
     @PatchMapping("/{id}/password")
+    @Operation(summary = "Cambiar contraseña", description = "Actualiza la contraseña de un usuario")
+    @ApiResponses({
+        @ApiResponse(responseCode = "204", description = "Operación exitosa sin contenido"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<Void> changePassword(@PathVariable String id,
-                                               @RequestBody ChangePasswordRequest request) {
+                                                @RequestBody ChangePasswordRequest request) {
         UserId userId = new UserId(id);
         PasswordHash newHash = new PasswordHash(passwordEncoder.encode(request.newPassword()));
         ChangePasswordCommand command = new ChangePasswordCommand(userId, newHash);
