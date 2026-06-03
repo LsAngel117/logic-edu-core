@@ -9,6 +9,12 @@ import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.subject.dto.request.CreateSubjectRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.subject.dto.request.UpdateSubjectRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.subject.dto.response.SubjectResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/schools/{schoolId}/subjects")
+@Tag(name = "Materias", description = "Catálogo de materias y asignaturas")
 public class SubjectController {
 
     private final CreateSubjectUseCase createUseCase;
@@ -42,6 +49,16 @@ public class SubjectController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Crear materia", description = "Registra una nueva materia en el catálogo")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recurso creado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<SubjectResponse> create(
             @PathVariable String schoolId,
             @RequestBody CreateSubjectRequest request) {
@@ -60,6 +77,16 @@ public class SubjectController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Obtener materia", description = "Consulta una materia por su ID")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<SubjectResponse> getById(@PathVariable String id) {
         try {
             SubjectId subjectId = new SubjectId(id);
@@ -72,6 +99,16 @@ public class SubjectController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Listar materias", description = "Obtiene las materias de una institución")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<SubjectResponse>> listBySchool(@PathVariable String schoolId) {
         SchoolId sid = new SchoolId(schoolId);
         List<SubjectResult> results = listUseCase.execute(sid);
@@ -83,6 +120,16 @@ public class SubjectController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Actualizar materia", description = "Modifica los datos de una materia")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<SubjectResponse> update(
             @PathVariable String schoolId,
             @PathVariable String id,
@@ -103,6 +150,16 @@ public class SubjectController {
 
     @PatchMapping("/{id}/deactivate")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Desactivar materia", description = "Desactiva una materia")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<SubjectResponse> deactivate(@PathVariable String id) {
         try {
             SubjectId subjectId = new SubjectId(id);

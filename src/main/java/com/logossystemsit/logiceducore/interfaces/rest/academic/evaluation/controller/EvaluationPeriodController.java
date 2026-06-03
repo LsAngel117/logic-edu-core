@@ -9,6 +9,12 @@ import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeri
 import com.logossystemsit.logiceducore.interfaces.rest.academic.evaluation.dto.request.CreateEvaluationPeriodRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.evaluation.dto.request.UpdateEvaluationPeriodRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.evaluation.dto.response.EvaluationPeriodResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/periods/{periodId}/evaluations")
+@Tag(name = "Cortes de Evaluación", description = "Gestión de cortes o parciales evaluativos")
 public class EvaluationPeriodController {
 
     private final CreateEvaluationPeriodUseCase createUseCase;
@@ -44,6 +51,16 @@ public class EvaluationPeriodController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Crear corte", description = "Crea un corte o parcial evaluativo")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recurso creado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<EvaluationPeriodResponse> create(
             @PathVariable String periodId,
             @RequestBody CreateEvaluationPeriodRequest request) {
@@ -59,6 +76,16 @@ public class EvaluationPeriodController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Obtener corte", description = "Consulta un corte evaluativo")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<EvaluationPeriodResponse> getById(
             @PathVariable String periodId,
             @PathVariable String id) {
@@ -73,6 +100,16 @@ public class EvaluationPeriodController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Listar cortes", description = "Obtiene los cortes de un período")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<EvaluationPeriodResponse>> listByPeriod(
             @PathVariable String periodId) {
         AcademicPeriodId pid = new AcademicPeriodId(periodId);
@@ -85,6 +122,16 @@ public class EvaluationPeriodController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Actualizar corte", description = "Modifica un corte evaluativo")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<EvaluationPeriodResponse> update(
             @PathVariable String periodId,
             @PathVariable String id,
@@ -105,6 +152,16 @@ public class EvaluationPeriodController {
 
     @PatchMapping("/{id}/deactivate")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Desactivar corte", description = "Desactiva un corte evaluativo")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<EvaluationPeriodResponse> deactivate(
             @PathVariable String periodId,
             @PathVariable String id) {
@@ -120,7 +177,7 @@ public class EvaluationPeriodController {
     }
 
     private CreateEvaluationPeriodCommand mapToCreateCommand(String periodId,
-                                                              CreateEvaluationPeriodRequest r) {
+                                                               CreateEvaluationPeriodRequest r) {
         return new CreateEvaluationPeriodCommand(
                 EvaluationPeriodId.generate(),
                 new AcademicPeriodId(periodId),
@@ -133,7 +190,7 @@ public class EvaluationPeriodController {
     }
 
     private UpdateEvaluationPeriodCommand mapToUpdateCommand(String periodId, String id,
-                                                              UpdateEvaluationPeriodRequest r) {
+                                                               UpdateEvaluationPeriodRequest r) {
         return new UpdateEvaluationPeriodCommand(
                 new EvaluationPeriodId(id),
                 new AcademicPeriodId(periodId),

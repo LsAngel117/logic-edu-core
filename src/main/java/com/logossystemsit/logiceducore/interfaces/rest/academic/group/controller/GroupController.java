@@ -15,6 +15,12 @@ import com.logossystemsit.logiceducore.interfaces.rest.academic.group.dto.reques
 import com.logossystemsit.logiceducore.interfaces.rest.academic.group.dto.request.UpdateGroupRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.group.dto.request.UpdateSchedulesRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.academic.group.dto.response.GroupResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +32,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/schools/{schoolId}/groups")
+@Tag(name = "Grupos", description = "Oferta académica: grupos, horarios y capacidad")
 public class GroupController {
 
     private final CreateGroupUseCase createUseCase;
@@ -52,6 +59,16 @@ public class GroupController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Crear grupo", description = "Oferta un grupo para una materia en un período y sede")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recurso creado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<GroupResponse> create(
             @PathVariable String schoolId,
             @RequestBody CreateGroupRequest request) {
@@ -72,6 +89,16 @@ public class GroupController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Obtener grupo", description = "Consulta un grupo con sus horarios")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<GroupResponse> getById(@PathVariable String id) {
         try {
             GroupId groupId = new GroupId(id);
@@ -84,6 +111,16 @@ public class GroupController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Listar grupos", description = "Obtiene los grupos de una institución, con filtros opcionales por sede y período")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<GroupResponse>> listBySchool(
             @PathVariable String schoolId,
             @RequestParam(required = false) String branchId,
@@ -101,6 +138,16 @@ public class GroupController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Actualizar grupo", description = "Modifica los datos de un grupo")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<GroupResponse> update(
             @PathVariable String schoolId,
             @PathVariable String id,
@@ -124,6 +171,16 @@ public class GroupController {
 
     @PutMapping("/{id}/schedules")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Actualizar horarios", description = "Modifica los horarios de un grupo")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<GroupResponse> updateSchedules(
             @PathVariable String schoolId,
             @PathVariable String id,
@@ -148,6 +205,16 @@ public class GroupController {
 
     @PatchMapping("/{id}/deactivate")
     @PreAuthorize("hasAnyRole('PLATFORM_ADMIN','SCHOOL_ADMIN')")
+    @Operation(summary = "Desactivar grupo", description = "Desactiva un grupo. Las matrículas existentes se conservan como histórico")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<GroupResponse> deactivate(@PathVariable String id) {
         try {
             GroupId groupId = new GroupId(id);
