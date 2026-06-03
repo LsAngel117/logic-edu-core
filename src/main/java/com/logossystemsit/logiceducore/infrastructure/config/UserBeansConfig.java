@@ -84,4 +84,11 @@ public class UserBeansConfig {
             Clock clock) {
         return new ChangeUserStatusService(userRepository, clock);
     }
+
+    @Bean
+    public UpdateUserService updateUserService(
+            UserRepository userRepository,
+            Clock clock) {
+        return new UpdateUserService(userRepository, clock);
+    }
 }

@@ -154,6 +154,25 @@ public class User {
         );
     }
 
+    public User changeBasicInfo(Email email, Name name, User.Sex sex,
+                                LocalDate birthDate, Document document, Instant now) {
+        validateTimeProgression(now);
+        ensureNotBlocked();
+        Objects.requireNonNull(email, "Email is required");
+        Objects.requireNonNull(name, "Name is required");
+        Objects.requireNonNull(sex, "Sex is required");
+        Objects.requireNonNull(birthDate, "Birth date is required");
+        Objects.requireNonNull(document, "Document is required");
+        validateBirthDate(birthDate, now);
+
+        return new User(
+                id, username, email, passwordHash, name, sex, birthDate, document,
+                status,
+                createdAt,
+                now
+        );
+    }
+
     public boolean isActive() {
         return this.status == Status.ACTIVE;
     }
@@ -180,6 +199,12 @@ public class User {
 
         if (this.passwordHash.equals(newPassword)) {
             throw new IllegalArgumentException("New password cannot be the same as the current one");
+        }
+    }
+
+    private void ensureNotBlocked() {
+        if (this.status == Status.BLOCKED) {
+            throw new IllegalStateException("Blocked user cannot be modified");
         }
     }
 

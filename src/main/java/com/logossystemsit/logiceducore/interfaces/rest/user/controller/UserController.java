@@ -35,6 +35,7 @@ public class UserController {
     private final ListUsersUseCase listUsersUseCase;
     private final ChangeUserStatusUseCase changeUserStatusUseCase;
     private final ChangePasswordUseCase changePasswordUseCase;
+    private final UpdateUserUseCase updateUserUseCase;
     private final PasswordEncoder passwordEncoder;
 
     public UserController(CreateUserUseCase createUserUseCase,
@@ -42,12 +43,14 @@ public class UserController {
                           ListUsersUseCase listUsersUseCase,
                           ChangeUserStatusUseCase changeUserStatusUseCase,
                           ChangePasswordUseCase changePasswordUseCase,
+                          UpdateUserUseCase updateUserUseCase,
                           PasswordEncoder passwordEncoder) {
         this.createUserUseCase = createUserUseCase;
         this.getUserUseCase = getUserUseCase;
         this.listUsersUseCase = listUsersUseCase;
         this.changeUserStatusUseCase = changeUserStatusUseCase;
         this.changePasswordUseCase = changePasswordUseCase;
+        this.updateUserUseCase = updateUserUseCase;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -94,6 +97,25 @@ public class UserController {
         } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Actualizar usuario", description = "Modifica la información básica de un usuario")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Sin permisos para ejecutar la acción"),
+        @ApiResponse(responseCode = "404", description = "Recurso no encontrado"),
+        @ApiResponse(responseCode = "409", description = "Conflicto de regla de negocio"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<UserResponse> updateUser(@PathVariable String id,
+                                                    @RequestBody UpdateUserRequest request) {
+        UserId userId = new UserId(id);
+        UpdateUserCommand command = mapToUpdateUserCommand(request, userId);
+        UserResult result = updateUserUseCase.execute(command);
+        return ResponseEntity.ok(toUserResponse(result));
     }
 
     @GetMapping
@@ -191,5 +213,17 @@ public class UserController {
                 result.status(),
                 LocalDate.now().toString()
         );
+    }
+
+    private UpdateUserCommand mapToUpdateUserCommand(UpdateUserRequest r, UserId userId) {
+        Email email = new Email(r.email());
+        Name name = new Name(r.firstGivenName(), r.secondGivenName(), r.firstFamilyName(), r.secondFamilyName());
+        User.Sex sex = User.Sex.valueOf(r.sex().toUpperCase());
+        LocalDate birthDate = LocalDate.parse(r.birthDate());
+        Document document = new Document(
+                Document.DocumentType.valueOf(r.documentType()),
+                new DocumentNumber(r.documentValue())
+        );
+        return new UpdateUserCommand(userId, email, name, sex, birthDate, document);
     }
 }
