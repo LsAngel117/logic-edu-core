@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.user.dto.result.CreateUserRes
 import com.logossystemsit.logiceducore.application.user.port.in.CreateUserUseCase;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.user.model.User;
 import com.logossystemsit.logiceducore.domain.membership.model.Membership;
@@ -51,7 +53,7 @@ public class CreateUserService implements CreateUserUseCase {
         String availableUsername = candidates.stream()
                 .filter(candidate -> !userRepository.existsByUsername(new Username(candidate)))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No available usernames"));
+                .orElseThrow(() -> new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "No available usernames"));
 
         Username username = new Username(availableUsername);
 

@@ -8,6 +8,9 @@ import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.G
 import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
 import com.logossystemsit.logiceducore.domain.academic.group.model.Schedule;
 import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.ScheduleId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -27,10 +30,10 @@ public class UpdateGroupSchedulesService implements UpdateGroupSchedulesUseCase 
     @Transactional
     public GroupResult execute(GroupId groupId, List<ScheduleData> schedules) {
         var group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new IllegalArgumentException("Group not found: " + groupId.value()));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.GROUP_NOT_FOUND, "Group not found: " + groupId.value()));
 
         if (group.getStatus() != GroupStatus.ACTIVE) {
-            throw new IllegalStateException("Cannot update schedules of an inactive group");
+            throw new BusinessRuleException(ErrorCode.GROUP_INACTIVE, "Cannot update schedules of an inactive group");
         }
 
         List<Schedule> newSchedules = schedules.stream()

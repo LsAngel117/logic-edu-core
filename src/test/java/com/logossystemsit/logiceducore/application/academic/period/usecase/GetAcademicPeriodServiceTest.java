@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.application.academic.period.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.academic.period.dto.result.AcademicPeriodResult;
 import com.logossystemsit.logiceducore.application.academic.period.port.in.GetAcademicPeriodUseCase;
@@ -66,7 +67,7 @@ class GetAcademicPeriodServiceTest {
         when(repository.findById(any())).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(PERIOD_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("not found");
     }
 }

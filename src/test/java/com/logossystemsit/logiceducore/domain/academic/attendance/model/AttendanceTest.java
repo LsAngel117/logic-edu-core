@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.domain.academic.attendance.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.academic.attendance.model.valueobject.AttendanceId;
 import com.logossystemsit.logiceducore.domain.academic.attendance.model.valueobject.AttendanceStatus;
@@ -47,7 +48,7 @@ class AttendanceTest {
         @DisplayName("should reject null or blank AttendanceId")
         void shouldRejectNullOrBlankAttendanceId(String value) {
             assertThatThrownBy(() -> new AttendanceId(value))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("AttendanceId");
         }
 

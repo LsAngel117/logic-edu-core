@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.academic.evaluation.port.in.G
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.EvaluationPeriodRepository;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriod;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 public class GetEvaluationPeriodService implements GetEvaluationPeriodUseCase {
 
@@ -17,7 +19,7 @@ public class GetEvaluationPeriodService implements GetEvaluationPeriodUseCase {
     @Override
     public EvaluationPeriodResult execute(EvaluationPeriodId id) {
         EvaluationPeriod period = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.EVALUATION_PERIOD_NOT_FOUND,
                         "EvaluationPeriod not found: " + id.value()));
         return EvaluationPeriodResult.from(period);
     }

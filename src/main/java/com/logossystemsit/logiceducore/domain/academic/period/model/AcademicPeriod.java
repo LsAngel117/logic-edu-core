@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.academic.period.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
 import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
@@ -39,7 +41,7 @@ public final class AcademicPeriod {
         this.periodType = Objects.requireNonNull(periodType, "periodType is required");
         Objects.requireNonNull(name, "name is required");
         if (name.isBlank()) {
-            throw new IllegalArgumentException("name must not be blank");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "name must not be blank");
         }
         this.name = name.trim();
         this.sequence = sequence;
@@ -100,7 +102,7 @@ public final class AcademicPeriod {
         Objects.requireNonNull(newStart, "startDate is required");
         Objects.requireNonNull(newEnd, "endDate is required");
         if (!newStart.isBefore(newEnd)) {
-            throw new IllegalArgumentException("start date must be before end date");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "start date must be before end date");
         }
 
         return new AcademicPeriod(
@@ -114,7 +116,7 @@ public final class AcademicPeriod {
     public AcademicPeriod changeName(String newName, Instant now) {
         Objects.requireNonNull(newName, "name must not be null");
         if (newName.isBlank()) {
-            throw new IllegalArgumentException("name must not be blank");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "name must not be blank");
         }
 
         return new AcademicPeriod(
@@ -142,7 +144,7 @@ public final class AcademicPeriod {
 
     private void validate() {
         if (!startDate.isBefore(endDate)) {
-            throw new IllegalArgumentException("start date must be before end date");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "start date must be before end date");
         }
     }
 

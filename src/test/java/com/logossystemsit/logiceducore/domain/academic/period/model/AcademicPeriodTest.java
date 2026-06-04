@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.domain.academic.period.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
 import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
@@ -39,7 +40,7 @@ class AcademicPeriodTest {
         @DisplayName("should reject null value")
         void shouldRejectNullValue() {
             assertThatThrownBy(() -> new AcademicPeriodId(null))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("required");
         }
 
@@ -47,7 +48,7 @@ class AcademicPeriodTest {
         @DisplayName("should reject blank value")
         void shouldRejectBlankValue() {
             assertThatThrownBy(() -> new AcademicPeriodId("  "))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("required");
         }
     }
@@ -223,7 +224,7 @@ class AcademicPeriodTest {
                     LocalDate.of(2026, 8, 1),
                     LocalDate.of(2026, 1, 1),
                     NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("start date must be before end date");
         }
 
@@ -245,7 +246,7 @@ class AcademicPeriodTest {
                     LocalDate.of(2026, 12, 1),
                     LocalDate.of(2026, 11, 1),
                     NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("start date must be before end date");
         }
     }
@@ -312,7 +313,7 @@ class AcademicPeriodTest {
             );
 
             assertThatThrownBy(() -> period.changeName("  ", NOW))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("name");
         }
     }
@@ -451,7 +452,7 @@ class AcademicPeriodTest {
                     START_DATE,
                     END_DATE,
                     NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("name");
         }
 
@@ -467,7 +468,7 @@ class AcademicPeriodTest {
                     LocalDate.of(2026, 8, 1),
                     LocalDate.of(2026, 1, 1),
                     NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("start date must be before end date");
         }
     }

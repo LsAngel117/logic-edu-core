@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.domain.academic.subject.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectId;
 import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectStatus;
@@ -35,7 +36,7 @@ class SubjectTest {
         @DisplayName("should reject null value")
         void shouldRejectNullValue() {
             assertThatThrownBy(() -> new SubjectId(null))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("required");
         }
 
@@ -43,7 +44,7 @@ class SubjectTest {
         @DisplayName("should reject blank value")
         void shouldRejectBlankValue() {
             assertThatThrownBy(() -> new SubjectId("  "))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("required");
         }
 
@@ -253,7 +254,7 @@ class SubjectTest {
             );
 
             assertThatThrownBy(() -> subject.changeData("  ", "Name", null, 120, NOW))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("code");
         }
 
@@ -289,7 +290,7 @@ class SubjectTest {
             );
 
             assertThatThrownBy(() -> subject.changeData("MAT102", "  ", null, 120, NOW))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("name");
         }
 
@@ -307,7 +308,7 @@ class SubjectTest {
             );
 
             assertThatThrownBy(() -> subject.changeData("MAT102", "Name", null, -1, NOW))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("hours");
         }
     }
@@ -468,7 +469,7 @@ class SubjectTest {
                     null,
                     120,
                     NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("code");
         }
 
@@ -498,7 +499,7 @@ class SubjectTest {
                     null,
                     120,
                     NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("name");
         }
 
@@ -513,7 +514,7 @@ class SubjectTest {
                     null,
                     -1,
                     NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("hours");
         }
 

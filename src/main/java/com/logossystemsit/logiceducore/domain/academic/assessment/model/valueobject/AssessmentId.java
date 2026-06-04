@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.UUID;
 
@@ -6,7 +8,7 @@ public record AssessmentId(String value) {
 
     public AssessmentId {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("AssessmentId is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "AssessmentId is required");
         }
         value = value.trim();
     }

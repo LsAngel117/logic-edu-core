@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.application.school.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.school.dto.result.SchoolResult;
 import com.logossystemsit.logiceducore.application.school.port.in.GetSchoolUseCase;
@@ -53,7 +54,7 @@ class GetSchoolServiceTest {
         when(schoolRepository.findById(SCHOOL_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(SCHOOL_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("School not found");
     }
 

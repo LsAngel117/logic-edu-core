@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.membership.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.membership.dto.command.ChangeMembershipScopeCommand;
 import com.logossystemsit.logiceducore.application.membership.port.in.ChangeMembershipScopeUseCase;
@@ -62,7 +64,7 @@ class ChangeMembershipScopeServiceTest {
 
         assertThatThrownBy(() ->
                 useCase.execute(new ChangeMembershipScopeCommand(membershipId, Scope.course("new-course"))))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
@@ -79,7 +81,7 @@ class ChangeMembershipScopeServiceTest {
 
         assertThatThrownBy(() ->
                 useCase.execute(new ChangeMembershipScopeCommand(membershipId, Scope.school("school-1"))))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("cannot be assigned to scope");
     }
 }

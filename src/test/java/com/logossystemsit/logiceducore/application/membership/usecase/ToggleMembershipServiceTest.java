@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.membership.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.membership.port.in.ToggleMembershipUseCase;
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
@@ -81,7 +83,7 @@ class ToggleMembershipServiceTest {
         when(repository.findById(id)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.deactivate(id))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
@@ -90,7 +92,7 @@ class ToggleMembershipServiceTest {
         when(repository.findById(id)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.activate(id))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
@@ -102,7 +104,7 @@ class ToggleMembershipServiceTest {
         when(repository.findByUserId(userId)).thenReturn(List.of(onlyActive));
 
         assertThatThrownBy(() -> useCase.deactivate(id))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("Cannot deactivate the last active membership");
     }
 

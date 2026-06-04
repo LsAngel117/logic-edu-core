@@ -3,6 +3,8 @@ package com.logossystemsit.logiceducore.application.user.usecase;
 import com.logossystemsit.logiceducore.application.user.dto.command.ChangePasswordCommand;
 import com.logossystemsit.logiceducore.application.user.port.in.ChangePasswordUseCase;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +25,7 @@ public class ChangePasswordService implements ChangePasswordUseCase {
     public void execute(ChangePasswordCommand command) {
 
         var user = userRepository.findById(command.userId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.USER_NOT_FOUND, "User not found"));
 
         var updated = user.changePassword(command.newPassword(), clock.instant());
 

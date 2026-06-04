@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.school.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.*;
 
@@ -141,7 +143,7 @@ public final class School {
     /* ---------- AUXILIARES ---------- */
     private void ensureActive() {
         if (this.status == Status.INACTIVE) {
-            throw new IllegalStateException("Cannot modify an inactive school");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "Cannot modify an inactive school");
         }
     }
 

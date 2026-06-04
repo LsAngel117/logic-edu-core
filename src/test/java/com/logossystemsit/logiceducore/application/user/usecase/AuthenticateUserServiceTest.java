@@ -1,4 +1,7 @@
 package com.logossystemsit.logiceducore.application.user.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.AuthenticationException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.user.dto.command.LoginCommand;
 import com.logossystemsit.logiceducore.application.user.dto.result.LoginResult;
@@ -74,7 +77,7 @@ class AuthenticateUserServiceTest {
         when(userRepository.findById(USER_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(new LoginCommand(USER_ID, RAW_PASSWORD)))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("User not found");
     }
 
@@ -85,7 +88,7 @@ class AuthenticateUserServiceTest {
         when(passwordEncoder.matches(RAW_PASSWORD, user.getPasswordHash().value())).thenReturn(false);
 
         assertThatThrownBy(() -> useCase.execute(new LoginCommand(USER_ID, RAW_PASSWORD)))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(AuthenticationException.class)
                 .hasMessage("Invalid credentials");
     }
 

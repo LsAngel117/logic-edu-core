@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.period.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.academic.period.dto.command.UpdateAcademicPeriodCommand;
 import com.logossystemsit.logiceducore.application.academic.period.dto.result.AcademicPeriodResult;
@@ -129,7 +131,7 @@ class UpdateAcademicPeriodServiceTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("overlap");
 
             verify(repository, never()).save(any());
@@ -155,7 +157,7 @@ class UpdateAcademicPeriodServiceTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("inactive");
 
             verify(repository, never()).save(any());
@@ -176,7 +178,7 @@ class UpdateAcademicPeriodServiceTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("not found");
         }
     }

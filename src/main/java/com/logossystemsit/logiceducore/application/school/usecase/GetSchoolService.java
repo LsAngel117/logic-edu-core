@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.school.port.in.GetSchoolUseCa
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.domain.school.model.School;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 public class GetSchoolService implements GetSchoolUseCase {
@@ -19,7 +21,7 @@ public class GetSchoolService implements GetSchoolUseCase {
     @Transactional(readOnly = true)
     public SchoolResult execute(SchoolId schoolId) {
         School school = schoolRepository.findById(schoolId)
-                .orElseThrow(() -> new IllegalArgumentException("School not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.SCHOOL_NOT_FOUND, "School not found"));
 
         return SchoolResult.from(school);
     }

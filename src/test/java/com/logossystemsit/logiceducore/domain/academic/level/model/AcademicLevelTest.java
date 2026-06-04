@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.domain.academic.level.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
 import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelStatus;
@@ -35,7 +36,7 @@ class AcademicLevelTest {
         @DisplayName("should reject null value")
         void shouldRejectNullValue() {
             assertThatThrownBy(() -> new AcademicLevelId(null))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("required");
         }
 
@@ -43,7 +44,7 @@ class AcademicLevelTest {
         @DisplayName("should reject blank value")
         void shouldRejectBlankValue() {
             assertThatThrownBy(() -> new AcademicLevelId("  "))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("required");
         }
     }
@@ -186,7 +187,7 @@ class AcademicLevelTest {
             );
 
             assertThatThrownBy(() -> level.changeName("  ", NOW))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("name");
         }
     }
@@ -348,7 +349,7 @@ class AcademicLevelTest {
                     "  ",
                     1,
                     NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("name");
         }
 
@@ -361,7 +362,7 @@ class AcademicLevelTest {
                     "Primaria",
                     0,
                     NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("number");
         }
 
@@ -374,7 +375,7 @@ class AcademicLevelTest {
                     "Primaria",
                     -1,
                     NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("number");
         }
     }

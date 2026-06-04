@@ -10,6 +10,9 @@ import com.logossystemsit.logiceducore.domain.academic.assessment.model.Assessme
 import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
 import com.logossystemsit.logiceducore.domain.academic.group.model.Group;
 import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -37,24 +40,24 @@ public class CreateAssessmentService implements CreateAssessmentUseCase {
     @Transactional
     public AssessmentResult execute(CreateAssessmentCommand command) {
         Group group = groupRepository.findById(command.groupId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.GROUP_NOT_FOUND,
                         "Group not found: " + command.groupId().value()));
 
         if (group.getStatus() != GroupStatus.ACTIVE) {
-            throw new IllegalStateException("Cannot create assessment: group is not active");
+            throw new BusinessRuleException(ErrorCode.GROUP_INACTIVE, "Cannot create assessment: group is not active");
         }
 
         if (!group.getTeacherId().equals(command.teacherId())) {
-            throw new IllegalStateException("Teacher is not authorized for this group");
+            throw new BusinessRuleException(ErrorCode.TEACHER_NOT_ASSIGNED, "Teacher is not authorized for this group");
         }
 
         if (assessmentRepository.existsByGroupIdAndName(command.groupId(), command.name())) {
-            throw new IllegalStateException("Assessment with name '" + command.name() + "' already exists in this group");
+            throw new BusinessRuleException(ErrorCode.ASSESSMENT_ALREADY_EXISTS, "Assessment with name '" + command.name() + "' already exists in this group");
         }
 
         if (command.evaluationPeriodId() != null) {
             evaluationPeriodRepository.findById(command.evaluationPeriodId())
-                    .orElseThrow(() -> new IllegalArgumentException(
+                    .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.EVALUATION_PERIOD_NOT_FOUND,
                             "Evaluation period not found: " + command.evaluationPeriodId().value()));
         }
 

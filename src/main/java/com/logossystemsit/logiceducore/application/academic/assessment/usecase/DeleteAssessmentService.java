@@ -9,6 +9,9 @@ import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobj
 import com.logossystemsit.logiceducore.domain.academic.group.model.Group;
 import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -36,19 +39,19 @@ public class DeleteAssessmentService implements DeleteAssessmentUseCase {
     @Transactional
     public void execute(AssessmentId id, GroupId groupId, UserId teacherId) {
         Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.GROUP_NOT_FOUND,
                         "Group not found: " + groupId.value()));
 
         if (!group.getTeacherId().equals(teacherId)) {
-            throw new IllegalStateException("Teacher is not authorized for this group");
+            throw new BusinessRuleException(ErrorCode.TEACHER_NOT_ASSIGNED, "Teacher is not authorized for this group");
         }
 
         Assessment assessment = assessmentRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ASSESSMENT_NOT_FOUND,
                         "Assessment not found: " + id.value()));
 
         if (gradeRepository.countByAssessmentId(id) > 0) {
-            throw new IllegalStateException("Cannot delete: assessment has grades");
+            throw new BusinessRuleException(ErrorCode.ASSESSMENT_HAS_GRADES, "Cannot delete: assessment has grades");
         }
 
         assessmentRepository.delete(assessment);

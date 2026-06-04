@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.membership.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.UUID;
 
@@ -6,7 +8,7 @@ public record MembershipId(String value) {
 
     public MembershipId {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("MembershipId is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "MembershipId is required");
         }
         value = value.trim();
     }

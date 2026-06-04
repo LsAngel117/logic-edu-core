@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.user.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.user.dto.command.ChangeUserStatusCommand;
 import com.logossystemsit.logiceducore.application.user.port.in.ChangeUserStatusUseCase;
@@ -81,7 +83,7 @@ class ChangeUserStatusServiceTest {
 
         assertThatThrownBy(() ->
                 useCase.execute(new ChangeUserStatusCommand(USER_ID, User.Status.ACTIVE)))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("User not found");
     }
 
@@ -92,7 +94,7 @@ class ChangeUserStatusServiceTest {
 
         assertThatThrownBy(() ->
                 useCase.execute(new ChangeUserStatusCommand(USER_ID, User.Status.BLOCKED)))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessage("User already blocked");
     }
 

@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.branch.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.branch.dto.result.BranchResult;
 import com.logossystemsit.logiceducore.application.branch.port.in.DeactivateBranchUseCase;
@@ -74,7 +76,7 @@ class DeactivateBranchServiceTest {
         when(branchRepository.countActiveBySchoolId(SCHOOL_ID)).thenReturn(3); // MAIN + 2 active secondaries
 
         assertThatThrownBy(() -> useCase.execute(SCHOOL_ID, BRANCH_ID))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("Cannot deactivate the main branch while there are active secondary branches");
 
         verify(branchRepository, never()).save(any());
@@ -85,7 +87,7 @@ class DeactivateBranchServiceTest {
         when(branchRepository.findById(BRANCH_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(SCHOOL_ID, BRANCH_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("Branch not found");
     }
 
@@ -96,7 +98,7 @@ class DeactivateBranchServiceTest {
         when(branchRepository.findById(BRANCH_ID)).thenReturn(Optional.of(branch));
 
         assertThatThrownBy(() -> useCase.execute(SCHOOL_ID, BRANCH_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("Branch not found");
     }
 
@@ -106,7 +108,7 @@ class DeactivateBranchServiceTest {
         when(branchRepository.findById(BRANCH_ID)).thenReturn(Optional.of(branch));
 
         assertThatThrownBy(() -> useCase.execute(SCHOOL_ID, BRANCH_ID))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("already inactive");
     }
 

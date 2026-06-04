@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.user.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Objects;
 
@@ -46,7 +48,7 @@ public class Document {
             @Override
             public void validate(String value) {
                 if (!value.matches("^\\d{6,10}$")) {
-                    throw new IllegalArgumentException("Invalid CC format");
+                    throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Invalid CC format");
                 }
             }
         },
@@ -55,7 +57,7 @@ public class Document {
             @Override
             public void validate(String value) {
                 if (!value.matches("^\\d{6,10}$")) {
-                    throw new IllegalArgumentException("Invalid TI format");
+                    throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Invalid TI format");
                 }
             }
         },
@@ -64,7 +66,7 @@ public class Document {
             @Override
             public void validate(String value) {
                 if (!value.matches("^[A-Za-z0-9]{6,12}$")) {
-                    throw new IllegalArgumentException("Invalid CE format");
+                    throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Invalid CE format");
                 }
             }
         },
@@ -73,7 +75,7 @@ public class Document {
             @Override
             public void validate(String value) {
                 if (!value.matches("^\\d{8,12}$")) {
-                    throw new IllegalArgumentException("Invalid RC format");
+                    throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Invalid RC format");
                 }
             }
         },

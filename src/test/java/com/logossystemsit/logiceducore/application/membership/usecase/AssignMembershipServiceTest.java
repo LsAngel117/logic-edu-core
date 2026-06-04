@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.membership.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.membership.dto.command.AssignMembershipCommand;
 import com.logossystemsit.logiceducore.application.membership.port.in.AssignMembershipUseCase;
@@ -54,7 +56,7 @@ class AssignMembershipServiceTest {
                 USER_ID, Role.PLATFORM_ADMIN, Scope.course("course-123"));
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("cannot be assigned to scope");
     }
 

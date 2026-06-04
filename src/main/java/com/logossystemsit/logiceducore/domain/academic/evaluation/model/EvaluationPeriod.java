@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.academic.evaluation.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodStatus;
@@ -38,7 +40,7 @@ public final class EvaluationPeriod {
         this.periodId = Objects.requireNonNull(periodId, "AcademicPeriodId is required");
         Objects.requireNonNull(name, "name is required");
         if (name.isBlank()) {
-            throw new IllegalArgumentException("name must not be blank");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "name must not be blank");
         }
         this.name = name.trim();
         this.sequence = sequence;
@@ -100,7 +102,7 @@ public final class EvaluationPeriod {
     public EvaluationPeriod changeName(String newName, Instant now) {
         Objects.requireNonNull(newName, "name must not be null");
         if (newName.isBlank()) {
-            throw new IllegalArgumentException("name must not be blank");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "name must not be blank");
         }
         return new EvaluationPeriod(
                 this.id, this.periodId, newName.trim(), this.sequence,
@@ -151,12 +153,12 @@ public final class EvaluationPeriod {
 
     private void validate() {
         if (!startDate.isBefore(endDate)) {
-            throw new IllegalArgumentException("start date must be before end date");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "start date must be before end date");
         }
         BigDecimal zero = BigDecimal.ZERO;
         BigDecimal max = new BigDecimal("100");
         if (weight.compareTo(zero) <= 0 || weight.compareTo(max) > 0) {
-            throw new IllegalArgumentException("weight must be between 0 and 100");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "weight must be between 0 and 100");
         }
     }
 

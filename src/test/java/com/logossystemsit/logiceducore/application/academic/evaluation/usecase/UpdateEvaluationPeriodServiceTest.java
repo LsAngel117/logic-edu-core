@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.evaluation.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.academic.evaluation.dto.command.UpdateEvaluationPeriodCommand;
 import com.logossystemsit.logiceducore.application.academic.evaluation.dto.result.EvaluationPeriodResult;
@@ -102,7 +104,7 @@ class UpdateEvaluationPeriodServiceTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("not found");
         }
     }
@@ -122,7 +124,7 @@ class UpdateEvaluationPeriodServiceTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("inactive");
         }
     }

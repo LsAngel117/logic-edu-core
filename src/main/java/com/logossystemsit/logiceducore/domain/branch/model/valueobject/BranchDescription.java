@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.branch.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -29,7 +31,7 @@ public final class BranchDescription {
         String normalized = value.trim().replaceAll("\\s+", " ");
 
         if (normalized.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException(
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, 
                     "BranchDescription must not exceed " + MAX_LENGTH + " characters"
             );
         }

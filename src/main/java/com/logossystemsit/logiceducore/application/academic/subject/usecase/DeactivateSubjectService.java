@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.academic.subject.port.in.Deac
 import com.logossystemsit.logiceducore.application.academic.subject.port.out.SubjectRepository;
 import com.logossystemsit.logiceducore.domain.academic.subject.model.Subject;
 import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -23,7 +25,7 @@ public class DeactivateSubjectService implements DeactivateSubjectUseCase {
     @Transactional
     public SubjectResult execute(SubjectId id) {
         Subject subject = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.SUBJECT_NOT_FOUND,
                         "Subject not found: " + id.value()));
 
         Subject deactivated = subject.deactivate(clock.instant());

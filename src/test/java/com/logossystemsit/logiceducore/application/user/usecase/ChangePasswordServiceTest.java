@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.user.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.user.dto.command.ChangePasswordCommand;
 import com.logossystemsit.logiceducore.application.user.port.in.ChangePasswordUseCase;
@@ -61,7 +63,7 @@ class ChangePasswordServiceTest {
         when(userRepository.findById(USER_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(new ChangePasswordCommand(USER_ID, NEW_PASSWORD)))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("User not found");
     }
 
@@ -71,7 +73,7 @@ class ChangePasswordServiceTest {
         when(userRepository.findById(USER_ID)).thenReturn(Optional.of(user));
 
         assertThatThrownBy(() -> useCase.execute(new ChangePasswordCommand(USER_ID, NEW_PASSWORD)))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessage("Blocked user cannot change password");
     }
 
@@ -81,7 +83,7 @@ class ChangePasswordServiceTest {
         when(userRepository.findById(USER_ID)).thenReturn(Optional.of(user));
 
         assertThatThrownBy(() -> useCase.execute(new ChangePasswordCommand(USER_ID, OLD_PASSWORD)))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessage("New password cannot be the same as the current one");
     }
 

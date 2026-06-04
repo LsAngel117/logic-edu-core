@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.user.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.application.user.dto.command.CreateUserCommand;
@@ -111,7 +113,7 @@ class CreateUserServiceTest {
                 ROLE, SCOPE);
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("CC requires legal age");
     }
 
@@ -124,7 +126,7 @@ class CreateUserServiceTest {
                 ROLE, SCOPE);
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("TI is only for minors");
     }
 }

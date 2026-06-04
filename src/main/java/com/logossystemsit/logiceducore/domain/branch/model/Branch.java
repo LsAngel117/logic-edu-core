@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.branch.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
@@ -196,18 +198,18 @@ public final class Branch {
     private void validate() {
         //Sede física con dirección, virtual sin dirección
         if (type == BranchType.VIRTUAL && address != null && address.isPresent()) {
-            throw new IllegalStateException("Virtual branch cannot have a physical address");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "Virtual branch cannot have a physical address");
         }
         if (type == BranchType.MAIN || type == BranchType.SECONDARY) {
             if (address == null || address.isEmpty()) {
-                throw new IllegalStateException("Physical branch must have an address");
+                throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "Physical branch must have an address");
             }
         }
     }
 
     private void ensureActive() {
         if (this.status == Status.INACTIVE) {
-            throw new IllegalStateException("Cannot modify an inactive branch");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "Cannot modify an inactive branch");
         }
     }
 

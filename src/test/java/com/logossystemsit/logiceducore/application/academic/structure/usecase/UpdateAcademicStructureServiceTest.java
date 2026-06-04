@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.structure.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.academic.structure.dto.command.UpdateAcademicStructureCommand;
 import com.logossystemsit.logiceducore.application.academic.structure.port.in.UpdateAcademicStructureUseCase;
@@ -81,7 +83,7 @@ class UpdateAcademicStructureServiceTest {
         );
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("not found");
 
         verify(repository, never()).save(any());
@@ -103,7 +105,7 @@ class UpdateAcademicStructureServiceTest {
         );
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("Cannot modify an inactive structure");
 
         verify(repository, never()).save(any());

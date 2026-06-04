@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.membership.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -54,17 +56,17 @@ public final class Scope {
 
     private static String normalizeId(String value, String fieldName) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException(fieldName + " is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, fieldName + " is required");
         }
         return value.trim();
     }
 
     private void validate() {
         if (type == Type.PLATFORM && referenceId != null) {
-            throw new IllegalArgumentException("PLATFORM scope must not have referenceId");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "PLATFORM scope must not have referenceId");
         }
         if (type != Type.PLATFORM && (referenceId == null || referenceId.isBlank())) {
-            throw new IllegalArgumentException(type + " scope requires referenceId");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, type + " scope requires referenceId");
         }
     }
 

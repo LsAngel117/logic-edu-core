@@ -6,6 +6,9 @@ import com.logossystemsit.logiceducore.application.academic.period.port.in.Updat
 import com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository;
 import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriod;
 import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.PeriodStatus;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -26,11 +29,11 @@ public class UpdateAcademicPeriodService implements UpdateAcademicPeriodUseCase 
     @Transactional
     public AcademicPeriodResult execute(UpdateAcademicPeriodCommand command) {
         AcademicPeriod current = repository.findById(command.periodId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ACADEMIC_PERIOD_NOT_FOUND,
                         "AcademicPeriod not found: " + command.periodId().value()));
 
         if (current.getStatus() == PeriodStatus.INACTIVE) {
-            throw new IllegalStateException("Cannot modify an inactive AcademicPeriod");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "Cannot modify an inactive AcademicPeriod");
         }
 
         AcademicPeriod updated = current;
@@ -56,7 +59,7 @@ public class UpdateAcademicPeriodService implements UpdateAcademicPeriodUseCase 
             for (AcademicPeriod other : others) {
                 if (overlaps(updated.getStartDate(), updated.getEndDate(),
                         other.getStartDate(), other.getEndDate())) {
-                    throw new IllegalArgumentException(
+                    throw new BusinessRuleException(ErrorCode.ACADEMIC_PERIOD_OVERLAP,
                             "Period overlaps with existing period: " + other.getId().value());
                 }
             }

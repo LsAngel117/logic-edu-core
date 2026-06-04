@@ -17,6 +17,9 @@ import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.
 import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectStatus;
 import com.logossystemsit.logiceducore.domain.branch.model.Branch;
 import com.logossystemsit.logiceducore.domain.school.model.School;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -54,47 +57,47 @@ public class CreateGroupService implements CreateGroupUseCase {
     @Transactional
     public GroupResult execute(CreateGroupCommand command) {
         School school = schoolRepository.findById(command.schoolId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.SCHOOL_NOT_FOUND,
                         "School not found: " + command.schoolId().value()));
         if (!school.isActive()) {
-            throw new IllegalStateException("School is not active");
+            throw new BusinessRuleException(ErrorCode.SCHOOL_INACTIVE, "School is not active");
         }
 
         var subject = subjectRepository.findById(command.subjectId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.SUBJECT_NOT_FOUND,
                         "Subject not found: " + command.subjectId().value()));
         if (subject.getStatus() != SubjectStatus.ACTIVE) {
-            throw new IllegalStateException("Subject is not active");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "Subject is not active");
         }
 
         var period = periodRepository.findById(command.academicPeriodId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ACADEMIC_PERIOD_NOT_FOUND,
                         "Academic period not found: " + command.academicPeriodId().value()));
         if (period.getStatus() != PeriodStatus.ACTIVE) {
-            throw new IllegalStateException("Academic period is not active");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "Academic period is not active");
         }
 
         Branch branch = branchRepository.findById(command.branchId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.BRANCH_NOT_FOUND,
                         "Branch not found: " + command.branchId().value()));
         if (!branch.isActive()) {
-            throw new IllegalStateException("Branch is not active");
+            throw new BusinessRuleException(ErrorCode.BRANCH_INACTIVE, "Branch is not active");
         }
 
         var memberships = membershipRepository.findByUserId(command.teacherId());
         boolean hasTeacherRole = memberships.stream().anyMatch(m -> m.isActive() && m.isTeacher());
         if (!hasTeacherRole) {
-            throw new IllegalStateException(
+            throw new BusinessRuleException(ErrorCode.TEACHER_NOT_ASSIGNED,
                     "Teacher does not have TEACHER role: " + command.teacherId().value());
         }
 
         if (groupRepository.existsBySchoolIdAndCode(command.schoolId(), command.code())) {
-            throw new IllegalArgumentException(
+            throw new BusinessRuleException(ErrorCode.GROUP_ALREADY_EXISTS,
                     "Group code " + command.code() + " already exists");
         }
 
         if (command.capacity() <= 0) {
-            throw new IllegalArgumentException("capacity must be greater than zero");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "capacity must be greater than zero");
         }
 
         List<Schedule> schedules = command.schedules().stream()

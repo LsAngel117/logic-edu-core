@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.level.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.academic.level.dto.result.AcademicLevelResult;
 import com.logossystemsit.logiceducore.application.academic.level.port.in.DeactivateAcademicLevelUseCase;
@@ -66,7 +68,7 @@ class DeactivateAcademicLevelServiceTest {
         when(repository.findById(LEVEL_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(LEVEL_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("not found");
     }
 
@@ -80,7 +82,7 @@ class DeactivateAcademicLevelServiceTest {
         when(repository.findById(LEVEL_ID)).thenReturn(Optional.of(inactive));
 
         assertThatThrownBy(() -> useCase.execute(LEVEL_ID))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("already inactive");
     }
 
@@ -94,7 +96,7 @@ class DeactivateAcademicLevelServiceTest {
         when(repository.existsActivePeriodsByLevelId(LEVEL_ID)).thenReturn(true);
 
         assertThatThrownBy(() -> useCase.execute(LEVEL_ID))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("Cannot deactivate level with active");
     }
 }

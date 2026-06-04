@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.academic.assessment.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
 import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentType;
@@ -39,7 +41,7 @@ public final class Assessment {
 
         Objects.requireNonNull(name, "name is required");
         if (name.isBlank()) {
-            throw new IllegalArgumentException("name must not be blank");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "name must not be blank");
         }
         this.name = name.trim();
 
@@ -47,13 +49,13 @@ public final class Assessment {
 
         Objects.requireNonNull(weight, "weight is required");
         if (weight.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("weight must be greater than zero");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "weight must be greater than zero");
         }
         this.weight = weight;
 
         Objects.requireNonNull(maxScore, "maxScore is required");
         if (maxScore.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("maxScore must be greater than zero");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "maxScore must be greater than zero");
         }
         this.maxScore = maxScore;
 

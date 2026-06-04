@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.branch.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -21,7 +23,7 @@ public final class BranchId {
 
     private static String normalize(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("BranchId is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "BranchId is required");
         }
         return value.trim();
     }

@@ -12,6 +12,9 @@ import com.logossystemsit.logiceducore.domain.academic.grade.model.Grade;
 import com.logossystemsit.logiceducore.domain.academic.grade.model.valueobject.GradeId;
 import com.logossystemsit.logiceducore.domain.academic.group.model.Group;
 import com.logossystemsit.logiceducore.domain.user.model.User;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -43,31 +46,31 @@ public class RegisterGradeService implements RegisterGradeUseCase {
     public GradeResult execute(RegisterGradeCommand command) {
         // 1. Load Assessment
         Assessment assessment = assessmentRepository.findById(command.assessmentId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ASSESSMENT_NOT_FOUND,
                         "Assessment not found: " + command.assessmentId().value()));
 
         // 2. Cross-aggregate auth: load Group via assessment.getGroupId()
         Group group = groupRepository.findById(assessment.getGroupId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.GROUP_NOT_FOUND,
                         "Group not found: " + assessment.getGroupId().value()));
 
         // 3. Validate teacher authorization
         if (!group.getTeacherId().equals(command.teacherId())) {
-            throw new IllegalStateException("Teacher is not authorized for this group");
+            throw new BusinessRuleException(ErrorCode.TEACHER_NOT_ASSIGNED, "Teacher is not authorized for this group");
         }
 
         // 4. Validate student exists and is active
         User student = userRepository.findById(command.studentId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.USER_NOT_FOUND,
                         "Student not found: " + command.studentId().value()));
 
         if (!student.isActive()) {
-            throw new IllegalStateException("Cannot register grade: student is not active");
+            throw new BusinessRuleException(ErrorCode.USER_INACTIVE, "Cannot register grade: student is not active");
         }
 
         // 5. Validate value <= assessment.maxScore
         if (command.value().compareTo(assessment.getMaxScore()) > 0) {
-            throw new IllegalStateException("Grade value exceeds max score of " + assessment.getMaxScore());
+            throw new BusinessRuleException(ErrorCode.GRADE_EXCEEDS_MAX_SCORE, "Grade value exceeds max score of " + assessment.getMaxScore());
         }
 
         // 6. Save Grade

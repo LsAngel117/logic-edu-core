@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.academic.subject.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectId;
 import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectStatus;
@@ -34,12 +36,12 @@ public final class Subject {
         this.schoolId = Objects.requireNonNull(schoolId, "SchoolId is required");
         Objects.requireNonNull(code, "code is required");
         if (code.isBlank()) {
-            throw new IllegalArgumentException("code must not be blank");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "code must not be blank");
         }
         this.code = code.trim();
         Objects.requireNonNull(name, "name is required");
         if (name.isBlank()) {
-            throw new IllegalArgumentException("name must not be blank");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "name must not be blank");
         }
         this.name = name.trim();
         this.description = description != null ? description.trim() : null;
@@ -92,14 +94,14 @@ public final class Subject {
     public Subject changeData(String newCode, String newName, String newDescription, int newHours, Instant now) {
         Objects.requireNonNull(newCode, "code must not be null");
         if (newCode.isBlank()) {
-            throw new IllegalArgumentException("code must not be blank");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "code must not be blank");
         }
         Objects.requireNonNull(newName, "name must not be null");
         if (newName.isBlank()) {
-            throw new IllegalArgumentException("name must not be blank");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "name must not be blank");
         }
         if (newHours < 0) {
-            throw new IllegalArgumentException("hours must not be negative");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "hours must not be negative");
         }
 
         return new Subject(
@@ -127,7 +129,7 @@ public final class Subject {
 
     private void validate() {
         if (hours < 0) {
-            throw new IllegalArgumentException("hours must not be negative");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "hours must not be negative");
         }
     }
 

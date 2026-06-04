@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.application.user.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.user.dto.result.UserResult;
 import com.logossystemsit.logiceducore.application.user.port.in.GetUserUseCase;
@@ -53,7 +54,7 @@ class GetUserServiceTest {
         when(userRepository.findById(USER_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(USER_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("User not found");
     }
 

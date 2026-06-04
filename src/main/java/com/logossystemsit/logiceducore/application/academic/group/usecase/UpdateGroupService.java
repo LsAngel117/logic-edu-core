@@ -12,6 +12,9 @@ import com.logossystemsit.logiceducore.application.school.port.out.SchoolReposit
 import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
 import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.PeriodStatus;
 import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectStatus;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -48,45 +51,45 @@ public class UpdateGroupService implements UpdateGroupUseCase {
     @Transactional
     public GroupResult execute(UpdateGroupCommand command) {
         var group = groupRepository.findById(command.groupId())
-                .orElseThrow(() -> new IllegalArgumentException("Group not found: " + command.groupId().value()));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.GROUP_NOT_FOUND, "Group not found: " + command.groupId().value()));
 
         if (group.getStatus() != GroupStatus.ACTIVE) {
-            throw new IllegalStateException("Cannot update an inactive group");
+            throw new BusinessRuleException(ErrorCode.GROUP_INACTIVE, "Cannot update an inactive group");
         }
 
         var school = schoolRepository.findById(command.schoolId())
-                .orElseThrow(() -> new IllegalArgumentException("School not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.SCHOOL_NOT_FOUND, "School not found"));
         if (!school.isActive()) {
-            throw new IllegalStateException("School is not active");
+            throw new BusinessRuleException(ErrorCode.SCHOOL_INACTIVE, "School is not active");
         }
 
         var subject = subjectRepository.findById(command.subjectId())
-                .orElseThrow(() -> new IllegalArgumentException("Subject not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.SUBJECT_NOT_FOUND, "Subject not found"));
         if (subject.getStatus() != SubjectStatus.ACTIVE) {
-            throw new IllegalStateException("Subject is not active");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "Subject is not active");
         }
 
         var period = periodRepository.findById(command.academicPeriodId())
-                .orElseThrow(() -> new IllegalArgumentException("Academic period not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ACADEMIC_PERIOD_NOT_FOUND, "Academic period not found"));
         if (period.getStatus() != PeriodStatus.ACTIVE) {
-            throw new IllegalStateException("Academic period is not active");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "Academic period is not active");
         }
 
         var branch = branchRepository.findById(command.branchId())
-                .orElseThrow(() -> new IllegalArgumentException("Branch not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.BRANCH_NOT_FOUND, "Branch not found"));
         if (!branch.isActive()) {
-            throw new IllegalStateException("Branch is not active");
+            throw new BusinessRuleException(ErrorCode.BRANCH_INACTIVE, "Branch is not active");
         }
 
         var memberships = membershipRepository.findByUserId(command.teacherId());
         boolean hasTeacherRole = memberships.stream().anyMatch(m -> m.isActive() && m.isTeacher());
         if (!hasTeacherRole) {
-            throw new IllegalStateException("Teacher does not have TEACHER role");
+            throw new BusinessRuleException(ErrorCode.TEACHER_NOT_ASSIGNED, "Teacher does not have TEACHER role");
         }
 
         if (!group.getCode().equals(command.code())
                 && groupRepository.existsBySchoolIdAndCode(command.schoolId(), command.code())) {
-            throw new IllegalArgumentException("Group code " + command.code() + " already exists");
+            throw new BusinessRuleException(ErrorCode.GROUP_ALREADY_EXISTS, "Group code " + command.code() + " already exists");
         }
 
         var updated = group.changeData(

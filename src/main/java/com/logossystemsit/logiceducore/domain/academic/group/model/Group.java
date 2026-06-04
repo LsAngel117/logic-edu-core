@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.academic.group.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
 import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
@@ -54,7 +56,7 @@ public final class Group {
 
         Objects.requireNonNull(code, "code is required");
         if (code.isBlank()) {
-            throw new IllegalArgumentException("code must not be blank");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "code must not be blank");
         }
         this.code = code.trim();
 
@@ -134,10 +136,10 @@ public final class Group {
         Objects.requireNonNull(newTeacherId, "teacherId is required");
         Objects.requireNonNull(newCode, "code is required");
         if (newCode.isBlank()) {
-            throw new IllegalArgumentException("code must not be blank");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "code must not be blank");
         }
         if (newCapacity <= 0) {
-            throw new IllegalArgumentException("capacity must be greater than zero");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "capacity must be greater than zero");
         }
 
         return new Group(
@@ -182,7 +184,7 @@ public final class Group {
 
     private void validate() {
         if (capacity <= 0) {
-            throw new IllegalArgumentException("capacity must be greater than zero");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "capacity must be greater than zero");
         }
     }
 

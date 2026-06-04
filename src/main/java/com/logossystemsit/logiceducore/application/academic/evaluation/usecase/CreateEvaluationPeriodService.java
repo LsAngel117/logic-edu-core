@@ -7,6 +7,9 @@ import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.
 import com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriod;
 import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriod;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -31,14 +34,14 @@ public class CreateEvaluationPeriodService implements CreateEvaluationPeriodUseC
     @Transactional
     public EvaluationPeriodResult execute(CreateEvaluationPeriodCommand command) {
         AcademicPeriod period = periodRepository.findById(command.periodId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ACADEMIC_PERIOD_NOT_FOUND,
                         "AcademicPeriod not found: " + command.periodId().value()));
 
         BigDecimal currentSum = evaluationRepository.sumWeightsByPeriodId(command.periodId());
         BigDecimal newTotal = currentSum.add(command.weight());
 
         if (newTotal.compareTo(new BigDecimal("100")) > 0) {
-            throw new IllegalArgumentException(
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION,
                     "weight sum would exceed 100 for period: " + command.periodId().value());
         }
 

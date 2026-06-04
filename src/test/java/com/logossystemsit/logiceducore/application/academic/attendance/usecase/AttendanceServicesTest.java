@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.attendance.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.academic.attendance.dto.command.RegisterAttendanceCommand;
 import com.logossystemsit.logiceducore.application.academic.attendance.dto.command.UpdateAttendanceCommand;
@@ -134,7 +136,7 @@ class AttendanceServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("not authorized");
         }
 
@@ -149,7 +151,7 @@ class AttendanceServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Group not found");
         }
 
@@ -173,7 +175,7 @@ class AttendanceServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("not active");
         }
     }
@@ -294,7 +296,7 @@ class AttendanceServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("not authorized");
         }
 
@@ -311,7 +313,7 @@ class AttendanceServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Attendance not found");
         }
     }

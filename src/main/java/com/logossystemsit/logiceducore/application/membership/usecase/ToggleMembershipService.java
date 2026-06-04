@@ -4,6 +4,9 @@ import com.logossystemsit.logiceducore.application.membership.port.in.ToggleMemb
 import com.logossystemsit.logiceducore.application.membership.port.out.MembershipRepository;
 import com.logossystemsit.logiceducore.domain.membership.model.Membership;
 import com.logossystemsit.logiceducore.domain.membership.model.valueobject.MembershipId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,13 +21,15 @@ public class ToggleMembershipService implements ToggleMembershipUseCase {
 
     @Override
     public void activate(MembershipId id) {
-        var m = repository.findById(id).orElseThrow();
+        var m = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.MEMBERSHIP_NOT_FOUND, "Membership not found"));
         repository.save(m.activate());
     }
 
     @Override
     public void deactivate(MembershipId id) {
-        var m = repository.findById(id).orElseThrow();
+        var m = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.MEMBERSHIP_NOT_FOUND, "Membership not found"));
 
         // Guard: user must always have at least one active membership
         var activeCount = repository.findByUserId(m.getUserId())
@@ -33,7 +38,7 @@ public class ToggleMembershipService implements ToggleMembershipUseCase {
                 .count();
 
         if (activeCount <= 1) {
-            throw new IllegalStateException("Cannot deactivate the last active membership");
+            throw new BusinessRuleException(ErrorCode.MEMBERSHIP_LAST_ACTIVE, "Cannot deactivate the last active membership");
         }
 
         repository.save(m.deactivate());

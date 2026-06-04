@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.enrollment.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.academic.enrollment.dto.command.EnrollStudentCommand;
 import com.logossystemsit.logiceducore.application.academic.enrollment.dto.result.EnrollmentResult;
@@ -126,7 +128,7 @@ class EnrollStudentServiceTest {
             when(groupRepository.findById(GROUP_ID)).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> useCase.execute(validCommand()))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Group not found");
         }
 
@@ -151,7 +153,7 @@ class EnrollStudentServiceTest {
             when(groupRepository.findById(GROUP_ID)).thenReturn(Optional.of(inactiveGroup));
 
             assertThatThrownBy(() -> useCase.execute(validCommand()))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("inactive");
         }
     }
@@ -167,7 +169,7 @@ class EnrollStudentServiceTest {
             when(userRepository.findById(USER_ID)).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> useCase.execute(validCommand()))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Student not found");
         }
 
@@ -179,7 +181,7 @@ class EnrollStudentServiceTest {
             when(mockUser.isActive()).thenReturn(false);
 
             assertThatThrownBy(() -> useCase.execute(validCommand()))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("active");
         }
     }
@@ -197,7 +199,7 @@ class EnrollStudentServiceTest {
             when(enrollmentRepository.existsByUserIdAndGroupId(USER_ID, GROUP_ID)).thenReturn(true);
 
             assertThatThrownBy(() -> useCase.execute(validCommand()))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("already enrolled");
         }
 
@@ -212,7 +214,7 @@ class EnrollStudentServiceTest {
                     .thenReturn(true);
 
             assertThatThrownBy(() -> useCase.execute(validCommand()))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("same subject");
         }
     }
@@ -248,7 +250,7 @@ class EnrollStudentServiceTest {
             when(enrollmentRepository.countActiveByGroupId(GROUP_ID)).thenReturn(5L);
 
             assertThatThrownBy(() -> useCase.execute(validCommand()))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("capacity");
         }
     }
@@ -271,7 +273,7 @@ class EnrollStudentServiceTest {
                     .when(groupRepository).save(sampleGroup);
 
             assertThatThrownBy(() -> useCase.execute(validCommand()))
-                    .isInstanceOf(OptimisticLockingFailureException.class);
+                    .isInstanceOf(BusinessRuleException.class);
         }
     }
 }

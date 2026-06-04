@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.evaluation.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.academic.evaluation.dto.command.CreateEvaluationPeriodCommand;
 import com.logossystemsit.logiceducore.application.academic.evaluation.dto.result.EvaluationPeriodResult;
@@ -103,7 +105,7 @@ class CreateEvaluationPeriodServiceTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("weight");
             verify(evaluationRepository, never()).save(any());
         }
@@ -120,7 +122,7 @@ class CreateEvaluationPeriodServiceTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("weight");
         }
 
@@ -158,7 +160,7 @@ class CreateEvaluationPeriodServiceTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("not found");
             verify(evaluationRepository, never()).save(any());
         }

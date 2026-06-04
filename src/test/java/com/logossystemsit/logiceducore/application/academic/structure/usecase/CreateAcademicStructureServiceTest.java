@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.structure.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.academic.structure.dto.command.CreateAcademicStructureCommand;
 import com.logossystemsit.logiceducore.application.academic.structure.dto.result.AcademicStructureResult;
@@ -97,7 +99,7 @@ class CreateAcademicStructureServiceTest {
         );
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("active structure already exists");
 
         verify(repository, never()).save(any());

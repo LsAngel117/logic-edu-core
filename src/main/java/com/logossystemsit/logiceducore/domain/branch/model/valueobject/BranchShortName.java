@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.branch.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Objects;
 
@@ -19,13 +21,13 @@ public final class BranchShortName {
 
     private static String normalize(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("BranchShortName is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "BranchShortName is required");
         }
 
         String normalized = value.trim().replaceAll("\\s+", " ");
 
         if (normalized.length() < MIN_LENGTH || normalized.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException(
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, 
                     "BranchShortName must be between " + MIN_LENGTH + " and " + MAX_LENGTH + " characters"
             );
         }

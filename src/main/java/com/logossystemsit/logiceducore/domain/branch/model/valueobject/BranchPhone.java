@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.branch.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Objects;
 
@@ -19,19 +21,19 @@ public final class BranchPhone {
 
     private static String normalize(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("BranchPhone is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "BranchPhone is required");
         }
 
         String normalized = value.trim().replaceAll("[\\s\\-()]", "");
 
         if (!normalized.matches("^\\+?\\d+$")) {
-            throw new IllegalArgumentException("BranchPhone must contain only digits and an optional leading '+'");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "BranchPhone must contain only digits and an optional leading '+'");
         }
 
         String digitsOnly = normalized.startsWith("+") ? normalized.substring(1) : normalized;
 
         if (digitsOnly.length() < MIN_DIGITS || digitsOnly.length() > MAX_DIGITS) {
-            throw new IllegalArgumentException(
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, 
                     "BranchPhone must have between " + MIN_DIGITS + " and " + MAX_DIGITS + " digits"
             );
         }

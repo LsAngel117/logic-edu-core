@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.application.academic.subject.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.academic.subject.dto.result.SubjectResult;
 import com.logossystemsit.logiceducore.application.academic.subject.port.in.GetSubjectUseCase;
@@ -63,7 +64,7 @@ class GetSubjectServiceTest {
         when(repository.findById(SUBJECT_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(SUBJECT_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("Subject not found");
     }
 

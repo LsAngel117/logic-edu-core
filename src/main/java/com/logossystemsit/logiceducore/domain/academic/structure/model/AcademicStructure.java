@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.academic.structure.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import com.logossystemsit.logiceducore.domain.academic.structure.model.valueobject.AcademicStructureId;
 import com.logossystemsit.logiceducore.domain.academic.structure.model.valueobject.StructureType;
@@ -137,19 +139,19 @@ public final class AcademicStructure {
 
     private void validate() {
         if (levelsCount < 0) {
-            throw new IllegalArgumentException("levelsCount must be non-negative");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "levelsCount must be non-negative");
         }
         if (periodsPerLevel < 0) {
-            throw new IllegalArgumentException("periodsPerLevel must be non-negative");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "periodsPerLevel must be non-negative");
         }
         if (evaluationPeriodsPerPeriod < 0) {
-            throw new IllegalArgumentException("evaluationPeriodsPerPeriod must be non-negative");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "evaluationPeriodsPerPeriod must be non-negative");
         }
         if (subjectsPerPeriod < 0) {
-            throw new IllegalArgumentException("subjectsPerPeriod must be non-negative");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "subjectsPerPeriod must be non-negative");
         }
         if (hoursPerSubject < 0) {
-            throw new IllegalArgumentException("hoursPerSubject must be non-negative");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "hoursPerSubject must be non-negative");
         }
     }
 

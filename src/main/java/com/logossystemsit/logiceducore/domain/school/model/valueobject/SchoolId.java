@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.school.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.UUID;
 
@@ -6,7 +8,7 @@ public record SchoolId(String value) {
 
     public SchoolId {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("SchoolId is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "SchoolId is required");
         }
         value = value.trim();
     }

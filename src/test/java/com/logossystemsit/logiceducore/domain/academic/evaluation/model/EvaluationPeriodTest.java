@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.domain.academic.evaluation.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodStatus;
@@ -39,7 +40,7 @@ class EvaluationPeriodTest {
         @DisplayName("should reject null value")
         void shouldRejectNullValue() {
             assertThatThrownBy(() -> new EvaluationPeriodId(null))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("required");
         }
 
@@ -47,7 +48,7 @@ class EvaluationPeriodTest {
         @DisplayName("should reject blank value")
         void shouldRejectBlankValue() {
             assertThatThrownBy(() -> new EvaluationPeriodId("  "))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("required");
         }
     }
@@ -128,7 +129,7 @@ class EvaluationPeriodTest {
                     EvaluationPeriodId.generate(), PERIOD_ID, "Heavy", 1,
                     new BigDecimal("100.01"),
                     START_DATE, END_DATE, NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("weight");
         }
 
@@ -139,7 +140,7 @@ class EvaluationPeriodTest {
                     EvaluationPeriodId.generate(), PERIOD_ID, "Zero", 1,
                     new BigDecimal("0.00"),
                     START_DATE, END_DATE, NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("weight");
         }
 
@@ -150,7 +151,7 @@ class EvaluationPeriodTest {
                     EvaluationPeriodId.generate(), PERIOD_ID, "Negative", 1,
                     new BigDecimal("-1.00"),
                     START_DATE, END_DATE, NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("weight");
         }
     }
@@ -166,7 +167,7 @@ class EvaluationPeriodTest {
                     EvaluationPeriodId.generate(), PERIOD_ID, "Bad dates", 1,
                     new BigDecimal("50.00"),
                     LocalDate.of(2026, 5, 1), LocalDate.of(2026, 4, 1), NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("start date must be before end date");
         }
 
@@ -177,7 +178,7 @@ class EvaluationPeriodTest {
                     EvaluationPeriodId.generate(), PERIOD_ID, "Same day", 1,
                     new BigDecimal("50.00"),
                     START_DATE, START_DATE, NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("start date must be before end date");
         }
     }
@@ -259,7 +260,7 @@ class EvaluationPeriodTest {
             );
 
             assertThatThrownBy(() -> ep.changeWeight(new BigDecimal("150.00"), NOW))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("weight");
         }
     }
@@ -297,7 +298,7 @@ class EvaluationPeriodTest {
 
             assertThatThrownBy(() -> ep.changeDates(
                     LocalDate.of(2026, 5, 1), LocalDate.of(2026, 4, 1), NOW
-            )).isInstanceOf(IllegalArgumentException.class)
+            )).isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("start date must be before end date");
         }
     }

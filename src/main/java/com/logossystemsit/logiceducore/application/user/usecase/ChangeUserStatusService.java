@@ -4,6 +4,8 @@ import com.logossystemsit.logiceducore.application.user.dto.command.ChangeUserSt
 import com.logossystemsit.logiceducore.application.user.port.in.ChangeUserStatusUseCase;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.domain.user.model.User;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,7 @@ public class ChangeUserStatusService implements ChangeUserStatusUseCase {
     public void execute(ChangeUserStatusCommand command) {
 
         var user = userRepository.findById(command.userId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.USER_NOT_FOUND, "User not found"));
 
         var now = clock.instant();
 

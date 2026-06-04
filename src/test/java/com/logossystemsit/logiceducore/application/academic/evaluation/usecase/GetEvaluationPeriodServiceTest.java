@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.application.academic.evaluation.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.academic.evaluation.dto.result.EvaluationPeriodResult;
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.in.GetEvaluationPeriodUseCase;
@@ -76,7 +77,7 @@ class GetEvaluationPeriodServiceTest {
             when(repository.findById(EVAL_ID)).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> useCase.execute(EVAL_ID))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("not found");
         }
     }

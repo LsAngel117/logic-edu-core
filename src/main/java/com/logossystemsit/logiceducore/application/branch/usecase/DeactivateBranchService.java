@@ -6,6 +6,9 @@ import com.logossystemsit.logiceducore.application.branch.port.out.BranchReposit
 import com.logossystemsit.logiceducore.domain.branch.model.Branch;
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.BranchId;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -24,21 +27,21 @@ public class DeactivateBranchService implements DeactivateBranchUseCase {
     @Transactional
     public BranchResult execute(SchoolId schoolId, BranchId branchId) {
         Branch branch = branchRepository.findById(branchId)
-                .orElseThrow(() -> new IllegalArgumentException("Branch not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.BRANCH_NOT_FOUND, "Branch not found"));
 
         if (!branch.getSchoolId().equals(schoolId)) {
-            throw new IllegalArgumentException("Branch not found");
+            throw new ResourceNotFoundException(ErrorCode.BRANCH_NOT_FOUND, "Branch not found");
         }
 
         if (!branch.isActive()) {
-            throw new IllegalStateException("Branch is already inactive");
+            throw new BusinessRuleException(ErrorCode.BRANCH_INACTIVE, "Branch is already inactive");
         }
 
         // If MAIN branch, check for active secondary branches
         if (branch.isMain()) {
             int activeBranches = branchRepository.countActiveBySchoolId(schoolId);
             if (activeBranches > 1) {
-                throw new IllegalStateException(
+                throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION,
                         "Cannot deactivate the main branch while there are active secondary branches");
             }
         }

@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.school.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.school.dto.command.CreateSchoolCommand;
 import com.logossystemsit.logiceducore.application.school.dto.result.SchoolResult;
@@ -92,7 +94,7 @@ class CreateSchoolServiceTest {
         when(schoolRepository.existsByName(NAME)).thenReturn(true);
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("School name already exists");
 
         verify(schoolRepository, never()).save(any());
@@ -108,7 +110,7 @@ class CreateSchoolServiceTest {
         when(schoolRepository.existsByCode(CODE)).thenReturn(true);
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("School code already exists");
 
         verify(schoolRepository, never()).save(any());

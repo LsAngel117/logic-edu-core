@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.membership.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import com.logossystemsit.logiceducore.domain.membership.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
@@ -66,7 +68,7 @@ public final class Membership {
     /* ---------- VALIDACIONES ---------- */
     private void validateConsistency() {
         if (!role.supports(scope.type())) {
-            throw new IllegalArgumentException(
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, 
                     role.name() + " cannot be assigned to scope " + scope.type()
             );
         }

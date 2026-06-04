@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.school.dto.result.SchoolResul
 import com.logossystemsit.logiceducore.application.school.port.in.CreateSchoolUseCase;
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.domain.school.model.School;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -24,11 +26,11 @@ public class CreateSchoolService implements CreateSchoolUseCase {
     @Transactional
     public SchoolResult execute(CreateSchoolCommand command) {
         if (schoolRepository.existsByName(command.name())) {
-            throw new IllegalArgumentException("School name already exists");
+            throw new BusinessRuleException(ErrorCode.SCHOOL_ALREADY_EXISTS, "School name already exists");
         }
 
         if (schoolRepository.existsByCode(command.code())) {
-            throw new IllegalArgumentException("School code already exists");
+            throw new BusinessRuleException(ErrorCode.SCHOOL_ALREADY_EXISTS, "School code already exists");
         }
 
         Instant now = clock.instant();

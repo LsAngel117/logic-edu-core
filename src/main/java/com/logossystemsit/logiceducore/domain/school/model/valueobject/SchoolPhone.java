@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.school.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Objects;
 
@@ -19,20 +21,20 @@ public final class SchoolPhone {
 
     private static String normalize(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("SchoolPhone is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "SchoolPhone is required");
         }
 
         String normalized = value.trim()
                 .replaceAll("[\\s\\-()]", "");
 
         if (!normalized.matches("^\\+?\\d+$")) {
-            throw new IllegalArgumentException("SchoolPhone must contain only digits and an optional leading '+'");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "SchoolPhone must contain only digits and an optional leading '+'");
         }
 
         String digitsOnly = normalized.startsWith("+") ? normalized.substring(1) : normalized;
 
         if (digitsOnly.length() < MIN_DIGITS || digitsOnly.length() > MAX_DIGITS) {
-            throw new IllegalArgumentException(
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, 
                     "SchoolPhone must have between " + MIN_DIGITS + " and " + MAX_DIGITS + " digits"
             );
         }

@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.school.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.school.dto.command.UpdateSchoolCommand;
 import com.logossystemsit.logiceducore.application.school.dto.result.SchoolResult;
@@ -85,7 +87,7 @@ class UpdateSchoolServiceTest {
         );
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("Cannot modify an inactive school");
 
         verify(schoolRepository, never()).save(any());
@@ -107,7 +109,7 @@ class UpdateSchoolServiceTest {
         );
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("School not found");
     }
 

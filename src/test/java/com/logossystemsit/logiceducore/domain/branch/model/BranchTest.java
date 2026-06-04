@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.domain.branch.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
@@ -48,7 +49,7 @@ class BranchTest {
                 BranchAddress.of("Calle 123"), // VIRTUAL + address = illegal
                 BranchType.VIRTUAL,
                 NOW
-        )).isInstanceOf(IllegalStateException.class)
+        )).isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("Virtual branch cannot have a physical address");
     }
 
@@ -65,7 +66,7 @@ class BranchTest {
                 BranchAddress.empty(), // MAIN without address = illegal
                 BranchType.MAIN,
                 NOW
-        )).isInstanceOf(IllegalStateException.class)
+        )).isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("Physical branch must have an address");
     }
 
@@ -82,7 +83,7 @@ class BranchTest {
                 BranchAddress.empty(), // SECONDARY without address = illegal
                 BranchType.SECONDARY,
                 NOW
-        )).isInstanceOf(IllegalStateException.class)
+        )).isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("Physical branch must have an address");
     }
 
@@ -196,7 +197,7 @@ class BranchTest {
                 BranchCode.of("NN-001"),
                 BranchShortName.of("N.Nuevo"),
                 NOW.plusSeconds(3600)
-        )).isInstanceOf(IllegalStateException.class)
+        )).isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("Cannot modify an inactive branch");
     }
 

@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.domain.academic.assessment.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
 import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentType;
@@ -46,7 +47,7 @@ class AssessmentTest {
         @DisplayName("should reject null or blank AssessmentId")
         void shouldRejectNullOrBlankAssessmentId(String value) {
             assertThatThrownBy(() -> new AssessmentId(value))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("AssessmentId");
         }
 
@@ -201,7 +202,7 @@ class AssessmentTest {
                     BigDecimal.ONE, BigDecimal.TEN,
                     FIXED_NOW
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("name");
         }
 
@@ -227,7 +228,7 @@ class AssessmentTest {
                     BigDecimal.ZERO, BigDecimal.TEN,
                     FIXED_NOW
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("weight");
 
             assertThatThrownBy(() -> Assessment.create(
@@ -236,7 +237,7 @@ class AssessmentTest {
                     new BigDecimal("-1"), BigDecimal.TEN,
                     FIXED_NOW
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("weight");
         }
 
@@ -249,7 +250,7 @@ class AssessmentTest {
                     BigDecimal.ONE, BigDecimal.ZERO,
                     FIXED_NOW
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("maxScore");
 
             assertThatThrownBy(() -> Assessment.create(
@@ -258,7 +259,7 @@ class AssessmentTest {
                     BigDecimal.ONE, new BigDecimal("-5"),
                     FIXED_NOW
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("maxScore");
         }
 
@@ -389,7 +390,7 @@ class AssessmentTest {
                     BigDecimal.ZERO, BigDecimal.TEN,
                     null, LATER
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("weight");
         }
 
@@ -402,7 +403,7 @@ class AssessmentTest {
                     BigDecimal.ONE, BigDecimal.ZERO,
                     null, LATER
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("maxScore");
         }
 

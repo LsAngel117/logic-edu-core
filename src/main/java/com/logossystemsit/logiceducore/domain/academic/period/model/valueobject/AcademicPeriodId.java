@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.academic.period.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.UUID;
 
@@ -6,7 +8,7 @@ public record AcademicPeriodId(String value) {
 
     public AcademicPeriodId {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("AcademicPeriodId is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "AcademicPeriodId is required");
         }
         value = value.trim();
     }

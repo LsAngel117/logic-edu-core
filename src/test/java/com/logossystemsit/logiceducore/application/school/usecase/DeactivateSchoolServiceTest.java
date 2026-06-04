@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.school.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.branch.port.out.BranchRepository;
 import com.logossystemsit.logiceducore.application.school.dto.result.SchoolResult;
@@ -78,7 +80,7 @@ class DeactivateSchoolServiceTest {
         when(schoolRepository.findById(SCHOOL_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(SCHOOL_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("School not found");
     }
 
@@ -89,7 +91,7 @@ class DeactivateSchoolServiceTest {
         when(branchRepository.existsActiveBySchoolId(SCHOOL_ID)).thenReturn(true);
 
         assertThatThrownBy(() -> useCase.execute(SCHOOL_ID))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessage("Cannot deactivate school with active branches");
 
         verify(schoolRepository, never()).save(any());

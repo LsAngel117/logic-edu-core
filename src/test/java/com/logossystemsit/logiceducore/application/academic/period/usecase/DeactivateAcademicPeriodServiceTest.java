@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.period.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.academic.period.dto.result.AcademicPeriodResult;
 import com.logossystemsit.logiceducore.application.academic.period.port.in.DeactivateAcademicPeriodUseCase;
@@ -79,7 +81,7 @@ class DeactivateAcademicPeriodServiceTest {
         when(repository.existsActiveEvaluationPeriodsByPeriodId(PERIOD_ID)).thenReturn(true);
 
         assertThatThrownBy(() -> useCase.execute(PERIOD_ID))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("active evaluation periods");
 
         verify(repository, never()).save(any());
@@ -97,7 +99,7 @@ class DeactivateAcademicPeriodServiceTest {
         when(repository.findById(PERIOD_ID)).thenReturn(Optional.of(inactive));
 
         assertThatThrownBy(() -> useCase.execute(PERIOD_ID))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("already inactive");
 
         verify(repository, never()).save(any());
@@ -109,7 +111,7 @@ class DeactivateAcademicPeriodServiceTest {
         when(repository.findById(PERIOD_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(PERIOD_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("not found");
     }
 }

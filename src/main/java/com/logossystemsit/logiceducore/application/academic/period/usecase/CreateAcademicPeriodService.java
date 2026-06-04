@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.academic.period.dto.result.Ac
 import com.logossystemsit.logiceducore.application.academic.period.port.in.CreateAcademicPeriodUseCase;
 import com.logossystemsit.logiceducore.application.academic.period.port.out.AcademicPeriodRepository;
 import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriod;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -28,7 +30,7 @@ public class CreateAcademicPeriodService implements CreateAcademicPeriodUseCase 
         for (AcademicPeriod existing : existingPeriods) {
             if (overlaps(command.startDate(), command.endDate(),
                     existing.getStartDate(), existing.getEndDate())) {
-                throw new IllegalArgumentException(
+                throw new BusinessRuleException(ErrorCode.ACADEMIC_PERIOD_OVERLAP,
                         "Period overlaps with existing period: " + existing.getId().value());
             }
         }

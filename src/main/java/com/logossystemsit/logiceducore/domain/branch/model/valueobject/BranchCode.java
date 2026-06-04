@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.branch.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Objects;
 
@@ -19,19 +21,19 @@ public final class BranchCode {
 
     private static String normalize(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("BranchCode is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "BranchCode is required");
         }
 
         String normalized = value.trim().toUpperCase().replaceAll("\\s+", "");
 
         if (normalized.length() < MIN_LENGTH || normalized.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException(
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, 
                     "BranchCode must be between " + MIN_LENGTH + " and " + MAX_LENGTH + " characters"
             );
         }
 
         if (!normalized.matches("^[A-Z0-9_-]+$")) {
-            throw new IllegalArgumentException(
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, 
                     "BranchCode can only contain uppercase letters, numbers, underscore and hyphen"
             );
         }

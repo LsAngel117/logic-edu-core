@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.application.branch.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.branch.dto.result.BranchResult;
 import com.logossystemsit.logiceducore.application.branch.port.in.GetBranchUseCase;
@@ -55,7 +56,7 @@ class GetBranchServiceTest {
         when(branchRepository.findById(BRANCH_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(SCHOOL_ID, BRANCH_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("Branch not found");
     }
 
@@ -66,7 +67,7 @@ class GetBranchServiceTest {
 
         // Request from wrong school should return 404
         assertThatThrownBy(() -> useCase.execute(SCHOOL_ID, BRANCH_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("Branch not found");
     }
 

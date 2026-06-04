@@ -9,6 +9,9 @@ import com.logossystemsit.logiceducore.application.academic.group.port.out.Group
 import com.logossystemsit.logiceducore.domain.academic.assessment.model.Assessment;
 import com.logossystemsit.logiceducore.domain.academic.grade.model.Grade;
 import com.logossystemsit.logiceducore.domain.academic.group.model.Group;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -38,27 +41,27 @@ public class UpdateGradeService implements UpdateGradeUseCase {
         // 1. Find existing grade
         Grade existing = gradeRepository.findByAssessmentIdAndStudentId(
                         command.assessmentId(), command.studentId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.GRADE_NOT_FOUND,
                         "Grade not found for assessment " + command.assessmentId().value()
                                 + " and student " + command.studentId().value()));
 
         // 2. Load Assessment
         Assessment assessment = assessmentRepository.findById(command.assessmentId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ASSESSMENT_NOT_FOUND,
                         "Assessment not found: " + command.assessmentId().value()));
 
         // 3. Cross-aggregate auth
         Group group = groupRepository.findById(assessment.getGroupId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.GROUP_NOT_FOUND,
                         "Group not found: " + assessment.getGroupId().value()));
 
         if (!group.getTeacherId().equals(command.teacherId())) {
-            throw new IllegalStateException("Teacher is not authorized for this group");
+            throw new BusinessRuleException(ErrorCode.TEACHER_NOT_ASSIGNED, "Teacher is not authorized for this group");
         }
 
         // 4. Validate value <= maxScore
         if (command.value().compareTo(assessment.getMaxScore()) > 0) {
-            throw new IllegalStateException("Grade value exceeds max score of " + assessment.getMaxScore());
+            throw new BusinessRuleException(ErrorCode.GRADE_EXCEEDS_MAX_SCORE, "Grade value exceeds max score of " + assessment.getMaxScore());
         }
 
         // 5. Change value

@@ -4,6 +4,8 @@ import com.logossystemsit.logiceducore.application.user.dto.command.UpdateUserCo
 import com.logossystemsit.logiceducore.application.user.dto.result.UserResult;
 import com.logossystemsit.logiceducore.application.user.port.in.UpdateUserUseCase;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -22,7 +24,7 @@ public class UpdateUserService implements UpdateUserUseCase {
     @Transactional
     public UserResult execute(UpdateUserCommand command) {
         var user = userRepository.findById(command.userId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.USER_NOT_FOUND, "User not found"));
 
         var updated = user.changeBasicInfo(
                 command.email(),

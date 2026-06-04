@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.user.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -9,13 +11,13 @@ public class Email {
 
     public Email(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("Email is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Email is required");
         }
 
         String normalized = value.trim().toLowerCase(Locale.ROOT);
 
         if (!isValid(normalized)) {
-            throw new IllegalArgumentException("Invalid email format");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Invalid email format");
         }
 
         this.value = normalized;

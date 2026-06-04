@@ -6,6 +6,9 @@ import com.logossystemsit.logiceducore.application.school.port.in.DeactivateScho
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.domain.school.model.School;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -28,10 +31,10 @@ public class DeactivateSchoolService implements DeactivateSchoolUseCase {
     @Transactional
     public SchoolResult execute(SchoolId schoolId) {
         School school = schoolRepository.findById(schoolId)
-                .orElseThrow(() -> new IllegalArgumentException("School not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.SCHOOL_NOT_FOUND, "School not found"));
 
         if (branchRepository.existsActiveBySchoolId(schoolId)) {
-            throw new IllegalStateException("Cannot deactivate school with active branches");
+            throw new BusinessRuleException(ErrorCode.SCHOOL_HAS_ACTIVE_BRANCHES, "Cannot deactivate school with active branches");
         }
 
         School deactivated = school.deactivate(clock.instant());

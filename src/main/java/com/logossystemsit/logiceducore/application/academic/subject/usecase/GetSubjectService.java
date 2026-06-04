@@ -4,6 +4,8 @@ import com.logossystemsit.logiceducore.application.academic.subject.dto.result.S
 import com.logossystemsit.logiceducore.application.academic.subject.port.in.GetSubjectUseCase;
 import com.logossystemsit.logiceducore.application.academic.subject.port.out.SubjectRepository;
 import com.logossystemsit.logiceducore.domain.academic.subject.model.valueobject.SubjectId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 public class GetSubjectService implements GetSubjectUseCase {
@@ -19,7 +21,7 @@ public class GetSubjectService implements GetSubjectUseCase {
     public SubjectResult execute(SubjectId id) {
         return repository.findById(id)
                 .map(SubjectResult::from)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.SUBJECT_NOT_FOUND,
                         "Subject not found: " + id.value()));
     }
 }

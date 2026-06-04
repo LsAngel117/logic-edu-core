@@ -6,6 +6,9 @@ import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriod;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodId;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodStatus;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -24,11 +27,11 @@ public class DeactivateEvaluationPeriodService implements DeactivateEvaluationPe
     @Transactional
     public EvaluationPeriodResult execute(EvaluationPeriodId id) {
         EvaluationPeriod period = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.EVALUATION_PERIOD_NOT_FOUND,
                         "EvaluationPeriod not found: " + id.value()));
 
         if (period.getStatus() == EvaluationPeriodStatus.INACTIVE) {
-            throw new IllegalStateException("EvaluationPeriod is already inactive");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "EvaluationPeriod is already inactive");
         }
 
         EvaluationPeriod deactivated = period.deactivate(clock.instant());

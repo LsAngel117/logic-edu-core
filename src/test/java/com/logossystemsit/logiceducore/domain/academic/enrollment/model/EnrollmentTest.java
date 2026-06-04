@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.domain.academic.enrollment.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.academic.enrollment.model.valueobject.EnrollmentId;
 import com.logossystemsit.logiceducore.domain.academic.enrollment.model.valueobject.EnrollmentStatus;
@@ -45,7 +46,7 @@ class EnrollmentTest {
         @DisplayName("should reject null or blank EnrollmentId")
         void shouldRejectNullOrBlankEnrollmentId(String value) {
             assertThatThrownBy(() -> new EnrollmentId(value))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("EnrollmentId");
         }
 

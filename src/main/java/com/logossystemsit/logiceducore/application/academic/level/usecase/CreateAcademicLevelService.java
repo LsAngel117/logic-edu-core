@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.academic.level.dto.result.Aca
 import com.logossystemsit.logiceducore.application.academic.level.port.in.CreateAcademicLevelUseCase;
 import com.logossystemsit.logiceducore.application.academic.level.port.out.AcademicLevelRepository;
 import com.logossystemsit.logiceducore.domain.academic.level.model.AcademicLevel;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -23,7 +25,7 @@ public class CreateAcademicLevelService implements CreateAcademicLevelUseCase {
     @Transactional
     public AcademicLevelResult execute(CreateAcademicLevelCommand command) {
         if (repository.existsBySchoolIdAndNumber(command.schoolId(), command.number())) {
-            throw new IllegalArgumentException(
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION,
                     "Level number " + command.number() + " already exists for school " + command.schoolId().value());
         }
 

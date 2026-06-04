@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.domain.academic.group.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
 import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
@@ -76,7 +77,7 @@ class GroupTest {
         @DisplayName("should reject null or blank GroupId")
         void shouldRejectNullOrBlankGroupId(String value) {
             assertThatThrownBy(() -> new GroupId(value))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("GroupId");
         }
 
@@ -163,7 +164,7 @@ class GroupTest {
                     LocalTime.of(8, 0),
                     null
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("startTime must be before endTime");
         }
 
@@ -177,7 +178,7 @@ class GroupTest {
                     LocalTime.of(10, 0),
                     null
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("startTime must be before endTime");
         }
 
@@ -265,7 +266,7 @@ class GroupTest {
                     GROUP_ID, SCHOOL_ID, SUBJECT_ID, PERIOD_ID, BRANCH_ID,
                     TEACHER_ID, "  ", 30, List.of(), FIXED_NOW
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("code");
         }
 
@@ -276,7 +277,7 @@ class GroupTest {
                     GROUP_ID, SCHOOL_ID, SUBJECT_ID, PERIOD_ID, BRANCH_ID,
                     TEACHER_ID, "MATH-101", 0, List.of(), FIXED_NOW
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("capacity");
         }
 
@@ -287,7 +288,7 @@ class GroupTest {
                     GROUP_ID, SCHOOL_ID, SUBJECT_ID, PERIOD_ID, BRANCH_ID,
                     TEACHER_ID, "MATH-101", -1, List.of(), FIXED_NOW
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("capacity");
         }
 
@@ -398,7 +399,7 @@ class GroupTest {
                     PERIOD_ID, BRANCH_ID, TEACHER_ID,
                     "  ", 30, LATER
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("code");
         }
 
@@ -410,7 +411,7 @@ class GroupTest {
                     PERIOD_ID, BRANCH_ID, TEACHER_ID,
                     "MATH-202", 0, LATER
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("capacity");
         }
     }

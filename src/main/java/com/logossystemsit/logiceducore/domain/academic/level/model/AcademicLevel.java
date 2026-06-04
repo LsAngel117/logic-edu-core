@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.academic.level.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelId;
 import com.logossystemsit.logiceducore.domain.academic.level.model.valueobject.AcademicLevelStatus;
@@ -30,7 +32,7 @@ public final class AcademicLevel {
         this.schoolId = Objects.requireNonNull(schoolId, "SchoolId is required");
         Objects.requireNonNull(name, "name is required");
         if (name.isBlank()) {
-            throw new IllegalArgumentException("name must not be blank");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "name must not be blank");
         }
         this.name = name.trim();
         this.number = number;
@@ -78,7 +80,7 @@ public final class AcademicLevel {
     public AcademicLevel changeName(String newName, Instant now) {
         Objects.requireNonNull(newName, "name must not be null");
         if (newName.isBlank()) {
-            throw new IllegalArgumentException("name must not be blank");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "name must not be blank");
         }
 
         return new AcademicLevel(
@@ -112,7 +114,7 @@ public final class AcademicLevel {
 
     private void validate() {
         if (number <= 0) {
-            throw new IllegalArgumentException("number must be positive");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "number must be positive");
         }
     }
 

@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.academic.grade.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
 import com.logossystemsit.logiceducore.domain.academic.grade.model.valueobject.GradeId;
@@ -31,7 +33,7 @@ public final class Grade {
 
         Objects.requireNonNull(value, "value is required");
         if (value.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("value must not be negative");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "value must not be negative");
         }
         this.value = value;
 
@@ -68,7 +70,7 @@ public final class Grade {
         Objects.requireNonNull(newValue, "value is required");
         Objects.requireNonNull(now, "updatedAt is required");
         if (newValue.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("value must not be negative");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "value must not be negative");
         }
         return new Grade(
                 this.id, this.assessmentId, this.studentId,

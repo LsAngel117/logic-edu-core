@@ -6,6 +6,9 @@ import com.logossystemsit.logiceducore.application.academic.period.port.out.Acad
 import com.logossystemsit.logiceducore.domain.academic.period.model.AcademicPeriod;
 import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.AcademicPeriodId;
 import com.logossystemsit.logiceducore.domain.academic.period.model.valueobject.PeriodStatus;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -24,15 +27,15 @@ public class DeactivateAcademicPeriodService implements DeactivateAcademicPeriod
     @Transactional
     public AcademicPeriodResult execute(AcademicPeriodId id) {
         AcademicPeriod period = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ACADEMIC_PERIOD_NOT_FOUND,
                         "AcademicPeriod not found: " + id.value()));
 
         if (period.getStatus() == PeriodStatus.INACTIVE) {
-            throw new IllegalStateException("AcademicPeriod is already inactive");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "AcademicPeriod is already inactive");
         }
 
         if (repository.existsActiveEvaluationPeriodsByPeriodId(id)) {
-            throw new IllegalStateException("Cannot deactivate period with active evaluation periods");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "Cannot deactivate period with active evaluation periods");
         }
 
         AcademicPeriod deactivated = period.deactivate(clock.instant());

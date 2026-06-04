@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.grade.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.academic.assessment.port.out.AssessmentRepository;
 import com.logossystemsit.logiceducore.application.academic.grade.dto.command.RegisterGradeCommand;
@@ -157,7 +159,7 @@ class GradeServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Assessment not found");
         }
 
@@ -174,7 +176,7 @@ class GradeServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Group not found");
         }
 
@@ -191,7 +193,7 @@ class GradeServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("not authorized");
         }
 
@@ -210,7 +212,7 @@ class GradeServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Student not found");
         }
 
@@ -242,7 +244,7 @@ class GradeServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("not active");
         }
 
@@ -261,7 +263,7 @@ class GradeServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("exceeds max score");
         }
     }
@@ -298,7 +300,7 @@ class GradeServicesTest {
                     .thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> useCase.execute(GRADE_ID))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Grade not found");
         }
     }
@@ -397,7 +399,7 @@ class GradeServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("not authorized");
         }
 
@@ -416,7 +418,7 @@ class GradeServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("exceeds max score");
         }
 
@@ -431,7 +433,7 @@ class GradeServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Grade not found");
         }
     }

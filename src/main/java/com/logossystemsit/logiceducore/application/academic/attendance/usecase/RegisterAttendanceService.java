@@ -9,6 +9,9 @@ import com.logossystemsit.logiceducore.domain.academic.attendance.model.Attendan
 import com.logossystemsit.logiceducore.domain.academic.attendance.model.valueobject.AttendanceId;
 import com.logossystemsit.logiceducore.domain.academic.group.model.Group;
 import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -33,15 +36,15 @@ public class RegisterAttendanceService implements RegisterAttendanceUseCase {
     @Transactional
     public AttendanceResult execute(RegisterAttendanceCommand command) {
         Group group = groupRepository.findById(command.groupId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.GROUP_NOT_FOUND,
                         "Group not found: " + command.groupId().value()));
 
         if (group.getStatus() != GroupStatus.ACTIVE) {
-            throw new IllegalStateException("Cannot register attendance: group is not active");
+            throw new BusinessRuleException(ErrorCode.GROUP_INACTIVE, "Cannot register attendance: group is not active");
         }
 
         if (!group.getTeacherId().equals(command.teacherId())) {
-            throw new IllegalStateException("Teacher is not authorized for this group");
+            throw new BusinessRuleException(ErrorCode.TEACHER_NOT_ASSIGNED, "Teacher is not authorized for this group");
         }
 
         Attendance attendance = Attendance.create(

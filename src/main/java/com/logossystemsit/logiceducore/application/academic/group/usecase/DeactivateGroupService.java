@@ -4,6 +4,8 @@ import com.logossystemsit.logiceducore.application.academic.group.dto.result.Gro
 import com.logossystemsit.logiceducore.application.academic.group.port.in.DeactivateGroupUseCase;
 import com.logossystemsit.logiceducore.application.academic.group.port.out.GroupRepository;
 import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -22,7 +24,7 @@ public class DeactivateGroupService implements DeactivateGroupUseCase {
     @Transactional
     public GroupResult execute(GroupId id) {
         var group = groupRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Group not found: " + id.value()));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.GROUP_NOT_FOUND, "Group not found: " + id.value()));
 
         var deactivated = group.deactivate(clock.instant());
         groupRepository.save(deactivated);

@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.school.dto.result.SchoolResul
 import com.logossystemsit.logiceducore.application.school.port.in.UpdateSchoolUseCase;
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.domain.school.model.School;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -23,7 +25,7 @@ public class UpdateSchoolService implements UpdateSchoolUseCase {
     @Transactional
     public SchoolResult execute(UpdateSchoolCommand command) {
         School school = schoolRepository.findById(command.schoolId())
-                .orElseThrow(() -> new IllegalArgumentException("School not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.SCHOOL_NOT_FOUND, "School not found"));
 
         School updated = school.changeData(
                 command.name(),

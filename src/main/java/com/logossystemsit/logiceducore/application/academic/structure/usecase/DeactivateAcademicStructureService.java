@@ -5,6 +5,9 @@ import com.logossystemsit.logiceducore.application.academic.structure.port.in.De
 import com.logossystemsit.logiceducore.application.academic.structure.port.out.AcademicStructureRepository;
 import com.logossystemsit.logiceducore.domain.academic.structure.model.AcademicStructure;
 import com.logossystemsit.logiceducore.domain.academic.structure.model.valueobject.AcademicStructureId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -23,11 +26,11 @@ public class DeactivateAcademicStructureService implements DeactivateAcademicStr
     @Transactional
     public AcademicStructureResult execute(AcademicStructureId id) {
         AcademicStructure structure = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ACADEMIC_STRUCTURE_NOT_FOUND,
                         "AcademicStructure not found: " + id.value()));
 
         if (!structure.isActive()) {
-            throw new IllegalStateException("AcademicStructure is already inactive");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "AcademicStructure is already inactive");
         }
 
         AcademicStructure deactivated = structure.deactivate(clock.instant());

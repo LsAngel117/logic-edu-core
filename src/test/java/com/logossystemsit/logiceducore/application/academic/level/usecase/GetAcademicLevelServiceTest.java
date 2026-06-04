@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.application.academic.level.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.academic.level.dto.result.AcademicLevelResult;
 import com.logossystemsit.logiceducore.application.academic.level.port.in.GetAcademicLevelUseCase;
@@ -60,7 +61,7 @@ class GetAcademicLevelServiceTest {
         when(repository.findById(LEVEL_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(LEVEL_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("not found");
     }
 }

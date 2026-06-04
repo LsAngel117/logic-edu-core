@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.structure.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.academic.structure.port.in.DeactivateAcademicStructureUseCase;
 import com.logossystemsit.logiceducore.application.academic.structure.port.out.AcademicStructureRepository;
@@ -66,7 +68,7 @@ class DeactivateAcademicStructureServiceTest {
         when(repository.findById(STRUCTURE_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(STRUCTURE_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("not found");
 
         verify(repository, never()).save(any());
@@ -83,7 +85,7 @@ class DeactivateAcademicStructureServiceTest {
         when(repository.findById(STRUCTURE_ID)).thenReturn(Optional.of(inactive));
 
         assertThatThrownBy(() -> useCase.execute(STRUCTURE_ID))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("already inactive");
 
         verify(repository, never()).save(any());

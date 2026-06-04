@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.assessment.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.academic.assessment.dto.command.CreateAssessmentCommand;
 import com.logossystemsit.logiceducore.application.academic.assessment.dto.command.UpdateAssessmentCommand;
@@ -161,7 +163,7 @@ class AssessmentServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("not authorized");
         }
 
@@ -177,7 +179,7 @@ class AssessmentServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Group not found");
         }
 
@@ -202,7 +204,7 @@ class AssessmentServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("not active");
         }
 
@@ -219,7 +221,7 @@ class AssessmentServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("already exists");
         }
 
@@ -237,7 +239,7 @@ class AssessmentServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Evaluation period not found");
         }
     }
@@ -272,7 +274,7 @@ class AssessmentServicesTest {
             when(assessmentRepository.findById(ASSESSMENT_ID)).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> useCase.execute(ASSESSMENT_ID))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Assessment not found");
         }
     }
@@ -360,7 +362,7 @@ class AssessmentServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("not authorized");
         }
 
@@ -378,7 +380,7 @@ class AssessmentServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Assessment not found");
         }
     }
@@ -416,7 +418,7 @@ class AssessmentServicesTest {
             when(gradeRepository.countByAssessmentId(ASSESSMENT_ID)).thenReturn(3L);
 
             assertThatThrownBy(() -> useCase.execute(ASSESSMENT_ID, GROUP_ID, TEACHER_ID))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("has grades");
         }
 
@@ -426,7 +428,7 @@ class AssessmentServicesTest {
             when(groupRepository.findById(GROUP_ID)).thenReturn(Optional.of(sampleGroup));
 
             assertThatThrownBy(() -> useCase.execute(ASSESSMENT_ID, GROUP_ID, OTHER_TEACHER_ID))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("not authorized");
         }
 
@@ -437,7 +439,7 @@ class AssessmentServicesTest {
             when(assessmentRepository.findById(ASSESSMENT_ID)).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> useCase.execute(ASSESSMENT_ID, GROUP_ID, TEACHER_ID))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Assessment not found");
         }
     }

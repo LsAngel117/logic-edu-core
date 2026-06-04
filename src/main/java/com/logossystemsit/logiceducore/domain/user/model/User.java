@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.user.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.*;
 
@@ -86,7 +88,7 @@ public class User {
         Objects.requireNonNull(updatedAt);
 
         if (createdAt.isAfter(updatedAt)) {
-            throw new IllegalArgumentException("Invalid timestamps");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Invalid timestamps");
         }
         validateBirthDate(birthDate, updatedAt);
 
@@ -102,7 +104,7 @@ public class User {
     public User block(Instant now) {
         validateTimeProgression(now);
         if (this.status == Status.BLOCKED) {
-            throw new IllegalStateException("User already blocked");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "User already blocked");
         }
 
         return new User(
@@ -116,7 +118,7 @@ public class User {
     public User activate(Instant now) {
         validateTimeProgression(now);
         if (this.status == Status.ACTIVE) {
-            throw new IllegalStateException("User already active");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "User already active");
         }
 
         return new User(
@@ -130,7 +132,7 @@ public class User {
     public User deactivate(Instant now) {
         validateTimeProgression(now);
         if (this.status == Status.INACTIVE) {
-            throw new IllegalStateException("User already inactive");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "User already inactive");
         }
 
         return new User(
@@ -182,29 +184,29 @@ public class User {
         LocalDate today = LocalDate.ofInstant(now, ZoneOffset.UTC);
 
         if (birthDate.isAfter(today)) {
-            throw new IllegalArgumentException("Birth date cannot be in the future");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Birth date cannot be in the future");
         }
     }
 
     private void validateTimeProgression(Instant now) {
         if (now.isBefore(this.updatedAt)) {
-            throw new IllegalArgumentException("Invalid time progression");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Invalid time progression");
         }
     }
 
     private void ensurePasswordChangeAllowed(PasswordHash newPassword) {
         if (this.status == Status.BLOCKED) {
-            throw new IllegalStateException("Blocked user cannot change password");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "Blocked user cannot change password");
         }
 
         if (this.passwordHash.equals(newPassword)) {
-            throw new IllegalArgumentException("New password cannot be the same as the current one");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "New password cannot be the same as the current one");
         }
     }
 
     private void ensureNotBlocked() {
         if (this.status == Status.BLOCKED) {
-            throw new IllegalStateException("Blocked user cannot be modified");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "Blocked user cannot be modified");
         }
     }
 

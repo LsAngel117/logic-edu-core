@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.group.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.academic.group.dto.command.CreateGroupCommand;
 import com.logossystemsit.logiceducore.application.academic.group.dto.command.ScheduleData;
@@ -126,7 +128,7 @@ class CreateGroupServiceTest {
             CreateGroupCommand command = createValidCommand();
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("School not found");
         }
 
@@ -139,7 +141,7 @@ class CreateGroupServiceTest {
             CreateGroupCommand command = createValidCommand();
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("School is not active");
         }
     }
@@ -157,7 +159,7 @@ class CreateGroupServiceTest {
             CreateGroupCommand command = createValidCommand();
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Subject not found");
         }
 
@@ -171,7 +173,7 @@ class CreateGroupServiceTest {
             CreateGroupCommand command = createValidCommand();
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Subject is not active");
         }
     }
@@ -190,7 +192,7 @@ class CreateGroupServiceTest {
             CreateGroupCommand command = createValidCommand();
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Academic period not found");
         }
 
@@ -205,7 +207,7 @@ class CreateGroupServiceTest {
             CreateGroupCommand command = createValidCommand();
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Academic period is not active");
         }
     }
@@ -225,7 +227,7 @@ class CreateGroupServiceTest {
             CreateGroupCommand command = createValidCommand();
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Branch not found");
         }
 
@@ -241,7 +243,7 @@ class CreateGroupServiceTest {
             CreateGroupCommand command = createValidCommand();
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Branch is not active");
         }
     }
@@ -262,7 +264,7 @@ class CreateGroupServiceTest {
             CreateGroupCommand command = createValidCommand();
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Teacher does not have TEACHER role");
         }
 
@@ -279,7 +281,7 @@ class CreateGroupServiceTest {
             CreateGroupCommand command = createValidCommand();
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Teacher does not have TEACHER role");
         }
     }
@@ -302,7 +304,7 @@ class CreateGroupServiceTest {
             CreateGroupCommand command = createValidCommand();
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Group code MATH-101 already exists");
         }
     }
@@ -329,7 +331,7 @@ class CreateGroupServiceTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("capacity");
         }
     }

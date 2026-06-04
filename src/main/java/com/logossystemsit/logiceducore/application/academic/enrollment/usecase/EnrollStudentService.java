@@ -10,6 +10,9 @@ import com.logossystemsit.logiceducore.domain.academic.enrollment.model.Enrollme
 import com.logossystemsit.logiceducore.domain.academic.enrollment.model.valueobject.EnrollmentId;
 import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.GroupStatus;
 import com.logossystemsit.logiceducore.domain.user.model.User;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,38 +42,38 @@ public class EnrollStudentService implements EnrollStudentUseCase {
     public EnrollmentResult execute(EnrollStudentCommand command) {
         // 1. Load Group by groupId
         var group = groupRepository.findById(command.groupId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.GROUP_NOT_FOUND,
                         "Group not found: " + command.groupId().value()));
 
         // 2. Validate group is ACTIVE
         if (group.getStatus() != GroupStatus.ACTIVE) {
-            throw new IllegalStateException("Group is inactive");
+            throw new BusinessRuleException(ErrorCode.GROUP_INACTIVE, "Group is inactive");
         }
 
         // 3. Validate student exists and is ACTIVE
         User student = userRepository.findById(command.userId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.USER_NOT_FOUND,
                         "Student not found: " + command.userId().value()));
         if (!student.isActive()) {
-            throw new IllegalStateException("Student is not active");
+            throw new BusinessRuleException(ErrorCode.USER_INACTIVE, "Student is not active");
         }
 
         // 4. Validate no duplicate enrollment
         if (enrollmentRepository.existsByUserIdAndGroupId(command.userId(), command.groupId())) {
-            throw new IllegalStateException("Student already enrolled in this group");
+            throw new BusinessRuleException(ErrorCode.ENROLLMENT_ALREADY_EXISTS, "Student already enrolled in this group");
         }
 
         // 5. Cross-aggregate: validate no same subject+period
         if (enrollmentRepository.existsActiveByStudentAndSubjectAndPeriod(
                 command.userId(), group.getSubjectId(), group.getAcademicPeriodId())) {
-            throw new IllegalStateException(
+            throw new BusinessRuleException(ErrorCode.ENROLLMENT_SAME_SUBJECT_PERIOD,
                     "Student already has an active enrollment for the same subject and period");
         }
 
         // 6. Capacity check
         long activeCount = enrollmentRepository.countActiveByGroupId(command.groupId());
         if (activeCount >= group.getCapacity()) {
-            throw new IllegalStateException("Group has reached maximum capacity");
+            throw new BusinessRuleException(ErrorCode.GROUP_CAPACITY_EXCEEDED, "Group has reached maximum capacity");
         }
 
         // 7. Create and save enrollment first
@@ -86,7 +89,7 @@ public class EnrollStudentService implements EnrollStudentUseCase {
         try {
             groupRepository.save(group);
         } catch (OptimisticLockingFailureException e) {
-            throw new OptimisticLockingFailureException("Group capacity changed, please retry");
+            throw new BusinessRuleException(ErrorCode.GROUP_CAPACITY_CHANGED, "Group capacity changed, please retry");
         }
 
         return EnrollmentResult.from(enrollment);

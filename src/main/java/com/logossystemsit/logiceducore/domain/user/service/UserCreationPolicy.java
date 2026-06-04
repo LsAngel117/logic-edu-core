@@ -1,6 +1,8 @@
 package com.logossystemsit.logiceducore.domain.user.service;
 
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.Document;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -17,12 +19,12 @@ public class UserCreationPolicy {
         switch (document.getType()) {
             case TI -> {
                 if (age >= 18) {
-                    throw new IllegalArgumentException("TI is only for minors");
+                    throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "TI is only for minors");
                 }
             }
             case CC -> {
                 if (age < 18) {
-                    throw new IllegalArgumentException("CC requires legal age");
+                    throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "CC requires legal age");
                 }
             }
         }

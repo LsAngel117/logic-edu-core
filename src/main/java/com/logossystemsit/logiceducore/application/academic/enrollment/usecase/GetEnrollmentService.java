@@ -4,6 +4,8 @@ import com.logossystemsit.logiceducore.application.academic.enrollment.dto.resul
 import com.logossystemsit.logiceducore.application.academic.enrollment.port.in.GetEnrollmentUseCase;
 import com.logossystemsit.logiceducore.application.academic.enrollment.port.out.EnrollmentRepository;
 import com.logossystemsit.logiceducore.domain.academic.enrollment.model.valueobject.EnrollmentId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 public class GetEnrollmentService implements GetEnrollmentUseCase {
@@ -18,7 +20,7 @@ public class GetEnrollmentService implements GetEnrollmentUseCase {
     @Transactional(readOnly = true)
     public EnrollmentResult execute(EnrollmentId id) {
         var enrollment = enrollmentRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Enrollment not found: " + id.value()));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ENROLLMENT_NOT_FOUND, "Enrollment not found: " + id.value()));
         return EnrollmentResult.from(enrollment);
     }
 }

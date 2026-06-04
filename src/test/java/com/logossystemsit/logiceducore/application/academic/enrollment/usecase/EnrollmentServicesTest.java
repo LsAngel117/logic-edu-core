@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.application.academic.enrollment.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.academic.enrollment.dto.result.EnrollmentResult;
 import com.logossystemsit.logiceducore.application.academic.enrollment.port.in.DropEnrollmentUseCase;
@@ -87,7 +88,7 @@ class EnrollmentServicesTest {
             when(enrollmentRepository.findById(ENR_ID)).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> useCase.execute(ENR_ID))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Enrollment not found");
         }
     }
@@ -182,7 +183,7 @@ class EnrollmentServicesTest {
             when(enrollmentRepository.findById(ENR_ID)).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> useCase.execute(ENR_ID))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Enrollment not found");
         }
     }

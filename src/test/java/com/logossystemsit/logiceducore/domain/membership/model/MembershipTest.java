@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.domain.membership.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.membership.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.UserId;
@@ -45,28 +46,28 @@ class MembershipTest {
         @Test
         void shouldRejectTeacherWithSchoolScope() {
             assertThatThrownBy(() -> Membership.create(userId(), Role.TEACHER, schoolScope()))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("TEACHER cannot be assigned to scope SCHOOL");
         }
 
         @Test
         void shouldRejectSchoolAdminWithCourseScope() {
             assertThatThrownBy(() -> Membership.create(userId(), Role.SCHOOL_ADMIN, courseScope()))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("SCHOOL_ADMIN cannot be assigned to scope COURSE");
         }
 
         @Test
         void shouldRejectBranchAdminWithSchoolScope() {
             assertThatThrownBy(() -> Membership.create(userId(), Role.BRANCH_ADMIN, schoolScope()))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("BRANCH_ADMIN cannot be assigned to scope SCHOOL");
         }
 
         @Test
         void shouldRejectPlatformAdminWithCourseScope() {
             assertThatThrownBy(() -> Membership.create(userId(), Role.PLATFORM_ADMIN, courseScope()))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("PLATFORM_ADMIN cannot be assigned to scope COURSE");
         }
     }
@@ -150,7 +151,7 @@ class MembershipTest {
                     Role.STUDENT, courseScope(), true);
 
             assertThatThrownBy(() -> m.changeRole(Role.PLATFORM_ADMIN))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("cannot be assigned to scope");
         }
     }
@@ -187,7 +188,7 @@ class MembershipTest {
                     Role.TEACHER, courseScope(), true);
 
             assertThatThrownBy(() -> m.changeScope(schoolScope()))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("TEACHER cannot be assigned to scope SCHOOL");
         }
     }
@@ -267,11 +268,11 @@ class MembershipTest {
         @Test
         void schoolShouldRequireRefId() {
             assertThatThrownBy(() -> Scope.school(null))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("schoolId");
 
             assertThatThrownBy(() -> Scope.school("  "))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("schoolId");
         }
 
@@ -287,7 +288,7 @@ class MembershipTest {
         @Test
         void branchShouldRequireRefId() {
             assertThatThrownBy(() -> Scope.branch(null))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("branchId");
         }
 
@@ -303,14 +304,14 @@ class MembershipTest {
         @Test
         void courseShouldRequireRefId() {
             assertThatThrownBy(() -> Scope.course(null))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("courseId");
         }
 
         @Test
         void academyShouldRequireRefId() {
             assertThatThrownBy(() -> Scope.academy(null))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("academyId");
         }
 

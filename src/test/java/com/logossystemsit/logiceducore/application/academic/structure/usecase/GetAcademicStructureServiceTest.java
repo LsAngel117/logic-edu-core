@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.application.academic.structure.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.academic.structure.port.in.GetAcademicStructureUseCase;
 import com.logossystemsit.logiceducore.application.academic.structure.port.out.AcademicStructureRepository;
@@ -59,7 +60,7 @@ class GetAcademicStructureServiceTest {
         when(repository.findById(STRUCTURE_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(STRUCTURE_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("not found");
     }
 
@@ -84,7 +85,7 @@ class GetAcademicStructureServiceTest {
         when(repository.findActiveBySchoolId(SCHOOL_ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.findActiveBySchoolId(SCHOOL_ID))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("No active AcademicStructure found");
     }
 }

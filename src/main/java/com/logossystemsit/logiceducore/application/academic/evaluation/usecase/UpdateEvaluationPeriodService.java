@@ -6,6 +6,9 @@ import com.logossystemsit.logiceducore.application.academic.evaluation.port.in.U
 import com.logossystemsit.logiceducore.application.academic.evaluation.port.out.EvaluationPeriodRepository;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.EvaluationPeriod;
 import com.logossystemsit.logiceducore.domain.academic.evaluation.model.valueobject.EvaluationPeriodStatus;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -26,11 +29,11 @@ public class UpdateEvaluationPeriodService implements UpdateEvaluationPeriodUseC
     @Transactional
     public EvaluationPeriodResult execute(UpdateEvaluationPeriodCommand command) {
         EvaluationPeriod current = repository.findById(command.evaluationPeriodId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.EVALUATION_PERIOD_NOT_FOUND,
                         "EvaluationPeriod not found: " + command.evaluationPeriodId().value()));
 
         if (current.getStatus() == EvaluationPeriodStatus.INACTIVE) {
-            throw new IllegalStateException("Cannot modify an inactive EvaluationPeriod");
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION, "Cannot modify an inactive EvaluationPeriod");
         }
 
         EvaluationPeriod updated = current;
@@ -47,7 +50,7 @@ public class UpdateEvaluationPeriodService implements UpdateEvaluationPeriodUseC
                         .subtract(current.getWeight());
                 BigDecimal newTotal = sumWithoutCurrent.add(newWeight);
                 if (newTotal.compareTo(new BigDecimal("100")) > 0) {
-                    throw new IllegalArgumentException(
+                    throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION,
                             "weight sum would exceed 100 for period: " + command.periodId().value());
                 }
                 updated = updated.changeWeight(newWeight, now);

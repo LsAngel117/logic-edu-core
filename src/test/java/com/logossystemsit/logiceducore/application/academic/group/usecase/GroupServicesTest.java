@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.group.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.academic.group.dto.command.ScheduleData;
 import com.logossystemsit.logiceducore.application.academic.group.dto.command.UpdateGroupCommand;
@@ -132,7 +134,7 @@ class GroupServicesTest {
             when(groupRepository.findById(any())).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> useCase.execute(GROUP_ID))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Group not found");
         }
     }
@@ -249,7 +251,7 @@ class GroupServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Cannot update an inactive group");
         }
 
@@ -270,7 +272,7 @@ class GroupServicesTest {
             );
 
             assertThatThrownBy(() -> useCase.execute(command))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("already exists");
         }
     }
@@ -314,7 +316,7 @@ class GroupServicesTest {
             when(groupRepository.findById(GROUP_ID)).thenReturn(Optional.of(inactive));
 
             assertThatThrownBy(() -> useCase.execute(GROUP_ID, List.of()))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Cannot update schedules of an inactive group");
         }
 
@@ -324,7 +326,7 @@ class GroupServicesTest {
             when(groupRepository.findById(any())).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> useCase.execute(GROUP_ID, List.of()))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Group not found");
         }
     }
@@ -375,7 +377,7 @@ class GroupServicesTest {
             when(groupRepository.findById(any())).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> useCase.execute(GROUP_ID))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(ResourceNotFoundException.class)
                     .hasMessageContaining("Group not found");
         }
     }

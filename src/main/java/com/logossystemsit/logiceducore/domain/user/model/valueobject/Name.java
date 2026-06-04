@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.user.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Objects;
 import java.util.Set;
@@ -29,19 +31,19 @@ public class Name {
 
     private void validateLength(String value) {
         if (value.length() > 50) {
-            throw new IllegalArgumentException("Name too long");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Name too long");
         }
     }
 
     private void validateFormat(String value) {
         if (!value.matches(NAME_REGEX)) {
-            throw new IllegalArgumentException("Invalid name format");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Invalid name format");
         }
     }
 
     private String normalizeRequired(String value, String message) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException(message);
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, message);
         }
 
         String normalized = normalize(value);

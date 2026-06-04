@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.user.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -11,13 +13,13 @@ public class Username {
 
     public Username(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("Username is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Username is required");
         }
 
         String normalized = normalize(value);
 
         if (!normalized.matches(USERNAME_REGEX)) {
-            throw new IllegalArgumentException("Invalid username format");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Invalid username format");
         }
 
         this.value = normalized;

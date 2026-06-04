@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.academic.group.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import com.logossystemsit.logiceducore.domain.academic.group.model.valueobject.ScheduleId;
 
@@ -20,7 +22,7 @@ public record Schedule(
         Objects.requireNonNull(endTime, "endTime is required");
 
         if (!startTime.isBefore(endTime)) {
-            throw new IllegalArgumentException("startTime must be before endTime");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "startTime must be before endTime");
         }
     }
 }

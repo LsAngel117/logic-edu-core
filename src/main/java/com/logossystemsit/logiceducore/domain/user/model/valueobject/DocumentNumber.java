@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.user.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 public class DocumentNumber {
 
@@ -6,13 +8,13 @@ public class DocumentNumber {
 
     public DocumentNumber(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("Document number is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Document number is required");
         }
 
         String normalized = value.trim();
 
         if (!normalized.matches("^[0-9A-Za-z]+$")) {
-            throw new IllegalArgumentException("Invalid document format");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Invalid document format");
         }
 
         this.value = normalized;

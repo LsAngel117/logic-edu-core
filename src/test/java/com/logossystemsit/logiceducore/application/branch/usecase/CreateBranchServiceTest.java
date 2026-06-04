@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.branch.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.branch.dto.command.CreateBranchCommand;
 import com.logossystemsit.logiceducore.application.branch.dto.result.BranchResult;
@@ -100,7 +102,7 @@ class CreateBranchServiceTest {
         CreateBranchCommand command = buildCommand(BranchType.SECONDARY);
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("inactive");
 
         verify(branchRepository, never()).save(any());
@@ -115,7 +117,7 @@ class CreateBranchServiceTest {
         CreateBranchCommand command = buildCommand(BranchType.MAIN);
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("MAIN branch already exists");
 
         verify(branchRepository, never()).save(any());
@@ -130,7 +132,7 @@ class CreateBranchServiceTest {
         CreateBranchCommand command = buildCommand(BranchType.SECONDARY);
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("name already exists");
 
         verify(branchRepository, never()).save(any());
@@ -146,7 +148,7 @@ class CreateBranchServiceTest {
 
         // Domain validates VIRTUAL + address → throws IllegalStateException
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("Virtual branch cannot have a physical address");
 
         verify(branchRepository, never()).save(any());
@@ -159,7 +161,7 @@ class CreateBranchServiceTest {
         CreateBranchCommand command = buildCommand(BranchType.MAIN);
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("School not found");
 
         verify(branchRepository, never()).save(any());

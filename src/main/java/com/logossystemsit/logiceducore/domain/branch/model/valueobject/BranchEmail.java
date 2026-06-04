@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.branch.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -22,17 +24,17 @@ public final class BranchEmail {
 
     private static String normalize(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("BranchEmail is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "BranchEmail is required");
         }
 
         String normalized = value.trim().toLowerCase();
 
         if (normalized.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException("BranchEmail must not exceed " + MAX_LENGTH + " characters");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "BranchEmail must not exceed " + MAX_LENGTH + " characters");
         }
 
         if (!EMAIL_PATTERN.matcher(normalized).matches()) {
-            throw new IllegalArgumentException("Invalid BranchEmail format");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Invalid BranchEmail format");
         }
         return normalized;
     }

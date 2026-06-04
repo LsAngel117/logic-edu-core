@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.academic.structure.dto.result
 import com.logossystemsit.logiceducore.application.academic.structure.port.in.CreateAcademicStructureUseCase;
 import com.logossystemsit.logiceducore.application.academic.structure.port.out.AcademicStructureRepository;
 import com.logossystemsit.logiceducore.domain.academic.structure.model.AcademicStructure;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -23,7 +25,7 @@ public class CreateAcademicStructureService implements CreateAcademicStructureUs
     @Transactional
     public AcademicStructureResult execute(CreateAcademicStructureCommand command) {
         if (repository.findActiveBySchoolId(command.schoolId()).isPresent()) {
-            throw new IllegalArgumentException(
+            throw new BusinessRuleException(ErrorCode.BUSINESS_RULE_VIOLATION,
                     "An active structure already exists for school " + command.schoolId().value());
         }
 

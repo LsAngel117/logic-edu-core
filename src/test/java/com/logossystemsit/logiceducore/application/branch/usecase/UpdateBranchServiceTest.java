@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.branch.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.branch.dto.command.UpdateBranchCommand;
 import com.logossystemsit.logiceducore.application.branch.dto.result.BranchResult;
@@ -65,7 +67,7 @@ class UpdateBranchServiceTest {
         UpdateBranchCommand command = buildCommand(BranchType.SECONDARY, "Sede Cerrada", "SC-001");
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("Cannot modify an inactive branch");
 
         verify(branchRepository, never()).save(any());
@@ -81,7 +83,7 @@ class UpdateBranchServiceTest {
         UpdateBranchCommand command = buildCommand(BranchType.MAIN, "Sede Norte", "SN-001");
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("MAIN branch already exists");
 
         verify(branchRepository, never()).save(any());
@@ -96,7 +98,7 @@ class UpdateBranchServiceTest {
         UpdateBranchCommand command = buildCommand(BranchType.SECONDARY, "Sede Sur", "SS-001");
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("name already exists");
 
         verify(branchRepository, never()).save(any());
@@ -125,7 +127,7 @@ class UpdateBranchServiceTest {
         UpdateBranchCommand command = buildCommand(BranchType.SECONDARY, "Sede X", "SX-001");
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("Branch not found");
     }
 

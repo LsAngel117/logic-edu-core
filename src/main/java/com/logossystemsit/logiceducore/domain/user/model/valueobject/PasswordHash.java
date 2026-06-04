@@ -1,14 +1,16 @@
 package com.logossystemsit.logiceducore.domain.user.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 public class PasswordHash {
     private final String value;
 
     public PasswordHash(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("Password hash cannot be empty");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Password hash cannot be empty");
         }
         if (value.length() < 60) {
-            throw new IllegalArgumentException("Password hash must be at least 60 characters");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Password hash must be at least 60 characters");
         }
         this.value = value;
     }

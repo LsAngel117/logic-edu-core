@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.domain.academic.grade.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.academic.assessment.model.valueobject.AssessmentId;
 import com.logossystemsit.logiceducore.domain.academic.grade.model.valueobject.GradeId;
@@ -45,7 +46,7 @@ class GradeTest {
         @DisplayName("should reject null or blank GradeId")
         void shouldRejectNullOrBlankGradeId(String value) {
             assertThatThrownBy(() -> new GradeId(value))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("GradeId");
         }
 
@@ -151,7 +152,7 @@ class GradeTest {
             assertThatThrownBy(() -> Grade.create(
                     GRADE_ID, ASSESSMENT_ID, STUDENT_ID, new BigDecimal("-1.00"), FIXED_NOW
             ))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("negative");
         }
 
@@ -232,7 +233,7 @@ class GradeTest {
         void shouldRejectNegativeValueOnChange() {
             Grade grade = createSampleGrade();
             assertThatThrownBy(() -> grade.changeValue(new BigDecimal("-0.01"), LATER))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("negative");
         }
 

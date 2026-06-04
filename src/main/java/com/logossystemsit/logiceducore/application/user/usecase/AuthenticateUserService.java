@@ -5,6 +5,9 @@ import com.logossystemsit.logiceducore.application.user.dto.result.LoginResult;
 import com.logossystemsit.logiceducore.application.user.port.in.AuthenticateUserUseCase;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.infrastructure.security.service.JwtService;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.AuthenticationException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +32,7 @@ public class AuthenticateUserService implements AuthenticateUserUseCase {
     @Transactional
     public LoginResult execute(LoginCommand command) {
         var user = userRepository.findById(command.userId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.USER_NOT_FOUND, "User not found"));
 
         boolean matches = passwordEncoder.matches(
                 command.rawPassword(),
@@ -37,7 +40,7 @@ public class AuthenticateUserService implements AuthenticateUserUseCase {
         );
 
         if (!matches) {
-            throw new IllegalArgumentException("Invalid credentials");
+            throw new AuthenticationException(ErrorCode.AUTH_INVALID_CREDENTIALS, "Invalid credentials");
         }
 
         String token = jwtService.generate(user.getId().value(), List.of());

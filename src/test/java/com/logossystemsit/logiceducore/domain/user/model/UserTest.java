@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.domain.user.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.*;
 import org.junit.jupiter.api.Test;
@@ -59,7 +60,7 @@ class UserTest {
 
             assertThatThrownBy(() -> User.create(userId(), username(), email(), passwordHash(),
                     name(), User.Sex.MALE, futureDate, ccDocument(), NOW))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Birth date cannot be in the future");
         }
 
@@ -110,7 +111,7 @@ class UserTest {
             assertThatThrownBy(() -> User.restore(userId(), username(), email(), passwordHash(),
                     name(), User.Sex.MALE, validBirthDate(), ccDocument(),
                     User.Status.ACTIVE, NOW, PAST))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessage("Invalid timestamps");
         }
 
@@ -156,7 +157,7 @@ class UserTest {
                     User.Status.ACTIVE, PAST, PAST);
 
             assertThatThrownBy(() -> user.activate(NOW))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessage("User already active");
         }
 
@@ -179,7 +180,7 @@ class UserTest {
                     User.Status.INACTIVE, PAST, NOW);
 
             assertThatThrownBy(() -> user.activate(PAST))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessage("Invalid time progression");
         }
     }
@@ -209,7 +210,7 @@ class UserTest {
                     User.Status.INACTIVE, PAST, PAST);
 
             assertThatThrownBy(() -> user.deactivate(NOW))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessage("User already inactive");
         }
     }
@@ -249,7 +250,7 @@ class UserTest {
                     User.Status.BLOCKED, PAST, PAST);
 
             assertThatThrownBy(() -> user.block(NOW))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessage("User already blocked");
         }
     }
@@ -278,7 +279,7 @@ class UserTest {
                     User.Status.ACTIVE, PAST, PAST);
 
             assertThatThrownBy(() -> user.changePassword(passwordHash(), NOW))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessage("New password cannot be the same as the current one");
         }
 
@@ -289,7 +290,7 @@ class UserTest {
                     User.Status.BLOCKED, PAST, PAST);
 
             assertThatThrownBy(() -> user.changePassword(otherPasswordHash(), NOW))
-                    .isInstanceOf(IllegalStateException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessage("Blocked user cannot change password");
         }
 
@@ -352,7 +353,7 @@ class UserTest {
         @Test
         void emailShouldRejectInvalidFormat() {
             assertThatThrownBy(() -> new Email("not-an-email"))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Invalid email format");
         }
 
@@ -366,14 +367,14 @@ class UserTest {
         @Test
         void usernameShouldRejectTooShort() {
             assertThatThrownBy(() -> new Username("ab"))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessage("Invalid username format");
         }
 
         @Test
         void usernameShouldRejectStartingWithNumber() {
             assertThatThrownBy(() -> new Username("1jdoe123"))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessage("Invalid username format");
         }
 
@@ -387,7 +388,7 @@ class UserTest {
         @Test
         void documentCCShouldRejectInvalidFormat() {
             assertThatThrownBy(() -> new Document(Document.DocumentType.CC, new DocumentNumber("abc")))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Invalid CC format");
         }
 
@@ -401,7 +402,7 @@ class UserTest {
         @Test
         void documentTIShouldRejectInvalidFormat() {
             assertThatThrownBy(() -> new Document(Document.DocumentType.TI, new DocumentNumber("abc")))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Invalid TI format");
         }
 

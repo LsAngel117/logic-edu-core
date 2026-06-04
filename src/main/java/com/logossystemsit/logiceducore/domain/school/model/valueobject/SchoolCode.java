@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.school.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Objects;
 
@@ -29,14 +31,14 @@ public final class SchoolCode {
 
     private void validateLength(String value) {
         if (value.length() < MIN_LENGTH || value.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException("School code length must be between "
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "School code length must be between "
                     + MIN_LENGTH + " and " + MAX_LENGTH);
         }
     }
 
     private void validateFormat(String value) {
         if (!value.matches(CODE_REGEX)) {
-            throw new IllegalArgumentException("Invalid school code format");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Invalid school code format");
         }
     }
 

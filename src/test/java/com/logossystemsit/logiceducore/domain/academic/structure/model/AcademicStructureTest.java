@@ -1,4 +1,5 @@
 package com.logossystemsit.logiceducore.domain.academic.structure.model;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.domain.academic.structure.model.valueobject.AcademicStructureId;
 import com.logossystemsit.logiceducore.domain.academic.structure.model.valueobject.StructureType;
@@ -35,7 +36,7 @@ class AcademicStructureTest {
         @DisplayName("should reject null value")
         void shouldRejectNullValue() {
             assertThatThrownBy(() -> new AcademicStructureId(null))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("required");
         }
 
@@ -43,7 +44,7 @@ class AcademicStructureTest {
         @DisplayName("should reject blank value")
         void shouldRejectBlankValue() {
             assertThatThrownBy(() -> new AcademicStructureId("  "))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("required");
         }
     }
@@ -324,7 +325,7 @@ class AcademicStructureTest {
                     SCHOOL_ID,
                     StructureType.SEMESTRAL,
                     -1, 2, 0, 5, 40, NOW
-            )).isInstanceOf(IllegalArgumentException.class);
+            )).isInstanceOf(BusinessRuleException.class);
         }
 
         @Test
@@ -335,7 +336,7 @@ class AcademicStructureTest {
                     SCHOOL_ID,
                     StructureType.SEMESTRAL,
                     1, -1, 0, 5, 40, NOW
-            )).isInstanceOf(IllegalArgumentException.class);
+            )).isInstanceOf(BusinessRuleException.class);
         }
 
         @Test

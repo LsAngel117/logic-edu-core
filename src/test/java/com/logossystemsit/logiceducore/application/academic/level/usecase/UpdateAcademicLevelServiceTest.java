@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.academic.level.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 
 import com.logossystemsit.logiceducore.application.academic.level.dto.command.UpdateAcademicLevelCommand;
 import com.logossystemsit.logiceducore.application.academic.level.dto.result.AcademicLevelResult;
@@ -77,7 +79,7 @@ class UpdateAcademicLevelServiceTest {
         );
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("not found");
     }
 
@@ -95,7 +97,7 @@ class UpdateAcademicLevelServiceTest {
         );
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("inactive");
     }
 
@@ -113,7 +115,7 @@ class UpdateAcademicLevelServiceTest {
         );
 
         assertThatThrownBy(() -> useCase.execute(command))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("already exists");
     }
 

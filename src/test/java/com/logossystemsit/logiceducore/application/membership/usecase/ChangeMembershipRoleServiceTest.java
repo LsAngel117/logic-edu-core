@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.application.membership.usecase;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 import com.logossystemsit.logiceducore.application.membership.dto.command.ChangeMembershipRoleCommand;
 import com.logossystemsit.logiceducore.application.membership.port.in.ChangeMembershipRoleUseCase;
@@ -63,7 +65,7 @@ class ChangeMembershipRoleServiceTest {
 
         assertThatThrownBy(() ->
                 useCase.execute(new ChangeMembershipRoleCommand(membershipId, Role.TEACHER)))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("Membership not found");
     }
 
@@ -82,7 +84,7 @@ class ChangeMembershipRoleServiceTest {
         // PLATFORM_ADMIN is not supported in COURSE scope -> changeRole throws
         assertThatThrownBy(() ->
                 useCase.execute(new ChangeMembershipRoleCommand(membershipId, Role.PLATFORM_ADMIN)))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessRuleException.class)
                 .hasMessageContaining("cannot be assigned to scope");
     }
 }

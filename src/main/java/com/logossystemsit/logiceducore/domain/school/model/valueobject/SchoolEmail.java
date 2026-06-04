@@ -1,4 +1,6 @@
 package com.logossystemsit.logiceducore.domain.school.model.valueobject;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -22,17 +24,17 @@ public final class SchoolEmail {
 
     private static String normalize(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("SchoolEmail is required");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "SchoolEmail is required");
         }
 
         String normalized = value.trim().toLowerCase();
 
         if (normalized.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException("SchoolEmail must not exceed " + MAX_LENGTH + " characters");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "SchoolEmail must not exceed " + MAX_LENGTH + " characters");
         }
 
         if (!EMAIL_PATTERN.matcher(normalized).matches()) {
-            throw new IllegalArgumentException("Invalid SchoolEmail format");
+            throw new BusinessRuleException(ErrorCode.VALIDATION_ERROR, "Invalid SchoolEmail format");
         }
 
         return normalized;

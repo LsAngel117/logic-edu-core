@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.academic.structure.port.in.Ge
 import com.logossystemsit.logiceducore.application.academic.structure.port.out.AcademicStructureRepository;
 import com.logossystemsit.logiceducore.domain.academic.structure.model.valueobject.AcademicStructureId;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 
 public class GetAcademicStructureService implements GetAcademicStructureUseCase {
 
@@ -18,7 +20,7 @@ public class GetAcademicStructureService implements GetAcademicStructureUseCase 
     public AcademicStructureResult execute(AcademicStructureId id) {
         return repository.findById(id)
                 .map(AcademicStructureResult::from)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ACADEMIC_STRUCTURE_NOT_FOUND,
                         "AcademicStructure not found: " + id.value()));
     }
 
@@ -26,7 +28,7 @@ public class GetAcademicStructureService implements GetAcademicStructureUseCase 
     public AcademicStructureResult findActiveBySchoolId(SchoolId schoolId) {
         return repository.findActiveBySchoolId(schoolId)
                 .map(AcademicStructureResult::from)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ACADEMIC_STRUCTURE_NOT_FOUND,
                         "No active AcademicStructure found for school: " + schoolId.value()));
     }
 }

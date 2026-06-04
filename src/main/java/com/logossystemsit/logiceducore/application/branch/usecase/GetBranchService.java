@@ -6,6 +6,8 @@ import com.logossystemsit.logiceducore.application.branch.port.out.BranchReposit
 import com.logossystemsit.logiceducore.domain.branch.model.Branch;
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.BranchId;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
+import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.errors.exceptions.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 public class GetBranchService implements GetBranchUseCase {
@@ -20,10 +22,10 @@ public class GetBranchService implements GetBranchUseCase {
     @Transactional(readOnly = true)
     public BranchResult execute(SchoolId schoolId, BranchId branchId) {
         Branch branch = branchRepository.findById(branchId)
-                .orElseThrow(() -> new IllegalArgumentException("Branch not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.BRANCH_NOT_FOUND, "Branch not found"));
 
         if (!branch.getSchoolId().equals(schoolId)) {
-            throw new IllegalArgumentException("Branch not found");
+            throw new ResourceNotFoundException(ErrorCode.BRANCH_NOT_FOUND, "Branch not found");
         }
 
         return BranchResult.from(branch);
