@@ -184,8 +184,7 @@ public class BranchController {
                 : BranchAddress.empty();
         City city = new City(r.city());
         Country country = new Country(r.country());
-
-        BranchType type = resolveType(r);
+        BranchType type = BranchType.valueOf(r.type().toUpperCase());
 
         return new CreateBranchCommand(bId, sId, name, code, shortName, description, email, phone, address, city, country, type);
     }
@@ -210,20 +209,9 @@ public class BranchController {
                 : BranchAddress.empty();
         City city = new City(r.city());
         Country country = new Country(r.country());
-
-        BranchType type = resolveType(r);
+        BranchType type = BranchType.valueOf(r.type().toUpperCase());
 
         return new UpdateBranchCommand(sId, bId, name, code, shortName, description, email, phone, address, city, country, type);
-    }
-
-    private BranchType resolveType(CreateBranchRequest r) {
-        boolean hasAddress = r.address() != null && !r.address().isBlank();
-        return hasAddress ? BranchType.MAIN : BranchType.VIRTUAL;
-    }
-
-    private BranchType resolveType(UpdateBranchRequest r) {
-        boolean hasAddress = r.address() != null && !r.address().isBlank();
-        return hasAddress ? BranchType.MAIN : BranchType.VIRTUAL;
     }
 
     private BranchResponse toResponse(BranchResult result) {

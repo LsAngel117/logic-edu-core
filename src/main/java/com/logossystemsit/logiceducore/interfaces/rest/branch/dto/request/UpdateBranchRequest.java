@@ -15,7 +15,9 @@ public record UpdateBranchRequest(
         String email,
         @Schema(description = "Teléfono de la sede (opcional)", example = "+57 601 3456789")
         String phone,
-        @Schema(description = "Dirección física de la sede (opcional). Si se proporciona, la sede se clasifica como MAIN")
+        @Schema(description = "Tipo de sede", example = "MAIN", allowableValues = {"MAIN", "SECONDARY", "VIRTUAL", "TEMPORARY"})
+        String type,
+        @Schema(description = "Dirección física de la sede (opcional)", example = "Calle 123 #45-67")
         String address,
         @Schema(description = "Ciudad", example = "Medellín")
         String city,
