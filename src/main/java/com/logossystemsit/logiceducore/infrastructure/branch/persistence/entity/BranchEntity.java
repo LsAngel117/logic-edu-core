@@ -39,6 +39,10 @@ public class BranchEntity {
 
     private String address;
 
+    private String city;
+
+    private String country;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BranchType type;
@@ -86,6 +90,14 @@ public class BranchEntity {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public BranchType getType() {
@@ -140,6 +152,14 @@ public class BranchEntity {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public void setType(BranchType type) {

@@ -4,6 +4,8 @@ import com.logossystemsit.logiceducore.application.branch.port.out.BranchReposit
 import com.logossystemsit.logiceducore.domain.branch.model.Branch;
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 import com.logossystemsit.logiceducore.infrastructure.branch.persistence.entity.BranchEntity;
 import com.logossystemsit.logiceducore.infrastructure.branch.persistence.repository.BranchJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -189,6 +191,8 @@ class BranchRepositoryAdapterTest {
                 BranchEmail.of(code.toLowerCase().replace("-", "") + "@branch.edu"),
                 BranchPhone.of("+571234567"),
                 BranchAddress.of("Calle 123 #45-67"),
+                new City("Medellín"),
+                new Country("Colombia"),
                 type,
                 status,
                 NOW,
@@ -207,6 +211,8 @@ class BranchRepositoryAdapterTest {
         e.setEmail(code.toLowerCase().replace("-", "") + "@branch.edu");
         e.setPhone("+571234567");
         e.setAddress("Calle 123 #45-67");
+        e.setCity("Medellín");
+        e.setCountry("Colombia");
         e.setType(type);
         e.setStatus(Branch.Status.ACTIVE);
         e.setCreatedAt(NOW);

@@ -16,5 +16,9 @@ public record CreateBranchRequest(
         @Schema(description = "Teléfono de la sede (opcional)", example = "+57 601 3456789")
         String phone,
         @Schema(description = "Dirección física de la sede (opcional). Si se proporciona, la sede se clasifica como MAIN")
-        String address
+        String address,
+        @Schema(description = "Ciudad", example = "Medellín")
+        String city,
+        @Schema(description = "País", example = "Colombia")
+        String country
 ) {}

@@ -5,6 +5,8 @@ import com.logossystemsit.logiceducore.application.school.dto.command.UpdateScho
 import com.logossystemsit.logiceducore.application.school.dto.result.SchoolResult;
 import com.logossystemsit.logiceducore.application.school.port.in.*;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.*;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 import com.logossystemsit.logiceducore.interfaces.rest.dto.response.SchoolResponse;
 import com.logossystemsit.logiceducore.interfaces.rest.school.dto.request.CreateSchoolRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.school.dto.request.UpdateSchoolRequest;
@@ -168,8 +170,10 @@ public class SchoolController {
         SchoolAddress address = r.address() != null && !r.address().isBlank()
                 ? SchoolAddress.of(r.address())
                 : SchoolAddress.empty();
+        City city = new City(r.city());
+        Country country = new Country(r.country());
 
-        return new CreateSchoolCommand(schoolId, name, code, shortName, description, email, phone, address);
+        return new CreateSchoolCommand(schoolId, name, code, shortName, description, email, phone, address, city, country);
     }
 
     private UpdateSchoolCommand mapToUpdateCommand(SchoolId schoolId, UpdateSchoolRequest r) {
@@ -188,8 +192,10 @@ public class SchoolController {
         SchoolAddress address = r.address() != null && !r.address().isBlank()
                 ? SchoolAddress.of(r.address())
                 : SchoolAddress.empty();
+        City city = new City(r.city());
+        Country country = new Country(r.country());
 
-        return new UpdateSchoolCommand(schoolId, name, code, shortName, description, email, phone, address);
+        return new UpdateSchoolCommand(schoolId, name, code, shortName, description, email, phone, address, city, country);
     }
 
     private SchoolResponse toResponse(SchoolResult result) {
@@ -202,6 +208,8 @@ public class SchoolController {
                 result.email(),
                 result.phone(),
                 result.address(),
+                result.city(),
+                result.country(),
                 result.status(),
                 result.createdAt() != null ? result.createdAt().toString() : null,
                 result.updatedAt() != null ? result.updatedAt().toString() : null

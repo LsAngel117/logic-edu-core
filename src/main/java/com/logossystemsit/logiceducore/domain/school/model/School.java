@@ -1,6 +1,8 @@
 package com.logossystemsit.logiceducore.domain.school.model;
 import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.*;
 
@@ -17,6 +19,8 @@ public final class School {
     private final SchoolEmail email;
     private final SchoolPhone phone;
     private final SchoolAddress address;
+    private final City city;
+    private final Country country;
     private final Status status;
     private final Instant createdAt;
     private final Instant updatedAt;
@@ -30,6 +34,8 @@ public final class School {
             SchoolEmail email,
             SchoolPhone phone,
             SchoolAddress address,
+            City city,
+            Country country,
             Status status,
             Instant createdAt,
             Instant updatedAt
@@ -43,6 +49,9 @@ public final class School {
         this.email = email;
         this.phone = phone;
         this.address = address;
+
+        this.city = Objects.requireNonNull(city, "City is required");
+        this.country = Objects.requireNonNull(country, "Country is required");
 
         this.status = Objects.requireNonNull(status, "Status is required");
         this.createdAt = Objects.requireNonNull(createdAt, "createdAt is required");
@@ -61,10 +70,13 @@ public final class School {
             SchoolEmail email,
             SchoolPhone phone,
             SchoolAddress address,
+            City city,
+            Country country,
             Instant now
     ) {
         return new School(
                 id, name, code, shortName, description, email, phone, address,
+                city, country,
                 Status.ACTIVE,
                 now,
                 now
@@ -80,12 +92,15 @@ public final class School {
             SchoolEmail email,
             SchoolPhone phone,
             SchoolAddress address,
+            City city,
+            Country country,
             Status status,
             Instant createdAt,
             Instant updatedAt
     ) {
         return new School(
                 id, name, code, shortName, description, email, phone, address,
+                city, country,
                 status,
                 createdAt,
                 updatedAt
@@ -101,6 +116,8 @@ public final class School {
             SchoolEmail email,
             SchoolPhone phone,
             SchoolAddress address,
+            City city,
+            Country country,
             Instant now
     ) {
         ensureActive();
@@ -114,6 +131,8 @@ public final class School {
                 email,
                 phone,
                 address,
+                Objects.requireNonNull(city, "City is required"),
+                Objects.requireNonNull(country, "Country is required"),
                 this.status,
                 this.createdAt,
                 now
@@ -129,6 +148,8 @@ public final class School {
                 this.id, this.name, this.code, this.shortName, this.description, this.email,
                 this.phone,
                 this.address,
+                this.city,
+                this.country,
                 Status.INACTIVE,
                 this.createdAt,
                 now
@@ -159,6 +180,8 @@ public final class School {
     public SchoolEmail getEmail() { return email; }
     public SchoolPhone getPhone() { return phone; }
     public SchoolAddress getAddress() { return address; }
+    public City getCity() { return city; }
+    public Country getCountry() { return country; }
     public Status getStatus() { return status; }
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }

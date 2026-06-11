@@ -3,6 +3,8 @@ import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleExce
 
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -15,6 +17,8 @@ class BranchTest {
     private static final Instant NOW = Instant.parse("2025-06-15T12:00:00Z");
     private static final SchoolId SCHOOL_ID = new SchoolId("school-1");
     private static final BranchId BRANCH_ID = BranchId.generate();
+    private static final City CITY = new City("Medellín");
+    private static final Country COUNTRY = new Country("Colombia");
 
     @Test
     void create_shouldCreateActiveBranch() {
@@ -27,6 +31,7 @@ class BranchTest {
                 BranchEmail.of("norte@branch.edu"),
                 BranchPhone.of("+571234567"),
                 BranchAddress.of("Calle 123 #45-67"),
+                CITY, COUNTRY,
                 BranchType.MAIN,
                 NOW
         );
@@ -47,6 +52,7 @@ class BranchTest {
                 BranchEmail.of("virtual@branch.edu"),
                 BranchPhone.of("+571234567"),
                 BranchAddress.of("Calle 123"), // VIRTUAL + address = illegal
+                CITY, COUNTRY,
                 BranchType.VIRTUAL,
                 NOW
         )).isInstanceOf(BusinessRuleException.class)
@@ -64,6 +70,7 @@ class BranchTest {
                 BranchEmail.of("main@branch.edu"),
                 BranchPhone.of("+571234567"),
                 BranchAddress.empty(), // MAIN without address = illegal
+                CITY, COUNTRY,
                 BranchType.MAIN,
                 NOW
         )).isInstanceOf(BusinessRuleException.class)
@@ -81,6 +88,7 @@ class BranchTest {
                 BranchEmail.of("sec@branch.edu"),
                 BranchPhone.of("+571234567"),
                 BranchAddress.empty(), // SECONDARY without address = illegal
+                CITY, COUNTRY,
                 BranchType.SECONDARY,
                 NOW
         )).isInstanceOf(BusinessRuleException.class)
@@ -98,6 +106,7 @@ class BranchTest {
                 null, // no email
                 null, // no phone
                 BranchAddress.empty(), // no address = OK for VIRTUAL
+                CITY, COUNTRY,
                 BranchType.VIRTUAL,
                 NOW
         );
@@ -118,6 +127,7 @@ class BranchTest {
                 null,
                 null,
                 BranchAddress.of("Calle Principal"),
+                CITY, COUNTRY,
                 BranchType.MAIN,
                 NOW
         );
@@ -138,6 +148,7 @@ class BranchTest {
                 BranchDescription.empty(),
                 null, null,
                 BranchAddress.of("Calle Secundaria"),
+                CITY, COUNTRY,
                 BranchType.SECONDARY,
                 NOW
         );
@@ -159,6 +170,7 @@ class BranchTest {
                 BranchDescription.empty(),
                 null, null,
                 BranchAddress.of("Calle 1"),
+                CITY, COUNTRY,
                 BranchType.MAIN,
                 NOW
         );
@@ -186,6 +198,7 @@ class BranchTest {
                 BranchDescription.empty(),
                 null, null,
                 BranchAddress.of("Calle 2"),
+                CITY, COUNTRY,
                 BranchType.SECONDARY,
                 NOW
         );
@@ -211,6 +224,7 @@ class BranchTest {
                 BranchDescription.empty(),
                 null, null,
                 BranchAddress.of("Calle 3"),
+                CITY, COUNTRY,
                 BranchType.SECONDARY,
                 NOW
         );

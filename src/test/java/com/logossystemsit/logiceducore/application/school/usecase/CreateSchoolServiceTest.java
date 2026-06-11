@@ -8,6 +8,8 @@ import com.logossystemsit.logiceducore.application.school.port.in.CreateSchoolUs
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.domain.school.model.School;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.*;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +44,8 @@ class CreateSchoolServiceTest {
     private static final SchoolEmail EMAIL = SchoolEmail.of("info@andino.edu");
     private static final SchoolPhone PHONE = SchoolPhone.of("+571234567");
     private static final SchoolAddress ADDRESS = SchoolAddress.of("Calle 123 #45-67");
+    private static final City CITY = new City("Medellín");
+    private static final Country COUNTRY = new Country("Colombia");
 
     @BeforeEach
     void setUp() {
@@ -52,7 +56,7 @@ class CreateSchoolServiceTest {
     @Test
     void execute_shouldCreateSchoolAndPersist() {
         CreateSchoolCommand command = new CreateSchoolCommand(
-                SCHOOL_ID, NAME, CODE, SHORT_NAME, DESCRIPTION, EMAIL, PHONE, ADDRESS
+                SCHOOL_ID, NAME, CODE, SHORT_NAME, DESCRIPTION, EMAIL, PHONE, ADDRESS, CITY, COUNTRY
         );
 
         when(schoolRepository.existsByName(NAME)).thenReturn(false);
@@ -73,7 +77,7 @@ class CreateSchoolServiceTest {
     @Test
     void execute_shouldSetCorrectTimestamps() {
         CreateSchoolCommand command = new CreateSchoolCommand(
-                SCHOOL_ID, NAME, CODE, SHORT_NAME, DESCRIPTION, EMAIL, PHONE, ADDRESS
+                SCHOOL_ID, NAME, CODE, SHORT_NAME, DESCRIPTION, EMAIL, PHONE, ADDRESS, CITY, COUNTRY
         );
 
         when(schoolRepository.existsByName(NAME)).thenReturn(false);
@@ -88,7 +92,7 @@ class CreateSchoolServiceTest {
     @Test
     void execute_shouldRejectDuplicateName() {
         CreateSchoolCommand command = new CreateSchoolCommand(
-                SCHOOL_ID, NAME, CODE, SHORT_NAME, DESCRIPTION, EMAIL, PHONE, ADDRESS
+                SCHOOL_ID, NAME, CODE, SHORT_NAME, DESCRIPTION, EMAIL, PHONE, ADDRESS, CITY, COUNTRY
         );
 
         when(schoolRepository.existsByName(NAME)).thenReturn(true);
@@ -103,7 +107,7 @@ class CreateSchoolServiceTest {
     @Test
     void execute_shouldRejectDuplicateCode() {
         CreateSchoolCommand command = new CreateSchoolCommand(
-                SCHOOL_ID, NAME, CODE, SHORT_NAME, DESCRIPTION, EMAIL, PHONE, ADDRESS
+                SCHOOL_ID, NAME, CODE, SHORT_NAME, DESCRIPTION, EMAIL, PHONE, ADDRESS, CITY, COUNTRY
         );
 
         when(schoolRepository.existsByName(NAME)).thenReturn(false);
@@ -120,7 +124,7 @@ class CreateSchoolServiceTest {
     void execute_shouldCreateSchoolWithoutOptionalFields() {
         CreateSchoolCommand command = new CreateSchoolCommand(
                 SCHOOL_ID, NAME, CODE, SHORT_NAME,
-                SchoolDescription.empty(), null, null, SchoolAddress.empty()
+                SchoolDescription.empty(), null, null, SchoolAddress.empty(), CITY, COUNTRY
         );
 
         when(schoolRepository.existsByName(NAME)).thenReturn(false);

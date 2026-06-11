@@ -3,6 +3,8 @@ package com.logossystemsit.logiceducore.infrastructure.school.persistence.adapte
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.domain.school.model.School;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.*;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 import com.logossystemsit.logiceducore.infrastructure.school.persistence.entity.SchoolEntity;
 import com.logossystemsit.logiceducore.infrastructure.school.persistence.repository.SchoolJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -181,6 +183,8 @@ class SchoolRepositoryAdapterTest {
                 SchoolEmail.of(code.toLowerCase().replace("-", "") + "@school.edu"),
                 SchoolPhone.of("+571234567"),
                 SchoolAddress.of("Calle 123 #45-67"),
+                new City("Medellín"),
+                new Country("Colombia"),
                 status,
                 NOW,
                 NOW
@@ -197,6 +201,8 @@ class SchoolRepositoryAdapterTest {
         e.setEmail(code.toLowerCase().replace("-", "") + "@school.edu");
         e.setPhone("+571234567");
         e.setAddress("Calle 123 #45-67");
+        e.setCity("Medellín");
+        e.setCountry("Colombia");
         e.setStatus(status);
         e.setCreatedAt(NOW);
         e.setUpdatedAt(NOW);

@@ -16,5 +16,9 @@ public record UpdateSchoolRequest(
         @Schema(description = "Teléfono de contacto (opcional)", example = "+57 601 2345678")
         String phone,
         @Schema(description = "Dirección física (opcional)", example = "Calle 123 #45-67, Bogotá")
-        String address
+        String address,
+        @Schema(description = "Ciudad", example = "Medellín")
+        String city,
+        @Schema(description = "País", example = "Colombia")
+        String country
 ) {}

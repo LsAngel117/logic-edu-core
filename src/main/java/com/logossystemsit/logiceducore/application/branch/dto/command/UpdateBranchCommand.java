@@ -2,6 +2,8 @@ package com.logossystemsit.logiceducore.application.branch.dto.command;
 
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 
 public record UpdateBranchCommand(
         SchoolId schoolId,
@@ -13,5 +15,7 @@ public record UpdateBranchCommand(
         BranchEmail email,
         BranchPhone phone,
         BranchAddress address,
+        City city,
+        Country country,
         BranchType type
 ) {}

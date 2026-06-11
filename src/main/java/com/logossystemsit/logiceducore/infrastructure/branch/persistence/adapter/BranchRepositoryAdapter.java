@@ -4,6 +4,8 @@ import com.logossystemsit.logiceducore.application.branch.port.out.BranchReposit
 import com.logossystemsit.logiceducore.domain.branch.model.Branch;
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 import com.logossystemsit.logiceducore.infrastructure.branch.persistence.entity.BranchEntity;
 import com.logossystemsit.logiceducore.infrastructure.branch.persistence.repository.BranchJpaRepository;
 
@@ -72,6 +74,9 @@ public class BranchRepositoryAdapter implements BranchRepository {
         e.setPhone(branch.getPhone() != null ? branch.getPhone().value() : null);
         e.setAddress(branch.getAddress().value().orElse(null));
 
+        e.setCity(branch.getCity().value());
+        e.setCountry(branch.getCountry().value());
+
         e.setType(branch.getType());
         e.setStatus(branch.getStatus());
         e.setCreatedAt(branch.getCreatedAt());
@@ -107,6 +112,8 @@ public class BranchRepositoryAdapter implements BranchRepository {
                 email,
                 phone,
                 address,
+                new City(e.getCity()),
+                new Country(e.getCountry()),
                 e.getType(),
                 e.getStatus(),
                 e.getCreatedAt(),

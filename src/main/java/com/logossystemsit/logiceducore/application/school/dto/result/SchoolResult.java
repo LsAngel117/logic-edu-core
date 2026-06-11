@@ -13,6 +13,8 @@ public record SchoolResult(
         String email,
         String phone,
         String address,
+        String city,
+        String country,
         String status,
         Instant createdAt,
         Instant updatedAt
@@ -27,6 +29,8 @@ public record SchoolResult(
                 school.getEmail() != null ? school.getEmail().value() : null,
                 school.getPhone() != null ? school.getPhone().value() : null,
                 school.getAddress().value().orElse(null),
+                school.getCity().value(),
+                school.getCountry().value(),
                 school.getStatus().name(),
                 school.getCreatedAt(),
                 school.getUpdatedAt()

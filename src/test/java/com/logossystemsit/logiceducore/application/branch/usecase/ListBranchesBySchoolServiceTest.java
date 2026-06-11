@@ -6,6 +6,8 @@ import com.logossystemsit.logiceducore.application.branch.port.out.BranchReposit
 import com.logossystemsit.logiceducore.domain.branch.model.Branch;
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,6 +75,8 @@ class ListBranchesBySchoolServiceTest {
                 BranchEmail.of("branch@school.edu"),
                 BranchPhone.of("+571234567"),
                 BranchAddress.of(type != BranchType.VIRTUAL ? "Calle 123 #45-67" : null),
+                new City("Medellín"),
+                new Country("Colombia"),
                 type,
                 Branch.Status.ACTIVE,
                 NOW,

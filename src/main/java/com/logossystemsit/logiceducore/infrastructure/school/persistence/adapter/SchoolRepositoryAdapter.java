@@ -3,6 +3,8 @@ package com.logossystemsit.logiceducore.infrastructure.school.persistence.adapte
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.domain.school.model.School;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.*;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 import com.logossystemsit.logiceducore.infrastructure.school.persistence.entity.SchoolEntity;
 import com.logossystemsit.logiceducore.infrastructure.school.persistence.repository.SchoolJpaRepository;
 
@@ -72,6 +74,9 @@ public class SchoolRepositoryAdapter implements SchoolRepository {
         e.setPhone(school.getPhone() != null ? school.getPhone().value() : null);
         e.setAddress(school.getAddress().value().orElse(null));
 
+        e.setCity(school.getCity().value());
+        e.setCountry(school.getCountry().value());
+
         e.setStatus(school.getStatus());
         e.setCreatedAt(school.getCreatedAt());
         e.setUpdatedAt(school.getUpdatedAt());
@@ -105,6 +110,8 @@ public class SchoolRepositoryAdapter implements SchoolRepository {
                 email,
                 phone,
                 address,
+                new City(e.getCity()),
+                new Country(e.getCountry()),
                 e.getStatus(),
                 e.getCreatedAt(),
                 e.getUpdatedAt()

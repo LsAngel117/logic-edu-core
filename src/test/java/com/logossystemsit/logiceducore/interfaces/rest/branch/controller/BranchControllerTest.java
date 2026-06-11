@@ -125,7 +125,8 @@ class BranchControllerTest {
     void createBranchWithVirtualAndAddressShouldReturn422() throws Exception {
         CreateBranchRequest request = new CreateBranchRequest(
                 "Sede Virtual", "SV-001", "S.Virtual",
-                "Desc virtual", "virtual@branch.edu", "+571234567", "Calle 123"
+                "Desc virtual", "virtual@branch.edu", "+571234567", "Calle 123",
+                "Medellín", "Colombia"
         );
 
         when(createBranchUseCase.execute(any(CreateBranchCommand.class)))
@@ -255,14 +256,16 @@ class BranchControllerTest {
     private static CreateBranchRequest validCreateBranchRequest() {
         return new CreateBranchRequest(
                 "Sede Norte", "SN-001", "S.Norte",
-                "Sede principal norte", "norte@branch.edu", "+571234567", "Calle 123 #45-67"
+                "Sede principal norte", "norte@branch.edu", "+571234567", "Calle 123 #45-67",
+                "Medellín", "Colombia"
         );
     }
 
     private static UpdateBranchRequest validUpdateBranchRequest() {
         return new UpdateBranchRequest(
                 "Sede Norte Actualizada", "SNU-001", "S.NorteAct",
-                "Actualizada 2025", "nueva@branch.edu", "+579876543", "Carrera 45 #67-89"
+                "Actualizada 2025", "nueva@branch.edu", "+579876543", "Carrera 45 #67-89",
+                "Medellín", "Colombia"
         );
     }
 
@@ -270,6 +273,7 @@ class BranchControllerTest {
         return new BranchResult(
                 id, SCHOOL_ID, name, code, "Short",
                 "Description", "branch@school.edu", "+571234567", "Calle 1",
+                "Medellín", "Colombia",
                 type, status, NOW, NOW
         );
     }

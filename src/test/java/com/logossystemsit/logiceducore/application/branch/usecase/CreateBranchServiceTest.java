@@ -11,6 +11,8 @@ import com.logossystemsit.logiceducore.domain.branch.model.Branch;
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.school.model.School;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.*;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,6 +52,8 @@ class CreateBranchServiceTest {
     private static final BranchEmail EMAIL = BranchEmail.of("norte@branch.edu");
     private static final BranchPhone PHONE = BranchPhone.of("+571234567");
     private static final BranchAddress ADDRESS = BranchAddress.of("Calle 123 #45-67");
+    private static final City CITY = new City("Medellín");
+    private static final Country COUNTRY = new Country("Colombia");
 
     @BeforeEach
     void setUp() {
@@ -188,7 +192,7 @@ class CreateBranchServiceTest {
 
         CreateBranchCommand command = new CreateBranchCommand(
                 BRANCH_ID, SCHOOL_ID, NAME, CODE, SHORT_NAME,
-                BranchDescription.empty(), null, null, BranchAddress.empty(), BranchType.VIRTUAL
+                BranchDescription.empty(), null, null, BranchAddress.empty(), CITY, COUNTRY, BranchType.VIRTUAL
         );
 
         BranchResult result = useCase.execute(command);
@@ -202,7 +206,7 @@ class CreateBranchServiceTest {
 
     private CreateBranchCommand buildCommand(BranchType type) {
         return new CreateBranchCommand(
-                BRANCH_ID, SCHOOL_ID, NAME, CODE, SHORT_NAME, DESCRIPTION, EMAIL, PHONE, ADDRESS, type
+                BRANCH_ID, SCHOOL_ID, NAME, CODE, SHORT_NAME, DESCRIPTION, EMAIL, PHONE, ADDRESS, CITY, COUNTRY, type
         );
     }
 
@@ -216,6 +220,8 @@ class CreateBranchServiceTest {
                 SchoolEmail.of("info@andino.edu"),
                 SchoolPhone.of("+571234567"),
                 SchoolAddress.of("Calle 123"),
+                new City("Medellín"),
+                new Country("Colombia"),
                 School.Status.ACTIVE,
                 FIXED_NOW,
                 FIXED_NOW
@@ -232,6 +238,8 @@ class CreateBranchServiceTest {
                 SchoolEmail.of("cerrado@school.edu"),
                 SchoolPhone.of("+571234567"),
                 SchoolAddress.of("Calle 456"),
+                new City("Medellín"),
+                new Country("Colombia"),
                 School.Status.INACTIVE,
                 FIXED_NOW,
                 FIXED_NOW

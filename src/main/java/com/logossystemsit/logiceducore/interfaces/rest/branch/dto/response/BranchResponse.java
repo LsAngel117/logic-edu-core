@@ -21,6 +21,10 @@ public record BranchResponse(
         String phone,
         @Schema(description = "Dirección física de la sede", example = "Carrera 45 #67-89, Bogotá")
         String address,
+        @Schema(description = "Ciudad", example = "Medellín")
+        String city,
+        @Schema(description = "País", example = "Colombia")
+        String country,
         @Schema(description = "Tipo de sede: MAIN, SECONDARY o VIRTUAL", example = "MAIN")
         String type,
         @Schema(description = "Estado actual: ACTIVE o INACTIVE", example = "ACTIVE")

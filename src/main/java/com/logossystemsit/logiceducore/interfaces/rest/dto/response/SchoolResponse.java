@@ -19,6 +19,10 @@ public record SchoolResponse(
         String phone,
         @Schema(description = "Dirección física", example = "Calle 123 #45-67, Bogotá")
         String address,
+        @Schema(description = "Ciudad", example = "Medellín")
+        String city,
+        @Schema(description = "País", example = "Colombia")
+        String country,
         @Schema(description = "Estado actual: ACTIVE o INACTIVE", example = "ACTIVE")
         String status,
         @Schema(description = "Fecha de creación en formato ISO", example = "2025-06-03T12:00:00Z")

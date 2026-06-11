@@ -60,6 +60,8 @@ public class UpdateBranchService implements UpdateBranchUseCase {
                 command.description(),
                 command.email(),
                 command.phone(),
+                command.city(),
+                command.country(),
                 now
         );
 

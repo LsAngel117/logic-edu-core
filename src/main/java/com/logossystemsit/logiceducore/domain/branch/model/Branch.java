@@ -1,6 +1,8 @@
 package com.logossystemsit.logiceducore.domain.branch.model;
 import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
@@ -19,6 +21,8 @@ public final class Branch {
     private final BranchEmail email;
     private final BranchPhone phone;
     private final BranchAddress address;
+    private final City city;
+    private final Country country;
     private final BranchType type;
     private final Status status;
     private final Instant createdAt;
@@ -34,6 +38,8 @@ public final class Branch {
             BranchEmail email,
             BranchPhone phone,
             BranchAddress address,
+            City city,
+            Country country,
             BranchType type,
             Status status,
             Instant createdAt,
@@ -49,6 +55,9 @@ public final class Branch {
         this.email = email;
         this.phone = phone;
         this.address = address;
+
+        this.city = Objects.requireNonNull(city, "City is required");
+        this.country = Objects.requireNonNull(country, "Country is required");
 
         this.type = Objects.requireNonNull(type, "BranchType is required");
         this.status = Objects.requireNonNull(status, "Status is required");
@@ -70,11 +79,14 @@ public final class Branch {
             BranchEmail email,
             BranchPhone phone,
             BranchAddress address,
+            City city,
+            Country country,
             BranchType type,
             Instant now
     ) {
         return new Branch(
                 id, schoolId, name, code, shortName, description, email, phone, address,
+                city, country,
                 type,
                 Status.ACTIVE,
                 now,
@@ -92,6 +104,8 @@ public final class Branch {
             BranchEmail email,
             BranchPhone phone,
             BranchAddress address,
+            City city,
+            Country country,
             BranchType type,
             Status status,
             Instant createdAt,
@@ -99,6 +113,7 @@ public final class Branch {
     ) {
         return new Branch(
                 id, schoolId, name, code, shortName, description, email, phone, address,
+                city, country,
                 type,
                 status,
                 createdAt,
@@ -125,6 +140,8 @@ public final class Branch {
                 this.email,
                 this.phone,
                 this.address,
+                this.city,
+                this.country,
                 this.type,
                 this.status,
                 this.createdAt,
@@ -136,13 +153,18 @@ public final class Branch {
             BranchDescription description,
             BranchEmail email,
             BranchPhone phone,
+            City city,
+            Country country,
             Instant now
     ) {
         ensureActive();
 
         return new Branch(
                 this.id, this.schoolId, this.name, this.code, this.shortName, description,
-                email, phone, this.address, this.type,
+                email, phone, this.address,
+                Objects.requireNonNull(city, "City is required"),
+                Objects.requireNonNull(country, "Country is required"),
+                this.type,
                 this.status,
                 this.createdAt,
                 now
@@ -157,7 +179,10 @@ public final class Branch {
 
         return new Branch(
                 this.id, this.schoolId, this.name, this.code, this.shortName, this.description,
-                this.email, this.phone, address, this.type,
+                this.email, this.phone, address,
+                this.city,
+                this.country,
+                this.type,
                 this.status,
                 this.createdAt,
                 now
@@ -173,6 +198,8 @@ public final class Branch {
         return new Branch(
                 this.id, this.schoolId, this.name, this.code, this.shortName, this.description,
                 this.email, this.phone, this.address,
+                this.city,
+                this.country,
                 Objects.requireNonNull(type, "BranchType is required"),
                 this.status,
                 this.createdAt,
@@ -187,7 +214,10 @@ public final class Branch {
 
         return new Branch(
                 this.id, this.schoolId, this.name, this.code, this.shortName, this.description,
-                this.email, this.phone, this.address, this.type,
+                this.email, this.phone, this.address,
+                this.city,
+                this.country,
+                this.type,
                 Status.INACTIVE,
                 this.createdAt,
                 now
@@ -243,6 +273,8 @@ public final class Branch {
     public BranchEmail getEmail() { return email; }
     public BranchPhone getPhone() { return phone; }
     public BranchAddress getAddress() { return address; }
+    public City getCity() { return city; }
+    public Country getCountry() { return country; }
     public BranchType getType() { return type; }
     public Status getStatus() { return status; }
     public Instant getCreatedAt() { return createdAt; }

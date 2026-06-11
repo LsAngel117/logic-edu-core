@@ -29,6 +29,10 @@ public class SchoolEntity {
 
     private String address;
 
+    private String city;
+
+    private String country;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private School.Status status;
@@ -68,6 +72,14 @@ public class SchoolEntity {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public School.Status getStatus() {
@@ -114,6 +126,14 @@ public class SchoolEntity {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public void setStatus(School.Status status) {

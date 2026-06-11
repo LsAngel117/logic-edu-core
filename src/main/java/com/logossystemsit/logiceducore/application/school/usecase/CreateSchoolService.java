@@ -44,6 +44,8 @@ public class CreateSchoolService implements CreateSchoolUseCase {
                 command.email(),
                 command.phone(),
                 command.address(),
+                command.city(),
+                command.country(),
                 now
         );
 

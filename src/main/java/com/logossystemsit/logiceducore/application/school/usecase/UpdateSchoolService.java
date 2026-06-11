@@ -35,6 +35,8 @@ public class UpdateSchoolService implements UpdateSchoolUseCase {
                 command.email(),
                 command.phone(),
                 command.address(),
+                command.city(),
+                command.country(),
                 clock.instant()
         );
 

@@ -183,7 +183,9 @@ class SchoolControllerTest {
                 "Colegio bilingüe en Bogotá",
                 "info@andino.edu",
                 "+571234567",
-                "Calle 123 #45-67"
+                "Calle 123 #45-67",
+                "Medellín",
+                "Colombia"
         );
     }
 
@@ -195,7 +197,9 @@ class SchoolControllerTest {
                 "Actualizado 2025",
                 "nuevo@andino.edu",
                 "+579876543",
-                "Carrera 45 #67-89"
+                "Carrera 45 #67-89",
+                "Medellín",
+                "Colombia"
         );
     }
 
@@ -203,6 +207,7 @@ class SchoolControllerTest {
         return new SchoolResult(
                 id, name, code, "Short",
                 "Description", "info@school.edu", "+571234567", "Address",
+                "Medellín", "Colombia",
                 status, NOW, NOW
         );
     }

@@ -9,6 +9,8 @@ import com.logossystemsit.logiceducore.application.branch.port.out.BranchReposit
 import com.logossystemsit.logiceducore.domain.branch.model.Branch;
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -142,6 +144,8 @@ class UpdateBranchServiceTest {
                 BranchEmail.of("updated@branch.edu"),
                 BranchPhone.of("+579876543"),
                 BranchAddress.of("Carrera 45 #67-89"),
+                new City("Medellín"),
+                new Country("Colombia"),
                 type
         );
     }
@@ -157,6 +161,8 @@ class UpdateBranchServiceTest {
                 BranchEmail.of("branch@school.edu"),
                 BranchPhone.of("+571234567"),
                 BranchAddress.of("Calle 123 #45-67"),
+                new City("Medellín"),
+                new Country("Colombia"),
                 type,
                 Branch.Status.ACTIVE,
                 FIXED_NOW,
@@ -175,6 +181,8 @@ class UpdateBranchServiceTest {
                 BranchEmail.of("closed@school.edu"),
                 BranchPhone.of("+571234567"),
                 BranchAddress.of("Calle 456"),
+                new City("Medellín"),
+                new Country("Colombia"),
                 BranchType.SECONDARY,
                 Branch.Status.INACTIVE,
                 FIXED_NOW,

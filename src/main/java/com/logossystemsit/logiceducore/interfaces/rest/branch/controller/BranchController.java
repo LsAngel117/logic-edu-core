@@ -6,6 +6,8 @@ import com.logossystemsit.logiceducore.application.branch.dto.result.BranchResul
 import com.logossystemsit.logiceducore.application.branch.port.in.*;
 import com.logossystemsit.logiceducore.domain.branch.model.valueobject.*;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.SchoolId;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 import com.logossystemsit.logiceducore.interfaces.rest.branch.dto.request.CreateBranchRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.branch.dto.request.UpdateBranchRequest;
 import com.logossystemsit.logiceducore.interfaces.rest.branch.dto.response.BranchResponse;
@@ -180,10 +182,12 @@ public class BranchController {
         BranchAddress address = r.address() != null && !r.address().isBlank()
                 ? BranchAddress.of(r.address())
                 : BranchAddress.empty();
+        City city = new City(r.city());
+        Country country = new Country(r.country());
 
         BranchType type = resolveType(r);
 
-        return new CreateBranchCommand(bId, sId, name, code, shortName, description, email, phone, address, type);
+        return new CreateBranchCommand(bId, sId, name, code, shortName, description, email, phone, address, city, country, type);
     }
 
     private UpdateBranchCommand mapToUpdateCommand(String schoolId, String branchId, UpdateBranchRequest r) {
@@ -204,10 +208,12 @@ public class BranchController {
         BranchAddress address = r.address() != null && !r.address().isBlank()
                 ? BranchAddress.of(r.address())
                 : BranchAddress.empty();
+        City city = new City(r.city());
+        Country country = new Country(r.country());
 
         BranchType type = resolveType(r);
 
-        return new UpdateBranchCommand(sId, bId, name, code, shortName, description, email, phone, address, type);
+        return new UpdateBranchCommand(sId, bId, name, code, shortName, description, email, phone, address, city, country, type);
     }
 
     private BranchType resolveType(CreateBranchRequest r) {
@@ -231,6 +237,8 @@ public class BranchController {
                 result.email(),
                 result.phone(),
                 result.address(),
+                result.city(),
+                result.country(),
                 result.type(),
                 result.status(),
                 result.createdAt() != null ? result.createdAt().toString() : null,

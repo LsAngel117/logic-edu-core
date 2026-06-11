@@ -62,6 +62,8 @@ public class CreateBranchService implements CreateBranchUseCase {
                 command.email(),
                 command.phone(),
                 command.address(),
+                command.city(),
+                command.country(),
                 command.type(),
                 now
         );

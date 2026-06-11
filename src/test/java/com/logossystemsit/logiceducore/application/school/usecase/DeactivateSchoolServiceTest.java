@@ -8,6 +8,8 @@ import com.logossystemsit.logiceducore.application.school.port.in.DeactivateScho
 import com.logossystemsit.logiceducore.application.school.port.out.SchoolRepository;
 import com.logossystemsit.logiceducore.domain.school.model.School;
 import com.logossystemsit.logiceducore.domain.school.model.valueobject.*;
+import com.logossystemsit.logiceducore.shared.valueobject.City;
+import com.logossystemsit.logiceducore.shared.valueobject.Country;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -107,6 +109,8 @@ class DeactivateSchoolServiceTest {
                 SchoolEmail.of(code.toLowerCase().replace("-", "") + "@school.edu"),
                 SchoolPhone.of("+571234567"),
                 SchoolAddress.of("Calle 123"),
+                new City("Medellín"),
+                new Country("Colombia"),
                 status,
                 FIXED_NOW,
                 FIXED_NOW
