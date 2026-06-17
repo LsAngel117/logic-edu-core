@@ -1,6 +1,7 @@
 package com.logossystemsit.logiceducore.domain.user.model;
 import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
 import com.logossystemsit.logiceducore.shared.errors.ErrorCode;
+import com.logossystemsit.logiceducore.shared.valueobject.*;
 
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.*;
 
@@ -19,6 +20,10 @@ public class User {
     private final Sex sex;
     private final LocalDate birthDate;
     private final Document document;
+    private final Phone phone;
+    private final Address address;
+    private final City city;
+    private final Country country;
     private final Status status;
     private final Instant createdAt;
     private final Instant updatedAt;
@@ -31,6 +36,10 @@ public class User {
                 Sex sex,
                 LocalDate birthDate,
                 Document document,
+                Phone phone,
+                Address address,
+                City city,
+                Country country,
                 Status status,
                 Instant createdAt,
                 Instant updatedAt ) {
@@ -43,6 +52,10 @@ public class User {
         this.sex = Objects.requireNonNull(sex, "Sex is required");
         this.birthDate = Objects.requireNonNull(birthDate, "Birth date is required");
         this.document = Objects.requireNonNull(document, "Document is required");
+        this.phone = phone;
+        this.address = address;
+        this.city = city;
+        this.country = country;
         this.status = Objects.requireNonNull(status, "Status is required");
         this.createdAt = Objects.requireNonNull(createdAt, "createdAt is required");
         this.updatedAt = Objects.requireNonNull(updatedAt, "updatedAt is required");
@@ -64,6 +77,7 @@ public class User {
         validateBirthDate(birthDate, now);
         return new User(
                 id, username, email, passwordHash, name, sex, birthDate, document,
+                null, null, null, null,
                 Status.ACTIVE, // controlado
                 now,
                 now
@@ -79,6 +93,10 @@ public class User {
             Sex sex,
             LocalDate birthDate,
             Document document,
+            Phone phone,
+            Address address,
+            City city,
+            Country country,
             Status status,
             Instant createdAt,
             Instant updatedAt
@@ -94,6 +112,7 @@ public class User {
 
         return new User(
                 id, username, email, passwordHash, name, sex, birthDate, document,
+                phone, address, city, country,
                 status,
                 createdAt,
                 updatedAt
@@ -109,6 +128,7 @@ public class User {
 
         return new User(
                 id, username, email, passwordHash, name, sex, birthDate, document,
+                phone, address, city, country,
                 Status.BLOCKED,
                 createdAt,
                 now
@@ -123,6 +143,7 @@ public class User {
 
         return new User(
                 id, username, email, passwordHash, name, sex, birthDate, document,
+                phone, address, city, country,
                 Status.ACTIVE,
                 createdAt,
                 now
@@ -137,6 +158,7 @@ public class User {
 
         return new User(
                 id, username, email, passwordHash, name, sex, birthDate, document,
+                phone, address, city, country,
                 Status.INACTIVE,
                 createdAt,
                 now
@@ -150,6 +172,7 @@ public class User {
 
         return new User(
                 id, username, email, newPassword, name, sex, birthDate, document,
+                phone, address, city, country,
                 status,
                 createdAt,
                 now
@@ -157,7 +180,8 @@ public class User {
     }
 
     public User changeBasicInfo(Email email, Name name, User.Sex sex,
-                                LocalDate birthDate, Document document, Instant now) {
+                                LocalDate birthDate, Document document, Instant now,
+                                Phone phone, Address address, City city, Country country) {
         validateTimeProgression(now);
         ensureNotBlocked();
         Objects.requireNonNull(email, "Email is required");
@@ -169,6 +193,7 @@ public class User {
 
         return new User(
                 id, username, email, passwordHash, name, sex, birthDate, document,
+                phone, address, city, country,
                 status,
                 createdAt,
                 now
@@ -231,4 +256,8 @@ public class User {
     public Status getStatus() { return status; }
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
+    public Phone getPhone() { return phone; }
+    public Address getAddress() { return address; }
+    public City getCity() { return city; }
+    public Country getCountry() { return country; }
 }

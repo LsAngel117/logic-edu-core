@@ -12,7 +12,11 @@ public record UserResult(
         String lastName,
         String status,
         String sex,
-        LocalDate birthDate
+        LocalDate birthDate,
+        String phone,
+        String address,
+        String city,
+        String country
 ) {
     public static UserResult from(User user) {
         return new UserResult(
@@ -23,7 +27,11 @@ public record UserResult(
                 user.getName().getFirstFamilyName(),
                 user.getStatus().name(),
                 user.getSex().name(),
-                user.getBirthDate()
+                user.getBirthDate(),
+                user.getPhone() != null ? user.getPhone().value() : null,
+                user.getAddress() != null ? user.getAddress().value() : null,
+                user.getCity() != null ? user.getCity().value() : null,
+                user.getCountry() != null ? user.getCountry().value() : null
         );
     }
 }

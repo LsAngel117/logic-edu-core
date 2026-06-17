@@ -189,6 +189,7 @@ class AuthControllerTest {
                 User.Sex.MALE,
                 LocalDate.of(2000, 1, 1),
                 new Document(Document.DocumentType.CC, new DocumentNumber("1234567890")),
+                null, null, null, null,
                 User.Status.ACTIVE,
                 Instant.now(),
                 Instant.now()

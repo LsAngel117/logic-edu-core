@@ -69,7 +69,8 @@ class UserControllerTest {
         CreateUserResult createResult = new CreateUserResult(userId, "johnsmith");
         UserResult userResult = new UserResult(
                 userId.value(), "johnsmith", "john@example.com",
-                "John", "Smith", "ACTIVE", "MALE", LocalDate.of(2000, 1, 1)
+                "John", "Smith", "ACTIVE", "MALE", LocalDate.of(2000, 1, 1),
+                null, null, null, null
         );
 
         when(passwordEncoder.encode(any())).thenReturn("$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy");
@@ -90,7 +91,8 @@ class UserControllerTest {
         UserId userId = UserId.generate();
         UserResult result = new UserResult(
                 userId.value(), "johnsmith", "john@example.com",
-                "John", "Smith", "ACTIVE", "MALE", LocalDate.of(2000, 1, 1)
+                "John", "Smith", "ACTIVE", "MALE", LocalDate.of(2000, 1, 1),
+                null, null, null, null
         );
 
         when(getUserUseCase.execute(any(UserId.class))).thenReturn(result);
@@ -116,11 +118,13 @@ class UserControllerTest {
     void listUsersShouldReturn200WithUserList() throws Exception {
         UserResult user1 = new UserResult(
                 "id-1", "johnsmith", "john@example.com",
-                "John", "Smith", "ACTIVE", "MALE", LocalDate.of(2000, 1, 1)
+                "John", "Smith", "ACTIVE", "MALE", LocalDate.of(2000, 1, 1),
+                null, null, null, null
         );
         UserResult user2 = new UserResult(
                 "id-2", "janedoe", "jane@example.com",
-                "Jane", "Doe", "ACTIVE", "FEMALE", LocalDate.of(1999, 6, 15)
+                "Jane", "Doe", "ACTIVE", "FEMALE", LocalDate.of(1999, 6, 15),
+                null, null, null, null
         );
 
         when(listUsersUseCase.execute()).thenReturn(List.of(user1, user2));
@@ -138,7 +142,8 @@ class UserControllerTest {
         UserId userId = UserId.generate();
         UserResult result = new UserResult(
                 userId.value(), "johnsmith", "john@example.com",
-                "John", "Smith", "INACTIVE", "MALE", LocalDate.of(2000, 1, 1)
+                "John", "Smith", "INACTIVE", "MALE", LocalDate.of(2000, 1, 1),
+                null, null, null, null
         );
 
         doNothing().when(changeUserStatusUseCase).execute(any(ChangeUserStatusCommand.class));

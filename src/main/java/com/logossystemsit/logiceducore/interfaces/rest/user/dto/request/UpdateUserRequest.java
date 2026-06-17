@@ -20,5 +20,13 @@ public record UpdateUserRequest(
         @Schema(description = "Tipo de documento", example = "CC")
         String documentType,
         @Schema(description = "Número de documento", example = "1234567890")
-        String documentValue
+        String documentValue,
+        @Schema(description = "Teléfono", example = "+57 300 123 4567")
+        String phone,
+        @Schema(description = "Dirección", example = "Calle 123 #45-67")
+        String address,
+        @Schema(description = "Ciudad", example = "Medellín")
+        String city,
+        @Schema(description = "País", example = "Colombia")
+        String country
 ) {}

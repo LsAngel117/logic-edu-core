@@ -98,6 +98,7 @@ class ChangePasswordServiceTest {
                 User.Sex.MALE,
                 LocalDate.of(1990, 1, 15),
                 new Document(Document.DocumentType.CC, new DocumentNumber("1234567890")),
+                null, null, null, null,
                 status,
                 Instant.parse("2024-01-01T00:00:00Z"),
                 Instant.parse("2024-06-01T12:00:00Z")

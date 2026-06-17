@@ -14,7 +14,8 @@ class UserResponseTest {
                 "john@example.com",
                 "John Doe",
                 "ACTIVE",
-                "2026-01-15T10:30:00Z"
+                "2026-01-15T10:30:00Z",
+                null, null, null, null
         );
 
         assertThat(response.id()).isEqualTo("user-001");
@@ -33,7 +34,8 @@ class UserResponseTest {
                 "anna@example.com",
                 "Anna Smith",
                 "INACTIVE",
-                "2026-02-01T08:00:00Z"
+                "2026-02-01T08:00:00Z",
+                null, null, null, null
         );
 
         assertThat(response.status()).isEqualTo("INACTIVE");

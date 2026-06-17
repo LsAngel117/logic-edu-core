@@ -3,6 +3,7 @@ package com.logossystemsit.logiceducore.infrastructure.user.persistence.adapter;
 import com.logossystemsit.logiceducore.application.user.port.out.UserRepository;
 import com.logossystemsit.logiceducore.domain.user.model.User;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.*;
+import com.logossystemsit.logiceducore.shared.valueobject.*;
 import com.logossystemsit.logiceducore.infrastructure.user.persistence.entity.UserEntity;
 import com.logossystemsit.logiceducore.infrastructure.user.persistence.repository.UserJpaRepository;
 
@@ -82,6 +83,11 @@ public class UserRepositoryAdapter implements UserRepository {
         e.setCreatedAt(user.getCreatedAt());
         e.setUpdatedAt(user.getUpdatedAt());
 
+        e.setPhone(user.getPhone() != null ? user.getPhone().value() : null);
+        e.setAddress(user.getAddress() != null ? user.getAddress().value() : null);
+        e.setCity(user.getCity() != null ? user.getCity().value() : null);
+        e.setCountry(user.getCountry() != null ? user.getCountry().value() : null);
+
         return e;
     }
 
@@ -103,6 +109,10 @@ public class UserRepositoryAdapter implements UserRepository {
                         Document.DocumentType.valueOf(e.getDocumentType()),
                         new DocumentNumber(e.getDocumentValue())
                 ),
+                e.getPhone() != null ? Phone.of(e.getPhone()) : null,
+                e.getAddress() != null ? Address.of(e.getAddress()) : null,
+                e.getCity() != null ? new City(e.getCity()) : null,
+                e.getCountry() != null ? new Country(e.getCountry()) : null,
                 e.getStatus(),
                 e.getCreatedAt(),
                 e.getUpdatedAt()

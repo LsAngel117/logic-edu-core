@@ -43,7 +43,31 @@ class UserRepositoryAdapterTest {
         assertThat(result).isPresent();
         assertThat(result.get().getId().value()).isEqualTo("123e4567-e89b-12d3-a456-426614174000");
         assertThat(result.get().getEmail().getValue()).isEqualTo("test@example.com");
+        assertThat(result.get().getPhone()).isNull();
+        assertThat(result.get().getAddress()).isNull();
+        assertThat(result.get().getCity()).isNull();
+        assertThat(result.get().getCountry()).isNull();
         verify(jpa).findByEmail(email.getValue());
+    }
+
+    @Test
+    void findByEmail_mapsContactInfoWhenPresent() {
+        var email = new Email("test@example.com");
+        var entity = buildEntity("123e4567-e89b-12d3-a456-426614174001", "jdoe123", email.getValue());
+        entity.setPhone("+57 300 123 4567");
+        entity.setAddress("Calle 123");
+        entity.setCity("Medellín");
+        entity.setCountry("Colombia");
+        when(jpa.findByEmail(email.getValue())).thenReturn(Optional.of(entity));
+
+        Optional<User> result = adapter.findByEmail(email);
+
+        assertThat(result).isPresent();
+        assertThat(result.get().getPhone()).isNotNull();
+        assertThat(result.get().getPhone().value()).isEqualTo("+57 300 123 4567");
+        assertThat(result.get().getAddress().value()).isEqualTo("Calle 123");
+        assertThat(result.get().getCity().value()).isEqualTo("Medellín");
+        assertThat(result.get().getCountry().value()).isEqualTo("Colombia");
     }
 
     @Test

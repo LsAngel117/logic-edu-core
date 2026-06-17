@@ -14,6 +14,14 @@ public record UserResponse(
         @Schema(description = "Estado actual del usuario", example = "ACTIVE")
         String status,
         @Schema(description = "Fecha de creación en formato ISO", example = "2025-06-03")
-        String createdAt
+        String createdAt,
+        @Schema(description = "Teléfono", example = "+57 300 123 4567")
+        String phone,
+        @Schema(description = "Dirección", example = "Calle 123 #45-67")
+        String address,
+        @Schema(description = "Ciudad", example = "Medellín")
+        String city,
+        @Schema(description = "País", example = "Colombia")
+        String country
 ) {
 }

@@ -107,6 +107,7 @@ class GradeServicesTest {
                 User.Sex.MALE,
                 LocalDate.of(2000, 1, 1),
                 new Document(Document.DocumentType.CC, new DocumentNumber("1234567890")),
+                null, null, null, null,
                 User.Status.ACTIVE,
                 FIXED_NOW, FIXED_NOW
         );
@@ -228,6 +229,7 @@ class GradeServicesTest {
                     User.Sex.MALE,
                     LocalDate.of(2000, 1, 1),
                     new Document(Document.DocumentType.CC, new DocumentNumber("1234567890")),
+                    null, null, null, null,
                     User.Status.INACTIVE,
                     FIXED_NOW, FIXED_NOW
             );

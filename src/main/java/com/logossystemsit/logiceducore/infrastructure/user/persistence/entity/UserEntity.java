@@ -40,6 +40,11 @@ public class UserEntity {
     private Instant createdAt;
     private Instant updatedAt;
 
+    private String phone;
+    private String address;
+    private String city;
+    private String country;
+
     /* ------------------ GETTERS ------------------ */
 
     public String getId() {
@@ -102,6 +107,11 @@ public class UserEntity {
         return updatedAt;
     }
 
+    public String getPhone() { return phone; }
+    public String getAddress() { return address; }
+    public String getCity() { return city; }
+    public String getCountry() { return country; }
+
     /* ------------------ SETTERS ------------------ */
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
@@ -158,4 +168,9 @@ public class UserEntity {
     public void setId(String id) {
         this.id = id;
     }
+
+    public void setPhone(String phone) { this.phone = phone; }
+    public void setAddress(String address) { this.address = address; }
+    public void setCity(String city) { this.city = city; }
+    public void setCountry(String country) { this.country = country; }
 }

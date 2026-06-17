@@ -32,7 +32,11 @@ public class UpdateUserService implements UpdateUserUseCase {
                 command.sex(),
                 command.birthDate(),
                 command.document(),
-                clock.instant()
+                clock.instant(),
+                command.phone(),
+                command.address(),
+                command.city(),
+                command.country()
         );
 
         userRepository.save(updated);

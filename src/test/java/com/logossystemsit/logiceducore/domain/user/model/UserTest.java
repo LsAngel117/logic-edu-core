@@ -1,5 +1,6 @@
 package com.logossystemsit.logiceducore.domain.user.model;
 import com.logossystemsit.logiceducore.shared.errors.exceptions.BusinessRuleException;
+import com.logossystemsit.logiceducore.shared.valueobject.*;
 
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.*;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,10 @@ class UserTest {
         return new Document(Document.DocumentType.CC, new DocumentNumber("1234567890"));
     }
     private static LocalDate validBirthDate() { return LocalDate.of(1990, 1, 15); }
+    private static Phone phone() { return Phone.of("+57 300 123 4567"); }
+    private static Address address() { return Address.of("Calle 123 #45-67"); }
+    private static City city() { return new City("Medellín"); }
+    private static Country country() { return new Country("Colombia"); }
 
     // ==================== create() factory ====================
 
@@ -98,6 +103,7 @@ class UserTest {
         void shouldRestoreUserFromPersistence() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.INACTIVE, PAST, NOW);
 
             assertThat(user.getStatus()).isEqualTo(User.Status.INACTIVE);
@@ -110,6 +116,7 @@ class UserTest {
         void shouldRejectInvalidTimestampsCreatedAtAfterUpdatedAt() {
             assertThatThrownBy(() -> User.restore(userId(), username(), email(), passwordHash(),
                     name(), User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.ACTIVE, NOW, PAST))
                     .isInstanceOf(BusinessRuleException.class)
                     .hasMessage("Invalid timestamps");
@@ -119,6 +126,7 @@ class UserTest {
         void shouldRejectNullCreatedAt() {
             assertThatThrownBy(() -> User.restore(userId(), username(), email(), passwordHash(),
                     name(), User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.ACTIVE, null, NOW))
                     .isInstanceOf(NullPointerException.class);
         }
@@ -127,6 +135,7 @@ class UserTest {
         void shouldRejectNullUpdatedAt() {
             assertThatThrownBy(() -> User.restore(userId(), username(), email(), passwordHash(),
                     name(), User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.ACTIVE, PAST, null))
                     .isInstanceOf(NullPointerException.class);
         }
@@ -141,6 +150,7 @@ class UserTest {
         void shouldActivateInactiveUser() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.INACTIVE, PAST, PAST);
 
             User activated = user.activate(NOW);
@@ -154,6 +164,7 @@ class UserTest {
         void shouldRejectActivateAlreadyActiveUser() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.ACTIVE, PAST, PAST);
 
             assertThatThrownBy(() -> user.activate(NOW))
@@ -165,6 +176,7 @@ class UserTest {
         void shouldActivateBlockedUser() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.BLOCKED, PAST, PAST);
 
             User activated = user.activate(NOW);
@@ -177,6 +189,7 @@ class UserTest {
         void shouldRejectActivateWithTimestampBeforeCurrent() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.INACTIVE, PAST, NOW);
 
             assertThatThrownBy(() -> user.activate(PAST))
@@ -194,6 +207,7 @@ class UserTest {
         void shouldDeactivateActiveUser() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.ACTIVE, PAST, PAST);
 
             User deactivated = user.deactivate(NOW);
@@ -207,6 +221,7 @@ class UserTest {
         void shouldRejectDeactivateAlreadyInactiveUser() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.INACTIVE, PAST, PAST);
 
             assertThatThrownBy(() -> user.deactivate(NOW))
@@ -224,6 +239,7 @@ class UserTest {
         void shouldBlockActiveUser() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.ACTIVE, PAST, PAST);
 
             User blocked = user.block(NOW);
@@ -236,6 +252,7 @@ class UserTest {
         void shouldBlockInactiveUser() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.INACTIVE, PAST, PAST);
 
             User blocked = user.block(NOW);
@@ -247,6 +264,7 @@ class UserTest {
         void shouldRejectBlockAlreadyBlockedUser() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.BLOCKED, PAST, PAST);
 
             assertThatThrownBy(() -> user.block(NOW))
@@ -264,6 +282,7 @@ class UserTest {
         void shouldChangePasswordSuccessfully() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.ACTIVE, PAST, PAST);
 
             User updated = user.changePassword(otherPasswordHash(), NOW);
@@ -276,6 +295,7 @@ class UserTest {
         void shouldRejectSamePassword() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.ACTIVE, PAST, PAST);
 
             assertThatThrownBy(() -> user.changePassword(passwordHash(), NOW))
@@ -287,6 +307,7 @@ class UserTest {
         void shouldRejectPasswordChangeOnBlockedUser() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.BLOCKED, PAST, PAST);
 
             assertThatThrownBy(() -> user.changePassword(otherPasswordHash(), NOW))
@@ -298,6 +319,7 @@ class UserTest {
         void shouldRejectNullPassword() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.ACTIVE, PAST, PAST);
 
             assertThatThrownBy(() -> user.changePassword(null, NOW))
@@ -323,6 +345,7 @@ class UserTest {
         void shouldReturnFalseForInactiveUser() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.INACTIVE, PAST, NOW);
 
             assertThat(user.isActive()).isFalse();
@@ -332,6 +355,7 @@ class UserTest {
         void shouldReturnFalseForBlockedUser() {
             User user = User.restore(userId(), username(), email(), passwordHash(), name(),
                     User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
                     User.Status.BLOCKED, PAST, NOW);
 
             assertThat(user.isActive()).isFalse();
@@ -420,6 +444,66 @@ class UserTest {
 
             assertThat(n.getFirstGivenName()).isEqualTo("Maria");
             assertThat(n.getFirstFamilyName()).isEqualTo("De la Rosa");
+        }
+    }
+
+    // ==================== Contact Info ====================
+
+    @Nested
+    class ContactInfo {
+
+        @Test
+        void shouldRestoreUserWithContactInfo() {
+            User user = User.restore(userId(), username(), email(), passwordHash(), name(),
+                    User.Sex.MALE, validBirthDate(), ccDocument(),
+                    phone(), address(), city(), country(),
+                    User.Status.ACTIVE, PAST, NOW);
+
+            assertThat(user.getPhone()).isEqualTo(phone());
+            assertThat(user.getAddress()).isEqualTo(address());
+            assertThat(user.getCity()).isEqualTo(city());
+            assertThat(user.getCountry()).isEqualTo(country());
+        }
+
+        @Test
+        void shouldRestoreUserWithoutContactInfo() {
+            User user = User.restore(userId(), username(), email(), passwordHash(), name(),
+                    User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
+                    User.Status.ACTIVE, PAST, NOW);
+
+            assertThat(user.getPhone()).isNull();
+            assertThat(user.getAddress()).isNull();
+            assertThat(user.getCity()).isNull();
+            assertThat(user.getCountry()).isNull();
+        }
+
+        @Test
+        void createShouldSetContactInfoToNull() {
+            User user = User.create(userId(), username(), email(), passwordHash(), name(),
+                    User.Sex.MALE, validBirthDate(), ccDocument(), NOW);
+
+            assertThat(user.getPhone()).isNull();
+            assertThat(user.getAddress()).isNull();
+            assertThat(user.getCity()).isNull();
+            assertThat(user.getCountry()).isNull();
+        }
+
+        @Test
+        void changeBasicInfoShouldUpdateContactInfo() {
+            User user = User.restore(userId(), username(), email(), passwordHash(), name(),
+                    User.Sex.MALE, validBirthDate(), ccDocument(),
+                    null, null, null, null,
+                    User.Status.ACTIVE, PAST, PAST);
+
+            User updated = user.changeBasicInfo(email(), name(), User.Sex.MALE,
+                    validBirthDate(), ccDocument(), NOW,
+                    phone(), address(), city(), country());
+
+            assertThat(updated.getPhone()).isEqualTo(phone());
+            assertThat(updated.getAddress()).isEqualTo(address());
+            assertThat(updated.getCity()).isEqualTo(city());
+            assertThat(updated.getCountry()).isEqualTo(country());
         }
     }
 }

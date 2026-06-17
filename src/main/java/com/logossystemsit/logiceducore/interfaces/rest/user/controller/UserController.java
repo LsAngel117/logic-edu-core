@@ -8,6 +8,7 @@ import com.logossystemsit.logiceducore.domain.membership.model.valueobject.Role;
 import com.logossystemsit.logiceducore.domain.membership.model.valueobject.Scope;
 import com.logossystemsit.logiceducore.domain.user.model.User;
 import com.logossystemsit.logiceducore.domain.user.model.valueobject.*;
+import com.logossystemsit.logiceducore.shared.valueobject.*;
 import com.logossystemsit.logiceducore.interfaces.rest.dto.response.UserResponse;
 import com.logossystemsit.logiceducore.interfaces.rest.user.dto.request.*;
 
@@ -211,7 +212,11 @@ public class UserController {
                 result.email(),
                 result.firstName() + " " + result.lastName(),
                 result.status(),
-                LocalDate.now().toString()
+                LocalDate.now().toString(),
+                result.phone(),
+                result.address(),
+                result.city(),
+                result.country()
         );
     }
 
@@ -224,6 +229,10 @@ public class UserController {
                 Document.DocumentType.valueOf(r.documentType()),
                 new DocumentNumber(r.documentValue())
         );
-        return new UpdateUserCommand(userId, email, name, sex, birthDate, document);
+        Phone phone = r.phone() != null ? Phone.of(r.phone()) : null;
+        Address address = r.address() != null ? Address.of(r.address()) : null;
+        City city = r.city() != null ? new City(r.city()) : null;
+        Country country = r.country() != null ? new Country(r.country()) : null;
+        return new UpdateUserCommand(userId, email, name, sex, birthDate, document, phone, address, city, country);
     }
 }
