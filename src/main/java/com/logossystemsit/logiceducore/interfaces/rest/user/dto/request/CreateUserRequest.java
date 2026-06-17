@@ -23,6 +23,14 @@ public record CreateUserRequest(
         String documentType,
         @Schema(description = "Número de documento", example = "1234567890")
         String documentValue,
+        @Schema(description = "Teléfono (opcional)", example = "+57 300 123 4567")
+        String phone,
+        @Schema(description = "Dirección (opcional)", example = "Calle 123 #45-67")
+        String address,
+        @Schema(description = "Ciudad (opcional)", example = "Medellín")
+        String city,
+        @Schema(description = "País (opcional)", example = "Colombia")
+        String country,
         @Schema(description = "Rol del usuario: PLATFORM_ADMIN, SCHOOL_ADMIN, TEACHER, STUDENT", example = "TEACHER")
         String role,
         @Schema(description = "Tipo de alcance: SCHOOL, BRANCH, ALL", example = "SCHOOL")

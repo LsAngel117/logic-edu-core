@@ -71,14 +71,17 @@ public class User {
             Sex sex,
             LocalDate birthDate,
             Document document,
+            Phone phone,
+            Address address,
+            City city,
+            Country country,
             Instant now
     ) {
-        // Validación de regla de negocio: la fecha no puede ser futura
         validateBirthDate(birthDate, now);
         return new User(
                 id, username, email, passwordHash, name, sex, birthDate, document,
-                null, null, null, null,
-                Status.ACTIVE, // controlado
+                phone, address, city, country,
+                Status.ACTIVE,
                 now,
                 now
         );

@@ -173,6 +173,10 @@ class AuthControllerTest {
                 "2000-01-01",
                 "CC",
                 "1234567890",
+                "",
+                "",
+                "",
+                "",
                 "STUDENT",
                 "COURSE",
                 "course-123"

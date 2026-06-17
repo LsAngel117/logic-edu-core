@@ -72,7 +72,7 @@ class CreateUserServiceTest {
         CreateUserCommand command = new CreateUserCommand(USER_ID, EMAIL, PASSWORD,
                 NAME, User.Sex.MALE, BIRTH_DATE,
                 new Document(Document.DocumentType.CC, new DocumentNumber("1234567890")),
-                ROLE, SCOPE);
+                null, null, null, null, ROLE, SCOPE);
 
         CreateUserResult result = useCase.execute(command);
 
@@ -93,7 +93,7 @@ class CreateUserServiceTest {
         CreateUserCommand command = new CreateUserCommand(USER_ID, EMAIL, PASSWORD,
                 NAME, User.Sex.MALE, BIRTH_DATE,
                 new Document(Document.DocumentType.CC, new DocumentNumber("1234567890")),
-                ROLE, SCOPE);
+                null, null, null, null, ROLE, SCOPE);
 
         useCase.execute(command);
 
@@ -110,7 +110,7 @@ class CreateUserServiceTest {
         CreateUserCommand command = new CreateUserCommand(USER_ID, EMAIL, PASSWORD,
                 NAME, User.Sex.MALE, minorBirthDate,
                 new Document(Document.DocumentType.CC, new DocumentNumber("1234567890")),
-                ROLE, SCOPE);
+                null, null, null, null, ROLE, SCOPE);
 
         assertThatThrownBy(() -> useCase.execute(command))
                 .isInstanceOf(BusinessRuleException.class)
@@ -123,7 +123,7 @@ class CreateUserServiceTest {
         CreateUserCommand command = new CreateUserCommand(USER_ID, EMAIL, PASSWORD,
                 NAME, User.Sex.MALE, adultBirthDate,
                 new Document(Document.DocumentType.TI, new DocumentNumber("1234567890")),
-                ROLE, SCOPE);
+                null, null, null, null, ROLE, SCOPE);
 
         assertThatThrownBy(() -> useCase.execute(command))
                 .isInstanceOf(BusinessRuleException.class)

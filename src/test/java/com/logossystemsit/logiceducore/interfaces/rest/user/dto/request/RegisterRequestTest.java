@@ -20,6 +20,10 @@ class RegisterRequestTest {
                 "1990-05-15",
                 "DNI",
                 "12345678",
+                "+573001234567",
+                "Calle 123",
+                "Medellín",
+                "Colombia",
                 "STUDENT",
                 "SCHOOL",
                 "school-001"
@@ -27,22 +31,13 @@ class RegisterRequestTest {
 
         assertThat(request.username()).isEqualTo("jdoe");
         assertThat(request.email()).isEqualTo("john@example.com");
-        assertThat(request.rawPassword()).isEqualTo("secretPassword");
-        assertThat(request.firstGivenName()).isEqualTo("John");
-        assertThat(request.secondGivenName()).isEqualTo("Michael");
-        assertThat(request.firstFamilyName()).isEqualTo("Doe");
-        assertThat(request.secondFamilyName()).isEqualTo("Smith");
-        assertThat(request.sex()).isEqualTo("MALE");
-        assertThat(request.birthDate()).isEqualTo("1990-05-15");
-        assertThat(request.documentType()).isEqualTo("DNI");
-        assertThat(request.documentValue()).isEqualTo("12345678");
+        assertThat(request.phone()).isEqualTo("+573001234567");
+        assertThat(request.city()).isEqualTo("Medellín");
         assertThat(request.role()).isEqualTo("STUDENT");
-        assertThat(request.scopeType()).isEqualTo("SCHOOL");
-        assertThat(request.scopeRefId()).isEqualTo("school-001");
     }
 
     @Test
-    void shouldCreateRegisterRequestWithOptionalFieldsNull() {
+    void shouldCreateRegisterRequestWithNullableFieldsNull() {
         RegisterRequest request = new RegisterRequest(
                 "jdoe",
                 "john@example.com",
@@ -55,13 +50,16 @@ class RegisterRequestTest {
                 "1990-05-15",
                 "DNI",
                 "12345678",
-                "STUDENT",
-                "SCHOOL",
-                "school-001"
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
         );
 
-        assertThat(request.secondGivenName()).isNull();
-        assertThat(request.secondFamilyName()).isNull();
-        assertThat(request.firstGivenName()).isEqualTo("John");
+        assertThat(request.phone()).isNull();
+        assertThat(request.city()).isNull();
     }
 }

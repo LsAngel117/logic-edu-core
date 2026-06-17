@@ -46,7 +46,7 @@ class UserTest {
         @Test
         void shouldCreateActiveUserWithGivenData() {
             User user = User.create(userId(), username(), email(), passwordHash(), name(),
-                    User.Sex.MALE, validBirthDate(), ccDocument(), NOW);
+                    User.Sex.MALE, validBirthDate(), ccDocument(), null, null, null, null, NOW);
 
             assertThat(user.getId()).isEqualTo(userId());
             assertThat(user.getUsername()).isEqualTo(username());
@@ -64,7 +64,7 @@ class UserTest {
             LocalDate futureDate = NOW.atZone(ZoneOffset.UTC).toLocalDate().plusDays(1);
 
             assertThatThrownBy(() -> User.create(userId(), username(), email(), passwordHash(),
-                    name(), User.Sex.MALE, futureDate, ccDocument(), NOW))
+                    name(), User.Sex.MALE, futureDate, ccDocument(), null, null, null, null, NOW))
                     .isInstanceOf(BusinessRuleException.class)
                     .hasMessageContaining("Birth date cannot be in the future");
         }
@@ -72,7 +72,7 @@ class UserTest {
         @Test
         void shouldRejectNullId() {
             assertThatThrownBy(() -> User.create(null, username(), email(), passwordHash(),
-                    name(), User.Sex.MALE, validBirthDate(), ccDocument(), NOW))
+                    name(), User.Sex.MALE, validBirthDate(), ccDocument(), null, null, null, null, NOW))
                     .isInstanceOf(NullPointerException.class)
                     .hasMessageContaining("UserId");
         }
@@ -80,7 +80,7 @@ class UserTest {
         @Test
         void shouldRejectNullUsername() {
             assertThatThrownBy(() -> User.create(userId(), null, email(), passwordHash(),
-                    name(), User.Sex.MALE, validBirthDate(), ccDocument(), NOW))
+                    name(), User.Sex.MALE, validBirthDate(), ccDocument(), null, null, null, null, NOW))
                     .isInstanceOf(NullPointerException.class)
                     .hasMessageContaining("Username");
         }
@@ -88,7 +88,7 @@ class UserTest {
         @Test
         void shouldRejectNullEmail() {
             assertThatThrownBy(() -> User.create(userId(), username(), null, passwordHash(),
-                    name(), User.Sex.MALE, validBirthDate(), ccDocument(), NOW))
+                    name(), User.Sex.MALE, validBirthDate(), ccDocument(), null, null, null, null, NOW))
                     .isInstanceOf(NullPointerException.class)
                     .hasMessageContaining("Email");
         }
@@ -336,7 +336,7 @@ class UserTest {
         @Test
         void shouldReturnTrueForActiveUser() {
             User user = User.create(userId(), username(), email(), passwordHash(), name(),
-                    User.Sex.MALE, validBirthDate(), ccDocument(), NOW);
+                    User.Sex.MALE, validBirthDate(), ccDocument(), null, null, null, null, NOW);
 
             assertThat(user.isActive()).isTrue();
         }
@@ -481,7 +481,7 @@ class UserTest {
         @Test
         void createShouldSetContactInfoToNull() {
             User user = User.create(userId(), username(), email(), passwordHash(), name(),
-                    User.Sex.MALE, validBirthDate(), ccDocument(), NOW);
+                    User.Sex.MALE, validBirthDate(), ccDocument(), null, null, null, null, NOW);
 
             assertThat(user.getPhone()).isNull();
             assertThat(user.getAddress()).isNull();

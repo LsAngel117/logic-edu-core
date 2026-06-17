@@ -70,6 +70,10 @@ public class CreateUserService implements CreateUserUseCase {
                 command.sex(),
                 command.birthDate(),
                 command.document(),
+                command.phone(),
+                command.address(),
+                command.city(),
+                command.country(),
                 now
         );
 

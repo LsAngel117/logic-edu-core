@@ -201,8 +201,13 @@ public class UserController {
         );
         Role role = Role.valueOf(r.role().toUpperCase());
         Scope scope = Scope.from(Scope.Type.valueOf(r.scopeType().toUpperCase()), r.scopeRefId());
+        Phone phone = r.phone() != null && !r.phone().isBlank() ? Phone.of(r.phone()) : null;
+        Address address = r.address() != null && !r.address().isBlank() ? Address.of(r.address()) : null;
+        City city = r.city() != null && !r.city().isBlank() ? new City(r.city()) : null;
+        Country country = r.country() != null && !r.country().isBlank() ? new Country(r.country()) : null;
 
-        return new CreateUserCommand(userId, email, passwordHash, name, sex, birthDate, document, role, scope);
+        return new CreateUserCommand(userId, email, passwordHash, name, sex, birthDate, document,
+                phone, address, city, country, role, scope);
     }
 
     private UserResponse toUserResponse(UserResult result) {

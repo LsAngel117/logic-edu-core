@@ -19,18 +19,20 @@ class CreateUserRequestTest {
                 "1990-05-15",
                 "DNI",
                 "12345678",
+                "+573001234567",
+                "Calle 123",
+                "Medellín",
+                "Colombia",
                 "STUDENT",
                 "SCHOOL",
                 "school-001"
         );
 
         assertThat(request.email()).isEqualTo("john@example.com");
-        assertThat(request.rawPassword()).isEqualTo("secretPassword");
-        assertThat(request.firstGivenName()).isEqualTo("John");
-        assertThat(request.secondGivenName()).isEqualTo("Michael");
-        assertThat(request.firstFamilyName()).isEqualTo("Doe");
+        assertThat(request.phone()).isEqualTo("+573001234567");
+        assertThat(request.city()).isEqualTo("Medellín");
+        assertThat(request.country()).isEqualTo("Colombia");
         assertThat(request.role()).isEqualTo("STUDENT");
-        assertThat(request.scopeType()).isEqualTo("SCHOOL");
     }
 
     @Test
@@ -48,11 +50,14 @@ class CreateUserRequestTest {
                 "12345678",
                 null,
                 null,
+                null,
+                null,
+                null,
+                null,
                 null
         );
 
-        assertThat(request.secondGivenName()).isNull();
-        assertThat(request.role()).isNull();
-        assertThat(request.scopeType()).isNull();
+        assertThat(request.phone()).isNull();
+        assertThat(request.city()).isNull();
     }
 }
