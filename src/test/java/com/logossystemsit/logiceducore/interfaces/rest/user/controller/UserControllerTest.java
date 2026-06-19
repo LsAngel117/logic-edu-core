@@ -69,7 +69,8 @@ class UserControllerTest {
         CreateUserResult createResult = new CreateUserResult(userId, "johnsmith");
         UserResult userResult = new UserResult(
                 userId.value(), "johnsmith", "john@example.com",
-                "John", "Smith", "ACTIVE", "MALE", LocalDate.of(2000, 1, 1),
+                "John", null, "Smith", null, "ACTIVE", "MALE", LocalDate.of(2000, 1, 1),
+                "CC", "1234567890", "2025-06-03T12:00:00Z",
                 null, null, null, null
         );
 
@@ -91,7 +92,8 @@ class UserControllerTest {
         UserId userId = UserId.generate();
         UserResult result = new UserResult(
                 userId.value(), "johnsmith", "john@example.com",
-                "John", "Smith", "ACTIVE", "MALE", LocalDate.of(2000, 1, 1),
+                "John", null, "Smith", null, "ACTIVE", "MALE", LocalDate.of(2000, 1, 1),
+                "CC", "1234567890", "2025-06-03T12:00:00Z",
                 null, null, null, null
         );
 
@@ -118,12 +120,14 @@ class UserControllerTest {
     void listUsersShouldReturn200WithUserList() throws Exception {
         UserResult user1 = new UserResult(
                 "id-1", "johnsmith", "john@example.com",
-                "John", "Smith", "ACTIVE", "MALE", LocalDate.of(2000, 1, 1),
+                "John", null, "Smith", null, "ACTIVE", "MALE", LocalDate.of(2000, 1, 1),
+                "CC", "1234567890", "2025-06-03T12:00:00Z",
                 null, null, null, null
         );
         UserResult user2 = new UserResult(
                 "id-2", "janedoe", "jane@example.com",
-                "Jane", "Doe", "ACTIVE", "FEMALE", LocalDate.of(1999, 6, 15),
+                "Jane", null, "Doe", null, "ACTIVE", "FEMALE", LocalDate.of(1999, 6, 15),
+                "CC", "1234567890", "2025-06-03T12:00:00Z",
                 null, null, null, null
         );
 
@@ -142,7 +146,8 @@ class UserControllerTest {
         UserId userId = UserId.generate();
         UserResult result = new UserResult(
                 userId.value(), "johnsmith", "john@example.com",
-                "John", "Smith", "INACTIVE", "MALE", LocalDate.of(2000, 1, 1),
+                "John", null, "Smith", null, "INACTIVE", "MALE", LocalDate.of(2000, 1, 1),
+                "CC", "1234567890", "2025-06-03T12:00:00Z",
                 null, null, null, null
         );
 

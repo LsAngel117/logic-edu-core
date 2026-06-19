@@ -211,18 +211,32 @@ public class UserController {
     }
 
     private UserResponse toUserResponse(UserResult result) {
+        String fullName = buildFullName(result.firstName(), result.secondName(),
+                result.lastName(), result.secondLastName());
         return new UserResponse(
                 result.id(),
                 result.username(),
                 result.email(),
-                result.firstName() + " " + result.lastName(),
+                fullName,
                 result.status(),
-                LocalDate.now().toString(),
+                result.sex(),
+                result.birthDate().toString(),
+                result.documentType(),
+                result.documentValue(),
+                result.createdAt(),
                 result.phone(),
                 result.address(),
                 result.city(),
                 result.country()
         );
+    }
+
+    private String buildFullName(String first, String second, String last, String secondLast) {
+        StringBuilder sb = new StringBuilder(first);
+        if (second != null && !second.isBlank()) sb.append(" ").append(second);
+        sb.append(" ").append(last);
+        if (secondLast != null && !secondLast.isBlank()) sb.append(" ").append(secondLast);
+        return sb.toString();
     }
 
     private UpdateUserCommand mapToUpdateUserCommand(UpdateUserRequest r, UserId userId) {
